@@ -1,0 +1,162 @@
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css"> 
+  <link rel="stylesheet" href="styles/custome.css" type="text/css">  
+  </head>
+
+<body class="background-hitam">
+  
+      <div class="py-2 text-center background-hitam">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h1 class="mb-2 mt-2 text-white">Profile</h1>
+              <% if(flash && flash.err) { %>
+                <p class="alert alert-success">
+              <% Object.keys(flash.err).forEach(function(error) { %>
+                <%- JSON.stringify(flash.err[error]) %></p>
+              <% }) %>
+              
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="py-1">
+    <div class="container cardsview">
+      <div class="row mt-1 mb-2">
+          <div class="col-md-3 ">
+              <%
+                if(user.photo_url){%>
+                    <img class="img-thumbnail" src="/images/user/<%=user.photo_url%>">
+                <%}
+                else{%>
+                    <img class="img-thumbnail" src="/images/user/default.png">
+                <%}
+              %>
+            
+          </div>
+          <div class="col-md-8">
+            <% if(req.session.User.id==user.id){%>
+              <h1 ><%= user.nama %>
+                <a style="font-size:14px;" href="/edit-profile/<%= user.id %>" class="warnabiru">
+                  <u>
+                    <b>Edit</b>
+                  </u>
+                  </a>
+                </h1>
+               <h4><i class="fa d-inline fa-envelope-o mxnav "></i> <%= user.email %></h4>
+               <h4><i class="fa d-inline fa-phone mx-1 "></i><%= user.no_hp %></h4>
+               <%
+                  if(user.tgl_lahir){%>
+                      <h4 ><i class="fa d-inline fa-calendar-o mxnav "></i><i id="tgl"><%= user.tgl_lahir %></i> </h4>
+                  <% }
+                  else{%>
+                      <h4><i class="fa d-inline fa-calendar-o mxnav "></i><i> 19 Juni 1990</h4>
+                  <% }
+               %>
+            <%}
+            else{%>
+              <h1 ><%= user.nama %>
+                
+                </h1>
+               
+               <%
+                  if(user.tgl_lahir){%>
+                      <h4 ><i class="fa d-inline fa-calendar-o mxnav "></i><i id="tgl"><%= user.tgl_lahir %></i> </h4>
+                  <% }
+                  else{%>
+                      <h4><i class="fa d-inline fa-calendar-o mxnav "></i><i> 19 Juni 1990</h4>
+                  <% }
+               %>
+              <%}
+            %>
+             
+             
+          </div>
+      </div>
+    </div>
+    </div>
+    <div class="py-2 text-center background-hitam">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h1 class="mb-2 mt-2 text-white">Anime Favorite</h1>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="mb-2 ">
+    <div class="container cardsview ">
+      <div class="row">
+        
+        <div class="col-md-12 p-4 ">
+            <% _.each(user.anfavStrings,function(favorit){%>
+              
+              <div class="row border py-2">
+                  <div class="col-sm-2 text-center">
+                    <a href="/detail-anime/<%=favorit.id%>">
+                      <img class="d-block img-fluid mb-2" src="/images/anime/<%= favorit.photo_url%> "> </a>
+                  </div>
+                  <div class="col-sm-7 ">
+                    <h3 class="mx-1"><a href="/detail-anime/<%=favorit.id%>"><%= favorit.nama_anime%></a></h3>
+                    <p style="text-align: justify">
+                        <%= favorit.deskripsi.substring(0,500)%> ... <a href="/detail-anime/<%=favorit.id%>"> Lihat Selengkapnya</a>
+                    </p>
+                    
+                  </div>
+                  <div class="col-sm-3  text-center mt-3">
+                   <a href="/anime_favorit/delete?id=<%= favorit.id_fav %>&id_user=<%= req.session.User.id %>" ><i class="fa fa-heart fa-3x mxnav colorlove " ></i></a>
+                  </div>
+                </div>
+            <%})%>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+   
+  <script>
+      function tanggal() {
+    var d = new Date("<%= user.tgl_lahir %>");
+    
+
+    var hari = d.getDate();      
+    var month = new Array();
+    month[0] = "Januari";
+    month[1] = "Febuari";
+    month[2] = "Maret";
+    month[3] = "April";
+    month[4] = "Mei";
+    month[5] = "Juni";
+    month[6] = "Juli";
+    month[7] = "Agustus";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "Desember";
+
+    
+    var bulan = month[d.getMonth()];
+    document.getElementById("tgl").innerHTML = " "+hari+" "+bulan+" "+d.getFullYear();
+}
+tanggal()
+  </script>
+  <script type="text/javascript">
+    //Place as last thing before the closing </body> tag
+    if(location.search.indexOf('1') < 0){
+      var hash = window.location.hash;
+      var loc = window.location.href.replace(hash, '');
+      loc += (loc.indexOf('?') < 0? '?' : '&') + '1';
+      // SET THE ONE TIME AUTOMATIC PAGE RELOAD TIME TO 5000 MILISECONDS (5 SECONDS):
+      setTimeout(function(){window.location.href = loc + hash;}, 2600);
+    }
+    </script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ 
+</body>

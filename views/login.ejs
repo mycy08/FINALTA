@@ -1,0 +1,72 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/styles/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="/styles/theme.css" type="text/css">
+  <link rel="stylesheet" href="/styles/custome.css" type="text/css">
+  
+</head>
+
+<body>
+  <div class="py-5 text-center" >
+    <div class="container py-2">
+      <div class="row">
+        <div class="py-5 ">
+          <div class="center container">
+            <div class="row">
+              <div class="mx-5 col-md-4">
+                <img class="d-block img-fluid my-3" src="\images\logo\newlogo.png"> 
+                </div>
+              <div class="col-md-6">
+                <div class="mx-2">
+                <div class="container table-bordered">
+                  <div class="card-body">
+                    
+                    <h1 class="mb-2">Login</h1>
+                    <h6 class="mb-4">Belum memiliki akun ?
+                      <a href="\register" class="warnabiru">
+                        <u>
+                          <b>Daftar</b>
+                        </u>
+                      </a>
+                    </h6>
+                    <form method="post" action="/aktivasi-akun/" >
+                      <% if(flash && flash.err) { %>
+                        <p class="alert alert-success">
+                      <% Object.keys(flash.err).forEach(function(error) { %>
+                        <%- JSON.stringify(flash.err[error]) %></p>
+                      <% }) %>
+                      
+                      <% } %>
+                      <div class="from-group mb-3">
+                        <input type="email" name="email" class="form-control" placeholder="Email" required>
+                        </div>
+                      <div class="form-group">
+                        <input type="password" name="password" class="form-control" placeholder="Kata Sandi" required> </div>
+                        <div class="textright mb-3">
+                          <a href="/lupa-password" class="warnabiru mt-4">
+                            <u>
+                              <b>Lupa Kata Sandi ?</b>
+                            </u>
+                          </a>
+                        </div>
+                      <button type="submit" class="btn btn-warnabiru">Login</button>
+                    </form>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/js/dependencies/sails.io.js"></script>
+    <script src="/js/jquery-3.2.1.slim.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+  
+</body>
+
+</html>

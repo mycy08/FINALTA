@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css"> 
+  <link rel="stylesheet" href="styles/custome.css" type="text/css">  
+  </head>
+<body class="background-hitam">
+  
+       <div class="py-2 text-center background-hitam">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h1 class="mb-2 mt-2 text-white">Anime Terbaru</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="py-1">
+    <div class="container cardsview">
+      <div class="row ml-1">
+        
+            <%
+            
+              for(var _index=0; _index < episode.length; _index++) {
+                var episodes = episode[_index];
+                var animes = episodes.owner_anime
+                var d = new Date()
+                var dn = new Date(episodes.createdAt)
+
+                var c = d.getDate()
+                var e = dn.getDate()
+                d.setDate(c-e)
+                var waktu = d.getDate()
+                
+                
+                
+            %>
+              <div class="col-md3 mr-1 mb-1 p-1 border">
+                <div class="col-md-12 ">    
+                  <a href="/detail-anime/<%=animes.id%>">
+                  <img class="d-block img-fluid" style="width: 220px;height: 300px;" src="/images/anime/<%= animes.photo_url %>"> </a>
+                </div>
+                <% if(animes.nama_anime.length>30){%>
+                  <h5 class="textcenter" style="font-size: 82%;"><p><a href="/detail-anime/<%=animes.id%>"><%= (animes?animes.nama_anime : 'ada masalah') %></a></p></h5>
+                <%}
+                  else{%>
+                    <h5 class="textcenter"><p><a href="/detail-anime/<%=animes.id%>"><%= (animes?animes.nama_anime : 'ada masalah') %></a></p></h5>
+                  <%}
+                %>
+                
+                <h5 class="textcenter h5style">Episode <%= episodes.episode %></h5>
+                <div class="ratingdanlove">
+                  <h6 class="textleft h5style " style="width:50%;"><i class="fa d-inline fa-calendar-o"></i>&nbsp;<%= waktu %> day ago </h6>
+                  
+                </div>
+                <form action="/anime_favorit/tambah" method="POST">
+                  <input type="hidden" name="id_anime" value="<%= animes.id %>">
+                  <%
+                    if(req.session.User){%>
+                      <input type="hidden" name="id_user" value="<%= req.session.User.id %>">
+                    <%}
+                  %>
+                  
+                  
+                  <button type="submit" class="btn btn-warnabiru ">Tambah Anime Favorite</button>
+                </form>
+                
+                  
+              </div>
+              
+              <%}
+            %>
+        </div>
+        <center>
+        <div class="col-md-2 ">
+            <% if (pages > 0) { %>
+              <ul class="pagination text-center">
+                  <% if (current == 1) { %>
+                      <li class="disabled page-item"><a class="page-link">First</a></li>
+                  <% } else { %>
+                      <li class="page-item"><a class="page-link" href="/anime-terbaru/1">First</a></li>
+                  <% } %>
+                  <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                  <% if (i !== 1) { %>
+                      <li class="disabled page-item"><a>...</a></li>
+                  <% } %>
+                  <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                      <% if (i == current) { %>
+                          <li class="active page-item"><a class="page-link"><%= i %></a></li>
+                      <% } else { %>
+                          <li class="page-item"><a class="page-link" href="/anime-terbaru/<%= i %>"><%= i %></a></li>
+                      <% } %>
+                      <% if (i == Number(current) + 4 && i < pages) { %>
+                          <li class="disabled page-link"><a>...</a></li>
+                      <% } %>
+                  <% } %>
+                  <% if (current == pages) { %>
+                      <li class="disabled page-item"><a class="page-link">Last</a></li>
+                  <% } else { %>
+                      <li class="page-item"><a class="page-link" href="/anime-terbaru/<%= pages %>">Last</a></li>
+                  <% } %>
+              </ul>
+          <% } %>
+          
+       </div>
+      </center>
+      </div>
+      
+    </div>
+      
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ 
+</body>
+
+</html>
