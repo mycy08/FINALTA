@@ -8,6 +8,10 @@ function paginate (array, page_size, page_number) {
   --page_number; // because pages logically start with 1, but technically with 0
   return array.slice(page_number * page_size, (page_number + 1) * page_size);
 }
+function paginate(array, perPage, page) {
+    --page; // because pages logically start with 1, but technically with 0
+    return array.slice(page * perPage, (page + 1) * perPage);
+}
 module.exports = {
 	add:function(req,res){
         res.view('admin/addGenre')
@@ -28,6 +32,8 @@ module.exports = {
                         } else {
                             gen.animeStrings.push({
                                 id: anime.id,
+                                type:anime.type,
+                                score:anime.score,
                                 nama_anime: anime.nama_anime,
                                 photo_url: anime.photo_url, 
                                 deskripsi : anime.deskripsi
@@ -45,14 +51,29 @@ module.exports = {
                             else {
                                 
                                 Genre.find().exec(function(err,genre){
-                                    res.view("user/genre/", {
+                                    if (req.session.User) {
+                                        Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function(err,notif){
+                                            res.view("user/genre/", {
+                                                notif:notif,
+                                                status: 'OK',
+                                                title: 'Genre',
+                                                gen:gen,
+                                                genre:genre,
+                                                
+                                            })
+                                        })
+                                      }
+                                    else{
+                                        res.view("user/genre/", {
 
-                                        status: 'OK',
-                                        title: 'Genre',
-                                        gen:gen,
-                                        genre:genre,
-                                        
-                                    })
+                                            status: 'OK',
+                                            title: 'Genre',
+                                            gen:gen,
+                                            genre:genre,
+                                            
+                                        })
+                                    }
+                                    
                                 })
                                 
                             }

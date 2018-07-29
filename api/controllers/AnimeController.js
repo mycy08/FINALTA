@@ -19,7 +19,8 @@ module.exports = {
     editAnime: function (req, res, next) {
         var id = req.param('id_anime')
         Anime.update({ id: id }, {
-            nama_anime: req.param('nama_anime'),
+            tahun_terbit: req.param('tahun_terbit'),
+            score: req.param('score')
 
         }).exec(function (err, animeUpdated) {
             if (err) {
@@ -30,27 +31,7 @@ module.exports = {
         })
     },
     animeTerbaru: function (req, res, next) {
-        var d = new Date()
-        var month = new Array();
-        month[0] = "01";
-        month[1] = "02";
-        month[2] = "03";
-        month[3] = "04";
-        month[4] = "05";
-        month[5] = "06";
-        month[6] = "07";
-        month[7] = "08";
-        month[8] = "09";
-        month[9] = "10";
-        month[10] = "11";
-        month[11] = "12";
 
-
-        var bulan = month[d.getMonth()];
-        var hariTo = d.setDate(d.getDate() + 1)
-        var hariFrom = d.setDate(d.getDate() - 3)
-        var dateFrom = d.getFullYear() + "-" + 06 + "-" + 23
-        var dateTo = d.getFullYear() + "-" + 06 + "-" + 25
         var perPage = 12
         if (!req.params.page) {
             var page = 1
@@ -61,7 +42,7 @@ module.exports = {
 
         Episode_anime
             .find({})
-            //.where({ createdAt: { '>=': dateFrom, '<=': dateTo } })
+            .sort({ createdAt: 'DESC', episode: 'DESC' })
             .skip((perPage * page) - perPage)
             .limit(perPage)
             .populateAll()
@@ -69,31 +50,84 @@ module.exports = {
                 Genre.find().exec(function (err, genre) {
                     Episode_anime.count().exec(function (err, count) {
                         if (err) return next(err)
-                        res.view('user/anime-terbaru/', {
-                            title: "Anime Terbaru",
-                            episode: episode,
-                            genre: genre,
-                            current: page,
-                            pages: Math.ceil(count / perPage)
-                        })
+                        if (req.session.User) {
+                            Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function (err, notif) {
+                                res.view('user/anime-terbaru/', {
+                                    title: "Anime Terbaru",
+                                    notif: notif,
+                                    episode: episode,
+                                    genre: genre,
+                                    current: page,
+                                    pages: Math.ceil(count / perPage)
+                                })
+                            })
+                        }
+                        else {
+                            res.view('user/anime-terbaru/', {
+                                title: "Anime Terbaru",
+                                episode: episode,
+                                genre: genre,
+                                current: page,
+                                pages: Math.ceil(count / perPage)
+                            })
+                        }
+
                     })
                 })
 
             });
     },
     search: function (req, res, next) {
-        Anime.find({ like: { nama_anime: '%' + req.param('search') + '%' } }).exec(function (err, search) {
+        var perPage = 12
+        if (!req.params.page) {
+            var page = 1
+        }
+        else {
+            var page = req.params.page
+        }
+
+        Anime.find({ like: { nama_anime: '%' + req.param('search') + '%' } })
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec(function (err, search) {
             if (err) {
                 return res.serverError(err);
             }
             else {
+                
                 Genre.find().exec(function (err, genre) {
-                    res.view("user/search/", {
-                        status: 'OK',
-                        title: 'Hasil Pencarian',
-                        genre: genre,
-                        search: search
-                    })
+                    if (req.session.User) {
+                        Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function (err, notif) {
+                            Anime.count({ like: { nama_anime: '%' + req.param('search') + '%' } }).exec(function(err,count){
+                                res.view("user/search/", {
+                                    status: 'OK',
+                                    notif: notif,
+                                    title: 'Hasil Pencarian',
+                                    genre: genre,
+                                    search: search,
+                                    current: page,
+                                    pages: Math.ceil(count / perPage)
+                                    
+                                   
+                                })
+                            })
+                            
+                        })
+                    }
+                    else {
+                        Anime.count({ like: { nama_anime: '%' + req.param('search') + '%' } }).exec(function(err,count){
+                            res.view("user/search/", {
+                                status: 'OK',
+                                title: 'Hasil Pencarian',
+                                genre: genre,
+                                search: search,
+                                current: page,
+                                pages: Math.ceil(count / perPage)
+                            })
+                        })
+                        
+                    }
+
                 })
 
 
@@ -102,7 +136,7 @@ module.exports = {
     },
 
     daftarAnime: function (req, res, next) {
-        var perPage = 10
+        var perPage = 12
         if (!req.params.page) {
             var page = 1
         }
@@ -110,6 +144,8 @@ module.exports = {
             var page = req.params.page
         }
 
+        var item_count = req.param('item_count')
+        var page_number = req.param('page_number')
         Anime.find()
             .skip((perPage * page) - perPage)
             .limit(perPage)
@@ -121,13 +157,80 @@ module.exports = {
                     Genre.find().exec(function (err, genre) {
                         Anime.count().exec(function (err, count) {
                             if (err) return next(err)
-                            res.view('user/daftar-anime/', {
-                                title: "Daftar Anime",
-                                anime: anime,
-                                genre: genre,
-                                current: page,
-                                pages: Math.ceil(count / perPage)
-                            })
+                            if (req.session.User) {
+                                Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function (err, notif) {
+                                    res.view('user/daftar-anime/', {
+                                        title: "Daftar Anime",
+                                        notif: notif,
+                                        anime: anime,
+                                        genre: genre,
+                                        current: page,
+                                        pages: Math.ceil(count / perPage)
+                                    })
+                                })
+                            }
+                            else {
+                                res.view('user/daftar-anime/', {
+                                    title: "Daftar Anime",
+                                    anime: anime,
+                                    genre: genre,
+                                    current: page,
+                                    pages: Math.ceil(count / perPage)
+                                })
+                            }
+
+                        })
+                    })
+
+                }
+
+            })
+    },
+    popular: function (req, res, next) {
+        var perPage = 12
+        if (!req.params.page) {
+            var page = 1
+        }
+        else {
+            var page = req.params.page
+        }
+
+        var item_count = req.param('item_count')
+        var page_number = req.param('page_number')
+        Anime.find()
+            .sort("score desc")
+            .skip((perPage * page) - perPage)
+            .limit(perPage)
+            .exec(function (err, anime) {
+                if (err) {
+                    return res.serverError(err);
+                }
+                else {
+                    Genre.find().exec(function (err, genre) {
+                        Anime.count().exec(function (err, count) {
+                            if (err) return next(err)
+                            if (req.session.User) {
+                                Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function (err, notif) {
+                                    res.view('user/popular/', {
+                                        title: "Anime Populer",
+                                        notif: notif,
+                                        anime: anime,
+                                        genre: genre,
+                                        current: page,
+                                        pages: Math.ceil(count / perPage)
+                                    })
+                                })
+                            }
+                            else {
+                                res.view('user/popular/', {
+                                    title: "Anime Populer",
+                                    anime: anime,
+                                    genre: genre,
+                                    current: page,
+                                    pages: Math.ceil(count / perPage)
+                                })
+                            }
+
                         })
                     })
 
@@ -139,7 +242,7 @@ module.exports = {
     detailAnime: function (req, res, next) {
 
         Temp.destroy().exec(function (deletaAll) {
-            // console.log('sukses')
+
         })
 
         Anime.findOne(req.param('id')).populateAll().exec(function (err, anime) {
@@ -1297,7 +1400,10 @@ module.exports = {
                                                             collection.find({}, {
                                                                 id_anime: true,
                                                                 nama_anime: true,
-                                                                photo_url: true
+                                                                photo_url: true,
+                                                                genre: true,
+                                                                tahun_terbit: true,
+                                                                score: true
 
 
                                                             }).toArray(function (err, anime) {
@@ -1323,7 +1429,7 @@ module.exports = {
                                                                         }
 
                                                                         var itemRating = []
-                                                                        // console.log(user.length)                                                    
+                                                                                                                            
                                                                         for (var i = 0; i < user.length; i++) {
                                                                             var hSup = 0
                                                                             var hSDown = 0
@@ -1339,8 +1445,8 @@ module.exports = {
 
                                                                         var c = 0.5
                                                                         var simi = []
-                                                                        //console.log(groupRating)
-                                                                        //console.log(itemRating)
+                                                                        
+                                                                        
 
                                                                         for (var i = 0; i < groupRating.length; i++) {
                                                                             j = 0
@@ -1409,18 +1515,39 @@ module.exports = {
                                                                                 id_anime: anime[i]._id.toString(),
                                                                                 photo_url: anime[i].photo_url,
                                                                                 nama_anime: anime[i].nama_anime,
+                                                                                score: anime[i].score,
+                                                                                tahun: anime[i].tahun_terbit,
+                                                                                genre: anime[i].genre,
                                                                                 rata: rerataAkhir[i]
                                                                             })
                                                                         }
-                                                                        return resolve(prioritas)
+
+                                                                        var rekomendasiAkhir = []
+
+                                                                        for (var j = 0; j < prioritas.length; j++) {
+                                                                            if (req.param('id') == prioritas[j].id_anime) {
+                                                                                continue
+                                                                            }
+                                                                            else {
+                                                                                rekomendasiAkhir.push({
+                                                                                    id_anime: prioritas[j].id_anime,
+                                                                                    nama_anime: prioritas[j].nama_anime,
+                                                                                    photo_url: prioritas[j].photo_url,
+                                                                                    score: prioritas[j].score,
+                                                                                    tahun: prioritas[j].tahun,
+                                                                                    genre: prioritas[j].genre,
+                                                                                    rata: rerataAkhir[j]
+
+                                                                                })
+                                                                            }
+                                                                        }
+
+                                                                        return resolve(rekomendasiAkhir)
 
 
 
 
-                                                                    })
-                                                                    //console.log(prioritas)
-
-
+                                                                    })                                                                                                      
                                                                 })
 
                                                             })
@@ -1433,23 +1560,41 @@ module.exports = {
                                                 })
                                             })
                                             return nativePromise.then(function (rekomUser) {
+
                                                 async.map(rekomUser, (function (object, callback) {
 
                                                     Temp.create(object).exec(callback);
                                                 }), function (error, createdOrFoundObjects) {
-                                                    //   console.log(error, createdOrFoundObjects)
+                                                    
                                                 });
                                                 Genre.find().exec(function (err, genre) {
-                                                    //console.log(rekomUser)
-                                                    res.view("user/detail-anime/", {
-                                                        // prioritas:prioritas,
-                                                        status: 'OK',
-                                                        rekomUser: rekomUser,
-                                                        title: 'Detail Anime',
-                                                        rekom: rekom,
-                                                        genre: genre,
-                                                        anime: anime
-                                                    })
+                                                    if (req.session.User) {
+                                                        Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function (err, notif) {
+                                                            res.view("user/detail-anime/", {
+                                                                
+                                                                status: 'OK',
+                                                                notif: notif,
+                                                                rekomUser: rekomUser,
+                                                                title: 'Detail Anime',
+                                                                rekom: rekom,
+                                                                genre: genre,
+                                                                anime: anime
+                                                            })
+                                                        })
+                                                    }
+                                                    
+                                                    else {
+                                                        res.view("user/detail-anime/", {
+                                                            
+                                                            status: 'OK',
+                                                            rekomUser: rekomUser,
+                                                            title: 'Detail Anime',
+                                                            rekom: rekom,
+                                                            genre: genre,
+                                                            anime: anime
+                                                        })
+                                                    }
+
                                                 })
 
 
@@ -1487,13 +1632,28 @@ module.exports = {
                 Genre.find().exec(function (err, genre) {
                     Temp.count().exec(function (err, count) {
                         if (err) return next(err)
-                        res.view('user/rekomendasi/', {
-                            title: "Rekomendasi",
-                            temp: temp,
-                            genre: genre,
-                            current: page,
-                            pages: Math.ceil(count / perPage)
-                        })
+                        if (req.session.User) {
+                            Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function (err, notif) {
+                                res.view('user/rekomendasi/', {
+                                    title: "Rekomendasi",
+                                    notif: notif,
+                                    temp: temp,
+                                    genre: genre,
+                                    current: page,
+                                    pages: Math.ceil(count / perPage)
+                                })
+                            })
+                        }
+                        else {
+                            res.view('user/rekomendasi/', {
+                                title: "Rekomendasi",
+                                temp: temp,
+                                genre: genre,
+                                current: page,
+                                pages: Math.ceil(count / perPage)
+                            })
+                        }
+
                     })
                 })
 
@@ -1504,7 +1664,7 @@ module.exports = {
     detailAnimeMobile: function (req, res, next) {
 
         Temp.destroy().exec(function (deletaAll) {
-            console.log('sukses')
+            
         })
 
         Anime.findOne(req.param('id')).populateAll().exec(function (err, anime) {
@@ -2688,7 +2848,7 @@ module.exports = {
                                                                         }
 
                                                                         var itemRating = []
-                                                                        // console.log(user.length)                                                    
+                                                                                                                           
                                                                         for (var i = 0; i < user.length; i++) {
                                                                             var hSup = 0
                                                                             var hSDown = 0
@@ -2704,8 +2864,7 @@ module.exports = {
 
                                                                         var c = 0.5
                                                                         var simi = []
-                                                                        //console.log(groupRating)
-                                                                        //console.log(itemRating)
+                                                                        
 
                                                                         for (var i = 0; i < groupRating.length; i++) {
                                                                             j = 0
@@ -2774,16 +2933,40 @@ module.exports = {
                                                                                 id_anime: anime[i]._id.toString(),
                                                                                 photo_url: anime[i].photo_url,
                                                                                 nama_anime: anime[i].nama_anime,
+                                                                                score: anime[i].score,
+                                                                                tahun: anime[i].tahun_terbit,
+                                                                                genre: anime[i].genre,
                                                                                 rata: rerataAkhir[i]
                                                                             })
                                                                         }
-                                                                        return resolve(prioritas)
+
+                                                                        var rekomendasiAkhir = []
+
+                                                                        for (var j = 0; j < prioritas.length; j++) {
+                                                                            if (req.param('id') == prioritas[j].id_anime) {
+                                                                                continue
+                                                                            }
+                                                                            else {
+                                                                                rekomendasiAkhir.push({
+                                                                                    id_anime: prioritas[j].id_anime,
+                                                                                    nama_anime: prioritas[j].nama_anime,
+                                                                                    photo_url: prioritas[j].photo_url,
+                                                                                    score: prioritas[j].score,
+                                                                                    tahun: prioritas[j].tahun,
+                                                                                    genre: prioritas[j].genre,
+                                                                                    rata: rerataAkhir[j]
+
+                                                                                })
+                                                                            }
+                                                                        }
+
+                                                                        return resolve(rekomendasiAkhir)
 
 
 
 
                                                                     })
-                                                                    //console.log(prioritas)
+                                                                    
 
 
                                                                 })
@@ -2802,11 +2985,11 @@ module.exports = {
 
                                                     Temp.create(object).exec(callback);
                                                 }), function (error, createdOrFoundObjects) {
-                                                    //   console.log(error, createdOrFoundObjects)
+                                                
                                                 });
                                                 item_count = req.param('item_count')
                                                 page = req.param('page')
-                                                res.json(paginate(rekomUser.sort(function(a, b){return b.rata - a.rata}),item_count,page))
+                                                res.json(paginate(rekomUser.sort(function (a, b) { return b.rata - a.rata }), item_count, page))
 
 
 
@@ -2869,8 +3052,8 @@ module.exports = {
                                         photo_url: users.photo_url, users,
                                         review: user.review,
                                         score: user.score,
-                                        createdAt : user.createdAt
-                                        
+                                        createdAt: user.createdAt
+
 
                                     })
                                     callback()
@@ -2882,11 +3065,11 @@ module.exports = {
                                 return res.serverError(err);
                             else {
                                 if (err)
-                                        return res.serverError(err);
-                                    else {
-                                        res.json(anime)
-                                        
-                                    }
+                                    return res.serverError(err);
+                                else {
+                                    res.json(anime)
+
+                                }
                             }
                         })
 
@@ -2915,81 +3098,50 @@ module.exports = {
     daftarAnimeMobile: function (req, res, next) {
         var item_count = req.param('item_count')
         var page_number = req.param('page_number')
-        
+
 
         Anime.find()
             .skip((item_count * page_number) - item_count)
             .limit(item_count)
-            .exec(function(err,anime){
-            if(err){
-                return res.serverError(err); 
-            }
-            else{
+            .exec(function (err, anime) {
+                if (err) {
+                    return res.serverError(err);
+                }
+                else {
 
-                res.json(anime)
+                    res.json(anime)
 
-            }
+                }
 
-        })},
-animeTerbaruMobile: function (req, res, next) {
-    var d = new Date()
-    var month = new Array();
-    month[0] = "01";
-    month[1] = "02";
-    month[2] = "03";
-    month[3] = "04";
-    month[4] = "05";
-    month[5] = "06";
-    month[6] = "07";
-    month[7] = "08";
-    month[8] = "09";
-    month[9] = "10";
-    month[10] = "11";
-    month[11] = "12";
+            })
+    },
+    animeTerbaruMobile: function (req, res, next) {
+        Episode_anime
+            .find({})
+            .skip((item_count * page_number) - item_count)
+            .limit(item_count)
+            .populateAll()
+            .exec(function (err, episode) {
+                episode.animeT = []
+                for (var i = 0; i < episode.length; i++) {
+                    var episodes = episode[i];
+                    var animes = episodes.owner_anime
+                    episode.animeT.push({
+                        id_anime: animes.id,
+                        nama_anime: animes.nama_anime,
+                        photo_url: animes.photo_url,
+                        episode: episodes.episode
+                    })
 
-
-    var bulan = month[d.getMonth()];
-    var hariTo = d.setDate(d.getDate() + 1)
-    var hariFrom = d.setDate(d.getDate() - 3)
-    var dateFrom = d.getFullYear() + "-" + 06 + "-" + 23
-    var dateTo = d.getFullYear() + "-" + 06 + "-" + 25
-    var item_count = req.param('item_count')
-    var page_number = req.param('page_number')
-
-    Episode_anime
-        .find({})
-        //.where({ createdAt: { '>=': dateFrom, '<=': dateTo } })
-        .skip((item_count * page_number) - item_count)
-        .limit(item_count)
-        .populateAll()
-        .exec(function (err, episode) {
-            episode.animeT = []
-            for (var i = 0; i < episode.length; i++) {
-                var episodes = episode[i];
-                var animes = episodes.owner_anime
-                // console.log(animes)
-
-                episode.animeT.push({
-                    id_anime: animes.id,
-                    nama_anime: animes.nama_anime,
-                    photo_url: animes.photo_url,
-                    episode: episodes.episode
-                })
-                // console.log(episode.animeT)
-            }
-
-
-            res.json(episode.animeT)
-
-        });
-},
-scoreRating: function (req, res, next) {
-
+                }
+                res.json(episode.animeT)
+            });
+    },
+    scoreRating: function (req, res, next) {
         Anime.findOne(req.param('id')).populateAll().exec(function (err, anime) {
             if (err) {
                 return res.serverError(err);
             } else {
-
                 anime.genreStrings = []
                 anime.userStrings = []
                 async.each(anime.genre_lists, function (genre, callback) {
@@ -2997,7 +3149,6 @@ scoreRating: function (req, res, next) {
                         if (err) {
                             callback(err)
                         } else {
-
                             anime.genreStrings.push({
                                 id: genres.id,
                                 nama_genre: genres.nama_genre
@@ -3005,8 +3156,7 @@ scoreRating: function (req, res, next) {
                             callback()
                         }
                     })
-                }, function (err) { 
-
+                }, function (err) {
                     if (err)
                         return res.serverError(err);
                     else {
@@ -3022,123 +3172,117 @@ scoreRating: function (req, res, next) {
                                         photo_url: users.photo_url, users,
                                         review: user.review,
                                         score: user.score,
-                                        createdAt : user.createdAt,
-                                        updatedAt :user.updatedAt
-                                        
-
+                                        createdAt: user.createdAt,
+                                        updatedAt: user.updatedAt
                                     })
                                     callback()
                                 }
                             })
-                        }, function (err) { 
+                        }, function (err) {
                             var jumlahRating,
-                            bintang,
-                            persenBintang5=0,
-                            persenBintang4=0,
-                            persenBintang3=0,
-                            persenBintang2=0,
-                            persenBintang1=0,
-                            t_score1=0,
-                            t_score2=0,
-                            t_score3=0,
-                            t_score4=0,
-                            t_score5=0,
-                            t_score6=0,
-                            t_score7=0,
-                            t_score8=0,
-                            t_score9=0,
-                            t_score10=0,
-                            score =0
+                                bintang,
+                                persenBintang5 = 0,
+                                persenBintang4 = 0,
+                                persenBintang3 = 0,
+                                persenBintang2 = 0,
+                                persenBintang1 = 0,
+                                t_score1 = 0,
+                                t_score2 = 0,
+                                t_score3 = 0,
+                                t_score4 = 0,
+                                t_score5 = 0,
+                                t_score6 = 0,
+                                t_score7 = 0,
+                                t_score8 = 0,
+                                t_score9 = 0,
+                                t_score10 = 0,
+                                score = 0
+                            var dataRating = []
+                            _.each(anime.userStrings, function (cariRating) {
+                                if (cariRating.score == 10) {
+                                    t_score10 = t_score10 + 1
+                                    score = score + 10
+                                }
+                                else if (cariRating.score == 9) {
+                                    t_score9 = t_score9 + 1
+                                    score = score + 9
+                                }
+                                else if (cariRating.score == 8) {
+                                    t_score8 = t_score8 + 1
+                                    score = score + 8
+                                }
+                                else if (cariRating.score == 7) {
+                                    t_score7 = t_score7 + 1
+                                    score = score + 7
+                                }
+                                else if (cariRating.score == 6) {
+                                    t_score6 = t_score6 + 1
+                                    score = score + 6
+                                }
+                                else if (cariRating.score == 5) {
+                                    t_score5 = t_score5 + 1
+                                    score = score + 5
+                                }
+                                else if (cariRating.score == 4) {
+                                    t_score4 = t_score4 + 1
+                                    score = score + 4
+                                }
+                                else if (cariRating.score == 3) {
+                                    t_score3 = t_score3 + 1
+                                    score = score + 3
+                                }
+                                else if (cariRating.score == 2) {
+                                    t_score2 = t_score2 + 1
+                                    score = score + 2
+                                }
+                                else {
+                                    t_score1 = t_score1 + 1
+                                    score = score + 1
+                                }
 
-                        var dataRating=[]
-                      
-                  _.each(anime.userStrings,function(cariRating){
-                      if(cariRating.score==10){
-                        t_score10 =t_score10+1
-                        score =score+10
-                      }      
-                      else if(cariRating.score==9){
-                        t_score9 =t_score9+1
-                        score =score+9
-                      }  
-                      else if(cariRating.score==8) {
-                        t_score8 =t_score8+1
-                        score =score+8
-                      } 
-                      else if(cariRating.score==7)  {
-                        t_score7 =t_score7+1
-                        score =score+7
-                      }
-                      else if(cariRating.score==6) {
-                        t_score6 =t_score6+1
-                        score =score+6
-                      } 
-                      else if(cariRating.score==5){
-                        t_score5 =t_score5+1
-                        score =score+5
-                      }  
-                      else if(cariRating.score==4){
-                        t_score4 =t_score4+1
-                        score =score+4
-                      }  
-                      else if(cariRating.score==3)  {
-                        t_score3 =t_score3+1
-                        score =score+3
-                      }
-                      else if(cariRating.score==2){
-                        t_score2 =t_score2+1
-                        score =score+2
-                      }  
-                      else  {
-                        t_score1 =t_score1+1
-                        score =score+1
-                      }   
-                      
-                       jumlahRating =t_score1+t_score2+t_score3+t_score4+t_score5+t_score6+t_score7+t_score8+t_score9+t_score10
-                       
-                        
-                      })
-                      persenBintang5=t_score10/jumlahRating*100
-                      persenBintang4=(t_score9+t_score8)/jumlahRating*100
-                      persenBintang3=(t_score7+t_score6)/jumlahRating*100
-                      persenBintang2=(t_score5+t_score4)/jumlahRating*100
-                      persenBintang1=(t_score3+t_score2+t_score1)/jumlahRating*100
+                                jumlahRating = t_score1 + t_score2 + t_score3 + t_score4 + t_score5 + t_score6 + t_score7 + t_score8 + t_score9 + t_score10
 
-                      var ratingAkhir = (score/anime.userStrings.length)
-                      jlhBintang5= t_score10
-                          jlhBintang4= t_score9+t_score8
-                          jlhBintang3=t_score7+t_score6
-                          jlhBintang2= t_score5+t_score4
-                          jlhBintang1= t_score3+t_score2+t_score1
-                          persenBintang5=persenBintang5
-                          persenBintang4=persenBintang4
-                          persenBintang3=persenBintang3
-                          persenBintang2=persenBintang2
-                          persenBintang1=persenBintang1
-                      dataRating={
-                          jlhBintang5:jlhBintang5+"",
-                          jlhBintang4:jlhBintang4+"",
-                          jlhBintang3:jlhBintang3+"",
-                          jlhBintang2:jlhBintang2+"",
-                          jlhBintang1:jlhBintang1+"",
-                          persenBintang5:persenBintang5+"",
-                          persenBintang4:persenBintang4+"",
-                          persenBintang3:persenBintang3+"",
-                          persenBintang2:persenBintang2+"",
-                          persenBintang1:persenBintang1+"",
-                          ratingAkhir:ratingAkhir.toFixed(2)+"",
-                          jumlahRating:jumlahRating+""
-                      }
-                      // console.log(dataRating) 
+                            })
+                            persenBintang5 = t_score10 / jumlahRating * 100
+                            persenBintang4 = (t_score9 + t_score8) / jumlahRating * 100
+                            persenBintang3 = (t_score7 + t_score6) / jumlahRating * 100
+                            persenBintang2 = (t_score5 + t_score4) / jumlahRating * 100
+                            persenBintang1 = (t_score3 + t_score2 + t_score1) / jumlahRating * 100
+
+                            var ratingAkhir = (score / anime.userStrings.length)
+                            jlhBintang5 = t_score10
+                            jlhBintang4 = t_score9 + t_score8
+                            jlhBintang3 = t_score7 + t_score6
+                            jlhBintang2 = t_score5 + t_score4
+                            jlhBintang1 = t_score3 + t_score2 + t_score1
+                            persenBintang5 = persenBintang5
+                            persenBintang4 = persenBintang4
+                            persenBintang3 = persenBintang3
+                            persenBintang2 = persenBintang2
+                            persenBintang1 = persenBintang1
+                            dataRating = {
+                                jlhBintang5: jlhBintang5 + "",
+                                jlhBintang4: jlhBintang4 + "",
+                                jlhBintang3: jlhBintang3 + "",
+                                jlhBintang2: jlhBintang2 + "",
+                                jlhBintang1: jlhBintang1 + "",
+                                persenBintang5: persenBintang5 + "",
+                                persenBintang4: persenBintang4 + "",
+                                persenBintang3: persenBintang3 + "",
+                                persenBintang2: persenBintang2 + "",
+                                persenBintang1: persenBintang1 + "",
+                                ratingAkhir: ratingAkhir.toFixed(2) + "",
+                                jumlahRating: jumlahRating + ""
+                            }
                             if (err)
                                 return res.serverError(err);
                             else {
                                 if (err)
-                                        return res.serverError(err);
-                                    else {
-                                        res.json(dataRating)
-                                        
-                                    }
+                                    return res.serverError(err);
+                                else {
+                                    res.json(dataRating)
+
+                                }
                             }
                         })
 
@@ -3149,7 +3293,7 @@ scoreRating: function (req, res, next) {
         })
     },
 
-    
+
 }
 
 

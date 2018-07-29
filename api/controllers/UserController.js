@@ -11,63 +11,92 @@ module.exports = {
   },
   
 
-  userProfile:function(req,res,next){
-    User.findOne(req.param('id')).populateAll().exec(function(err,user){
-      if (err){
+  userProfile: function (req, res, next) {
+    User.findOne(req.param('id')).populateAll().exec(function (err, user) {
+      if (err) {
         return res.serverError(err);
       } else {
-          user.anfavStrings = []
-          async.each(user.anime_favorits, function(anfav,callback){
-              Anime.findOne({id:anfav.owner_anime}).exec(function(err,anfavs){
-                if (err) {
-                  callback(err)
-                } else {
-                  
-                  user.anfavStrings.push({
-                      id_fav:anfav.id,
-                      id:anfavs.id,
-                      nama_anime:anfavs.nama_anime,
-                      photo_url :anfavs.photo_url,
-                      deskripsi :anfavs.deskripsi
-                    })
-                  callback()
-                }
+        user.anfavStrings = []
+        async.each(user.anime_favorits, function (anfav, callback) {
+          Anime.findOne({ id: anfav.owner_anime }).exec(function (err, anfavs) {
+            if (err) {
+              callback(err)
+            } else {
+
+              user.anfavStrings.push({
+                id_fav: anfav.id,
+                id: anfavs.id,
+                nama_anime: anfavs.nama_anime,
+                photo_url: anfavs.photo_url,
+                deskripsi: anfavs.deskripsi
               })
-      }, function(err){ // function ini akan jalan bila semua genre_lists telah diproses
-              
-              if (err){
-                return res.serverError(err);
-              }
-              else{
-                Genre.find().exec(function(err,genre){
+              callback()
+            }
+          })
+        }, function (err) { // function ini akan jalan bila semua genre_lists telah diproses
+
+          if (err) {
+            return res.serverError(err);
+          }
+          else {
+            Genre.find().exec(function (err, genre) {
+              if (req.session.User) {
+                Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function(err,notif){
                   res.view("user/profile", {
-                    genre:genre, 
+                    notif:notif,
+                    genre: genre,
                     status: 'OK',
                     title: 'Prorfil',
                     user: user
-                })     
+                  })
                 })
-                 
+                
               }
-          })
+            else{
+              res.view("user/profile", {
+                genre: genre,
+                status: 'OK',
+                title: 'Prorfil',
+                user: user
+              })
+            }
+
+            })
+
+          }
+        })
       }
-  })
+    })
   },
-  editProfile:function(req,res,next){
-    User.findOne(req.param('id'),function(err,editProfile){
-      if(err){
+  editProfile: function (req, res, next) {
+    User.findOne(req.param('id'), function (err, editProfile) {
+      if (err) {
         console.log(err);
       }
-      else{
-        Genre.find().exec(function(err,genre){
-          return res.view('user/edit-profile',{
-            status: 'OK',
-            title: 'Edit Profil',
-            genre:genre,
-            editProfile: editProfile
-          })
+      else {
+        Genre.find().exec(function (err, genre) {
+          if (req.session.User) {
+            Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function(err,notif){
+              return res.view('user/edit-profile', {
+                notif:notif,
+                status: 'OK',
+                title: 'Edit Profil',
+                genre: genre,
+                editProfile: editProfile
+              })
+            })
+          }
+          else{
+            return res.view('user/edit-profile', {
+              status: 'OK',
+              title: 'Edit Profil',
+              genre: genre,
+              editProfile: editProfile
+            })
+          }
+          
         })
-        
+
       }
     })
   },

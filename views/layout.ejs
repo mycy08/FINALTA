@@ -48,7 +48,7 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon text-white"></span>
         </button>
-          <a class="navbar-brand text-white " href="#"><img src="/images/logo/logo.jpg"></img></a>
+          <a class="navbar-brand text-white " href="/"><img src="/images/logo/logo.jpg"></img></a>
           <div class="collapse navbar-collapse" style="width:100%;" id="navbarsExample04">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0 mr-2">
               <li class="nav-item active">
@@ -56,7 +56,7 @@
                 <i class="fa d-inline fa-lg fa-list mxnav" ></i>&nbsp;Daftar Anime<span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item ">
-                <a class="nav-link text-white" href="#">
+                <a class="nav-link text-white" href="/popular/1">
                 <i class="fa d-inline fa-lg fa-thumbs-o-up mxnav"></i>&nbsp;Rekomendasi</a>
               </li>
               
@@ -80,13 +80,28 @@
               </form>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa d-inline fa-lg fa-bell-o mxnav"></i> Notif
+                    <% if(notif.length==0){%>
+                      <i class="fa d-inline fa-lg fa-bell-o mxnav"></i>
+                    <%}else{%>
+                      <i class="fa d-inline fa-lg fa-bell-o mxnav"></i><span class="badge"><%= notif.length%></span>
+                    <%}%>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                  <%
+                    if(req.session.User){
+                      if(notif.length==0){%>
+                        <a class="dropdown-item" href="#">Pemberitahuan tidak ada </a>
+                        <div class="dropdown-divider"></div>
+                        <%}
+                      else{
+                        _.each(notif,function(notif){
+                            if(notif.status==false){
+                          %>
+                        <a class="dropdown-item" href="/notifikasi/clickNotifikasi?id=<%=notif.id%> "target="_blank"><%= notif.nama_anime+" Episode "+notif.episode+" Subtitle "+notif.bahasa+" telah diperbaharui"%></a>
+                        <div class="dropdown-divider"></div>
+                      <%}})
+                    }}
+                  %>
                 </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -103,6 +118,7 @@
           </div>
           </div>
         </nav>
+        <i onclick="topFunction()" id="back-to-top" class="fa fa-arrow-up fa-3x" style="display: block;"></i>
         <%}
         else{%>
           <nav class="navbar navbar-expand-md background-hitam navbar-dark ">
@@ -110,7 +126,7 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon text-white"></span>
                 </button>
-                  <a class="navbar-brand text-white " href="#"><img src="/images/logo/logo.jpg"></img></a>
+                  <a class="navbar-brand text-white " href="/"><img src="/images/logo/logo.jpg"></img></a>
                   <div class="collapse navbar-collapse" style="width:100%;" id="navbarsExample04">
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0 mr-2">
                       <li class="nav-item active">
@@ -118,7 +134,7 @@
                         <i class="fa d-inline fa-lg fa-list mxnav" ></i>&nbsp;Daftar Anime<span class="sr-only">(current)</span></a>
                       </li>
                       <li class="nav-item ">
-                        <a class="nav-link text-white mr-1" href="#">
+                        <a class="nav-link text-white mr-1" href="/popular/1">
                         <i class="fa d-inline fa-lg fa-thumbs-o-up mxnav"></i>&nbsp;Rekomendasi</a>
                       </li>
                       
@@ -153,6 +169,7 @@
                   </div>
                   </div>
                 </nav>
+                <i onclick="topFunction()" id="back-to-top" class="fa fa-arrow-up fa-3x" style="display: block;"></i>
           <%}%>
     <%- body %>
     <div class="py-2 bg-dark text-white">
@@ -189,6 +206,7 @@
           </div>
         </div>
       </div>
+      
     
 
 
@@ -241,7 +259,23 @@
           + Use a different preprocessor, like TypeScript
 
     -->
+    <script type="text/javascript">
+        window.onscroll = function () { scrollFunction() };
 
+          function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+              document.getElementById("back-to-top").style.display = "block";
+            } else {
+              document.getElementById("back-to-top").style.display = "none";
+            }
+          }
+
+          // When the user clicks on the button, scroll to the top of the document
+          function topFunction() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+          }
+    </script>
     <!--SCRIPTS-->
     <script src="/js/dependencies/sails.io.js"></script>
     <script src="/js/bootstrap.js"></script>

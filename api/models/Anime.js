@@ -20,7 +20,7 @@ module.exports = {
       type:'string'
     },
     tahun_terbit:{
-      type:'string'
+      type:'integer'
     },
     photo_url:{
       type:'string'
@@ -38,41 +38,7 @@ module.exports = {
       type:'string'
     },
     score:{
-      type:'string'
-    },
-
-    jlhBintang5:{
-      type:'string'
-    },
-    jlhBintang4:{
-      type:'string'
-    },
-    jlhBintang3: {
-      type:'string'
-    },
-    jlhBintang2: {
-      type:'string'
-    },
-    jlhBintang1: {
-      type:'string'
-    },
-    persenBintang5:{
-      type:'string'
-    },
-    persenBintang4:{
-      type:'string'
-    },
-     persenBintang3:{
-      type:'string'
-    },
-    persenBintang2:{
-      type:'string'
-    },
-    persenBintang1:{
-      type:'string'
-    },
-    ratingAkhir:{
-      type:'string'
+      type:'float'
     },
     episodes:{
       collection:'episode_anime',

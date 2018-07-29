@@ -33,8 +33,10 @@
 
                 var c = d.getDate()
                 var e = dn.getDate()
+                var waktu = c-e
                 d.setDate(c-e)
-                var waktu = d.getDate()
+                
+                
                 
                 
                 
@@ -43,6 +45,11 @@
                 <div class="col-md-12 ">    
                   <a href="/detail-anime/<%=animes.id%>">
                   <img class="d-block img-fluid" style="width: 220px;height: 300px;" src="/images/anime/<%= animes.photo_url %>"> </a>
+                  <span class="tipi2"><i class="fa fa-star"></i> <%= animes.score.toFixed(2)%></span>
+                  <span class="tipi3"><i class="fa fa-television"></i> <%= animes.type%></span>
+                  <div class="law">
+                    <h2><i class="fa fa-star">
+                    </i> Episode <%= episodes.episode %></h2></div>
                 </div>
                 <% if(animes.nama_anime.length>30){%>
                   <h5 class="textcenter" style="font-size: 82%;"><p><a href="/detail-anime/<%=animes.id%>"><%= (animes?animes.nama_anime : 'ada masalah') %></a></p></h5>
@@ -52,11 +59,11 @@
                   <%}
                 %>
                 
-                <h5 class="textcenter h5style">Episode <%= episodes.episode %></h5>
-                <div class="ratingdanlove">
+                <h2 class="tipe"><i class="fa fa-clock-o"></i> <%= waktu %> day ago </h2>
+                <!-- <div class="ratingdanlove">
                   <h6 class="textleft h5style " style="width:50%;"><i class="fa d-inline fa-calendar-o"></i>&nbsp;<%= waktu %> day ago </h6>
                   
-                </div>
+                </div> -->
                 <form action="/anime_favorit/tambah" method="POST">
                   <input type="hidden" name="id_anime" value="<%= animes.id %>">
                   <%

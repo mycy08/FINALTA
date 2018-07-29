@@ -40,7 +40,7 @@
           <h1 class="mb-2 mt-2 text-center text-black">
             <%= anime.nama_anime %>
           </h1>
-          <img class="img-fluid d-block mb-4 w-100 h-75 img-thumbnail" src="http://localhost:1337/images/anime/<%= anime.photo_url %>">
+          <img class="img-fluid d-block mb-4 w-100 h-75 img-thumbnail" src="/images/anime/<%= anime.photo_url %>">
           <form action="/anime_favorit/tambah" method="POST">
             <input type="hidden" name="id_anime" value="<%= anime.id %>">
             <%
@@ -348,13 +348,13 @@
                       persenBintang2=(t_score5+t_score4)/jumlahRating*100
                       persenBintang1=(t_score3+t_score2+t_score1)/jumlahRating*100
 
-                      var ratingAkhir = (score/anime.userStrings.length)/2
+                      var ratingAkhir = (score/anime.userStrings.length)
                       
 
                       
                       
                 %>
-                <h1 class=""><%= ratingAkhir.toFixed(2) %> Dari 5</h1>
+                <h1 class=""><%= ratingAkhir.toFixed(2) %> Dari 10</h1>
                 <h6 class="">Banyak Ulasan <%= anime.userStrings.length %> Orang</h6>
                 
               </div>

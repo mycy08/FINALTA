@@ -34,7 +34,8 @@ module.exports.routes = {
 
   // Routes Website
   '/': {
-    view: 'homepage'
+    controller: 'anime',
+    action: "animeTerbaru",
   },
   'GET /register': {
     controller: 'session',
@@ -60,6 +61,10 @@ module.exports.routes = {
   'GET /lupa-password':{
     controller:"session",
     action:"lupaPassword"
+  } ,
+  'GET /popular/:page':{
+    controller:"anime",
+    action:"popular"
   } ,
   'GET /anime-terbaru/:page': {
     controller: 'anime',
@@ -112,15 +117,6 @@ module.exports.routes = {
   controller: 'user',
   action: "editProfile",
 },
-  'GET /admin/rating': {
-    controller: 'rating',
-    action: "findall",
-
-  },
-  'GET /admin/genre_list': {
-    controller: 'genre_list',
-    action: "findall",
-  },
 
   //routes mobile
   'POST /masuk':{

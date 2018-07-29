@@ -13,6 +13,55 @@
 
   background-color: #151515;
 }
+.tipi2 {
+  position: absolute;
+  overflow: hidden;
+  margin: 5px 30px 5px 5px;
+  top: 2px;
+  right: 0;
+  padding: 7px 7px;
+  background: rgba(7,120,213,.68);
+  font-size: 13px;
+  color: #fff;
+  border-radius: 2px;
+}
+#back-to-top {
+  display: none;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 99;
+  color: gold;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.tipi3 {
+  position: absolute;
+  overflow: hidden;
+  margin: 5px 5px 5px 30px;
+  top: 2px;
+  left: 0;
+  padding: 7px 7px;
+  background: rgba(218,29,29,0.67);
+  font-size: 13px;
+  color: #fff;
+  border-radius: 2px;
+}
+.tipe {
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
+  color: #777;
+}
+.law h2 {
+  padding: 7px;
+  overflow: hidden;
+  background-color: #000000;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+}
 .btn-warnabiru {
 	width: 100%;
   color: #fff;
@@ -163,5 +212,7 @@
     max-height: 200px;
     overflow-x: hidden;
 }
-
+.settingmargin{
+  margin-right: 10px;
+}
   

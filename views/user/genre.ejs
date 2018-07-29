@@ -1,73 +1,89 @@
-
+<!DOCTYPE html>
+<html>
 
 <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-        <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css"> 
-        <link rel="stylesheet" href="/styles/custome.css" type="text/css">  
-        </head>
-      <body class="background-hitam">
-          
-            <div class="py-1">
-              <div class="container cardsview">
-                
-                  <div class="col-md-12 ">
-                    <h4 class="mt-2 text-black text-center ">Daftar Anime Genre "<%= gen.nama_genre%>"
-                    </h4>
-                  </div>
-                
-                <div class="row">
-                  <div class="col-md-12 p-4 ">
-                    
-                  
-                  
-                  <% _.each(gen.animeStrings,function(anime){%>
-                    <div class="row border py-2">
-                        <div class="col-sm-2 text-center">
-                          <a href="/detail-anime/<%=anime.id%>">
-                            <img class="d-block img-fluid mb-2" src="/images/anime/<%= anime.photo_url%> "> </a>
-                        </div>
-                        <div class="col-sm-7 " >
-                          <h3 class="mx-1"><a href="/detail-anime/<%=anime.id%>"><%= anime.nama_anime%></a></h3>
-                          <p style="text-align: justify"  >
-                              <%= anime.deskripsi.substring(0,500)%> ... <a href="/detail-anime/<%=anime.id%>"> Lihat Selengkapnya</a>
-                          </p>
-                        </div>
-                        <% 
-                          if(!req.session.User){%>
-                            <div class="col-sm-3  text-center mt-3">
-                                <a href="/anime_favorit/tambah?id_anime=<%= anime.id %>" ><i class="fa fa-heart fa-3x mxnav colorlovebefore " ></i></a>
-                               </div>
-                            <%}
-                            else{%>
-                              <div class="col-sm-3  text-center mt-3">
-                                  <a href="/anime_favorit/tambah?id_anime=<%= anime.id %>&id_user=<%= req.session.User.id%>" ><i class="fa fa-heart fa-3x mxnav colorlovebefore " ></i></a>
-                                 </div>
-                              <%}
-                        %>
-                        
-                      </div>
-                  <%})%>
-                    
-                  </div>
-              </div>
-              <center>
-                <div class="col-md-2 ">
-                    
-                  
-               </div>
-              </center>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css"> 
+  <link rel="stylesheet" href="styles/custome.css" type="text/css">  
+  </head>
+<body class="background-hitam">
+  
+       <div class="py-2 text-center background-hitam">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h1 class="mb-2 mt-2 text-white">Daftar Anime Genre "<%= gen.nama_genre%>"</h1>
+            </div>
           </div>
-          
-          </div>
-          
+        </div>
+      </div>
+      <div class="py-1">
+    <div class="container cardsview">
+      <div class="row ml-1">
+        
+            <%
+
+            _.each(gen.animeStrings,function(animes){%>
+                <div class="col-md3 mr-1 mb-1 p-1 border">
+                    <div class="col-md-12 ">    
+                      <a href="/detail-anime/<%=animes.id%>">
+                      <img class="d-block img-fluid" style="width: 220px;height: 300px;" src="/images/anime/<%= animes.photo_url %>"> </a>
+                      <span class="tipi2"><i class="fa fa-star"></i> <%= animes.score.toFixed(2)%></span>
+                      <span class="tipi3"><i class="fa fa-television"></i> <%= animes.type%></span>
+                    </div>
+                    <% if(animes.nama_anime.length>30){%>
+                      <h5 class="textcenter" style="font-size: 82%;"><p><a href="/detail-anime/<%=animes.id%>"><%= (animes?animes.nama_anime : 'ada masalah') %></a></p></h5>
+                    <%}
+                      else{%>
+                        <h5 class="textcenter"><p><a href="/detail-anime/<%=animes.id%>"><%= (animes?animes.nama_anime : 'ada masalah') %></a></p></h5>
+                      <%}
+                    %>
+        
+                    
+                    <form action="/anime_favorit/tambah" method="POST">
+                      <input type="hidden" name="id_anime" value="<%= animes.id %>">
+                      <%
+                        if(req.session.User){%>
+                          <input type="hidden" name="id_user" value="<%= req.session.User.id %>">
+                        <%}
+                      %>
+                      
+                      
+                      <button type="submit" class="btn btn-warnabiru ">Tambah Anime Favorite</button>
+                    </form>
+                    
+                      
+                  </div>
             
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-expander/1.7.0/jquery.expander.js"></script>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-       
-      </body>
+            <%})%>
+                
+                
+                
+            
+              
+              
+            
+        </div>
+        <center>
+        <div class="col-md-2 ">
+        
+          
+       </div>
+      </center>
+      </div>
+      
+    </div>
+      
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ 
+</body>
+
+</html>
+
+
       
       
