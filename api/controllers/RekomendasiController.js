@@ -209,7 +209,7 @@ module.exports = {
                 .where({like:{genre:'%' + genres + '%' }})
                 
         .exec(function(err,temp){
-            // console.log(temp)
+            
             if(err) return res.serverError(err)
             res.json(temp)
         })

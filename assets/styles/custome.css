@@ -47,6 +47,19 @@
   color: #fff;
   border-radius: 2px;
 }
+.tipi4 {
+  position: absolute;
+  overflow: hidden;
+  margin: 335px 0px 0px 6px;
+  top: 2px;
+  left: 0;
+  width:270px;
+  padding: 15px 15px;
+  background: rgba(48, 48, 48, 0.67);
+  font-size: 13px;
+  color: #fff;
+  border-radius: 2px;
+}
 .tipe {
   font-size: 12px;
   font-weight: 500;
@@ -100,7 +113,7 @@
 }
 .lihatrekomendasi{
   text-align: right;
-	margin-top: -55px;
+	margin-top: -4px;
 }
 .marginbottomminus
 {

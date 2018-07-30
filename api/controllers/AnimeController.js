@@ -1399,6 +1399,7 @@ module.exports = {
                                                             if (err) return res.serverError(err);
                                                             collection.find({}, {
                                                                 id_anime: true,
+                                                                type:true,
                                                                 nama_anime: true,
                                                                 photo_url: true,
                                                                 genre: true,
@@ -1514,6 +1515,7 @@ module.exports = {
                                                                             prioritas.push({
                                                                                 id_anime: anime[i]._id.toString(),
                                                                                 photo_url: anime[i].photo_url,
+                                                                                type: anime[i].type,
                                                                                 nama_anime: anime[i].nama_anime,
                                                                                 score: anime[i].score,
                                                                                 tahun: anime[i].tahun_terbit,
@@ -1532,6 +1534,7 @@ module.exports = {
                                                                                 rekomendasiAkhir.push({
                                                                                     id_anime: prioritas[j].id_anime,
                                                                                     nama_anime: prioritas[j].nama_anime,
+                                                                                    type: prioritas[j].type,
                                                                                     photo_url: prioritas[j].photo_url,
                                                                                     score: prioritas[j].score,
                                                                                     tahun: prioritas[j].tahun,
