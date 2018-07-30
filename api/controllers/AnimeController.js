@@ -1664,6 +1664,32 @@ module.exports = {
 
     },
     //Mobile
+    popularMobile: function (req, res, next) {
+        var perPage = 12
+        if (!req.params.page) {
+            var page = 1
+        }
+        else {
+            var page = req.params.page
+        }
+
+        var item_count = req.param('item_count')
+        var page_number = req.param('page_number')
+        Anime.find()
+            .sort("score desc")
+            .skip((item_count * page_number) - item_count)
+            .limit(item_count)
+            .exec(function (err, anime) {
+                if (err) {
+                    return res.serverError(err);
+                }
+                else {
+                    res.json(anime)
+
+                }
+
+            })
+    },
     detailAnimeMobile: function (req, res, next) {
 
         Temp.destroy().exec(function (deletaAll) {
@@ -2825,7 +2851,11 @@ module.exports = {
                                                             collection.find({}, {
                                                                 id_anime: true,
                                                                 nama_anime: true,
-                                                                photo_url: true
+                                                                photo_url: true,
+                                                                score : true,
+                                                                genre:true,
+                                                                type:true,
+                                                                tahun_terbit:true
 
 
                                                             }).toArray(function (err, anime) {
@@ -2936,6 +2966,7 @@ module.exports = {
                                                                                 id_anime: anime[i]._id.toString(),
                                                                                 photo_url: anime[i].photo_url,
                                                                                 nama_anime: anime[i].nama_anime,
+                                                                                type: anime[i].type,
                                                                                 score: anime[i].score,
                                                                                 tahun: anime[i].tahun_terbit,
                                                                                 genre: anime[i].genre,
@@ -2952,6 +2983,7 @@ module.exports = {
                                                                             else {
                                                                                 rekomendasiAkhir.push({
                                                                                     id_anime: prioritas[j].id_anime,
+                                                                                    type:prioritas[j].type,
                                                                                     nama_anime: prioritas[j].nama_anime,
                                                                                     photo_url: prioritas[j].photo_url,
                                                                                     score: prioritas[j].score,
@@ -3119,8 +3151,11 @@ module.exports = {
             })
     },
     animeTerbaruMobile: function (req, res, next) {
+        var page_number = req.param('page_number')
+        var item_count = req.param('item_count')
         Episode_anime
             .find({})
+            .sort({ createdAt: 'DESC', episode: 'DESC' })
             .skip((item_count * page_number) - item_count)
             .limit(item_count)
             .populateAll()
@@ -3133,7 +3168,8 @@ module.exports = {
                         id_anime: animes.id,
                         nama_anime: animes.nama_anime,
                         photo_url: animes.photo_url,
-                        episode: episodes.episode
+                        episode: episodes.episode,
+                        type:animes.type
                     })
 
                 }

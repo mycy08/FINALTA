@@ -51,13 +51,7 @@
                     <h2><i class="fa fa-star">
                     </i> Episode <%= episodes.episode %></h2></div>
                 </div>
-                <% if(animes.nama_anime.length>30){%>
-                  <h5 class="textcenter" style="font-size: 82%;"><p><a href="/detail-anime/<%=animes.id%>"><%= (animes?animes.nama_anime : 'ada masalah') %></a></p></h5>
-                <%}
-                  else{%>
-                    <h5 class="textcenter"><p><a href="/detail-anime/<%=animes.id%>"><%= (animes?animes.nama_anime : 'ada masalah') %></a></p></h5>
-                  <%}
-                %>
+                <h5 class="textcenter" style="font-size: 14px;"><p><a href="/detail-anime/<%=animes.id%>"><%= (animes?animes.nama_anime : 'ada masalah') %></a></p></h5>
                 
                 <h2 class="tipe"><i class="fa fa-clock-o"></i> <%= waktu %> day ago </h2>
                 <!-- <div class="ratingdanlove">

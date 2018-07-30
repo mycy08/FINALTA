@@ -7,8 +7,10 @@
 var bcrypt = require('bcrypt')
 module.exports = {
   add:function(req,res){
+    layout:false,
     res.view('admin/addUser')
   },
+
   
 
   userProfile: function (req, res, next) {
