@@ -107,16 +107,19 @@ module.exports = {
         .exec(function(err,count){
             Genre.find().exec(function (err, genre) {
                 if (req.session.User) {
-                    Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function(err,notif){
-                        res.view("user/filter-rekomendasi/", {
-                            status: 'OK',
-                            notif:notif,
-                            title: 'Filter Rekomendasi',
-                            genre: genre,
-                            temp: temp,
-                            current: page,
-                            pages: Math.ceil(count / perPage)
+                    Notifikasi.find({ id_user: req.session.User.id }).sort('updatedAt DESC').exec(function(err,notif){
+                        Notifikasi.count({ id_user: req.session.User.id, status:"false" }).sort('updatedAt DESC').exec(function(err,countNotif){
+                            res.view("user/filter-rekomendasi/", {
+                                status: 'OK',
+                                notif:notif,
+                                title: 'Filter Rekomendasi',
+                                genre: genre,
+                                temp: temp,
+                                current: page,
+                                pages: Math.ceil(count / perPage)
+                            })
                         })
+                        
                     })
                   }
                   else{

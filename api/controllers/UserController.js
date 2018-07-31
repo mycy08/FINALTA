@@ -43,14 +43,18 @@ module.exports = {
           else {
             Genre.find().exec(function (err, genre) {
               if (req.session.User) {
-                Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function(err,notif){
-                  res.view("user/profile", {
-                    notif:notif,
-                    genre: genre,
-                    status: 'OK',
-                    title: 'Prorfil',
-                    user: user
+                Notifikasi.find({ id_user: req.session.User.id }).sort('updatedAt DESC').exec(function(err,notif){
+                  Notifikasi.count({ id_user: req.session.User.id, status:"false" }).sort('updatedAt DESC').exec(function(err,countNotif){
+                    res.view("user/profile", {
+                      notif:notif,
+                      genre: genre,
+                      status: 'OK',
+                      title: 'Prorfil',
+                      user: user,
+                      countNotif:countNotif
+                    })
                   })
+                 
                 })
                 
               }
@@ -78,14 +82,18 @@ module.exports = {
       else {
         Genre.find().exec(function (err, genre) {
           if (req.session.User) {
-            Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function(err,notif){
-              return res.view('user/edit-profile', {
-                notif:notif,
-                status: 'OK',
-                title: 'Edit Profil',
-                genre: genre,
-                editProfile: editProfile
+            Notifikasi.find({ id_user: req.session.User.id }).sort('updatedAt DESC').exec(function(err,notif){
+              Notifikasi.count({ id_user: req.session.User.id, status:"false" }).sort('updatedAt DESC').exec(function(err,countNotif){
+                return res.view('user/edit-profile', {
+                  notif:notif,
+                  status: 'OK',
+                  title: 'Edit Profil',
+                  genre: genre,
+                  editProfile: editProfile,
+                  countNotif:countNotif
+                })
               })
+              
             })
           }
           else{
@@ -259,7 +267,7 @@ module.exports = {
       var id =User.id;
       var photo = User.photo;
       var fd = uploads[0].fd;  
-      var nameImage = fd.substring(56)
+      var nameImage = fd.substring(64)
       
       User.update({id:req.param('id')}
                 ,
@@ -464,7 +472,7 @@ uploadPhotoProfilMobile: function(req, res) {
       var photo = User.photo;
       var fd = uploads[0].fd;
       
-      var nameImage = fd.substring(56)
+      var nameImage = fd.substring(64)
       
       
       User.update({id:req.param('id')}

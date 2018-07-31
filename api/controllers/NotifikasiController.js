@@ -9,7 +9,7 @@ module.exports = {
     clickNotifikasi:function(req,res){
         Notifikasi.findOne(req.param('id')).exec(function(err,notif){
             if(err) return res.serverError(err)
-            Notifikasi.destroy({id:notif.id}).exec(function(err,updated){
+            Notifikasi.update({id:notif.id},{status:true}).exec(function(err,updated){
                 if(err) return res.serverError(err)
                 res.redirect(notif.url)
             })
@@ -21,7 +21,7 @@ module.exports = {
     	var item_count = req.param('item_count')
     	
     	Notifikasi.find({ id_user: req.param('id_user') })
-    	.sort('updateAt DESC').exec(function(err,notif){
+    	.sort('updatedAt DESC').exec(function(err,notif){
     		var data=[]
 
     		
@@ -41,10 +41,20 @@ module.exports = {
     		res.json(paginate(data,item_count,page))
     	})
     },
+    hitungNotifMobile:function(req,res){
+    	var page = req.param('page')
+    	var item_count = req.param('item_count')
+    	
+    	Notifikasi.count({ id_user: req.param('id_user'),status:false })
+    	.sort('updatedAt DESC').exec(function(err,count){
+            if(err) return res.serverError(err)
+            res.json(count)
+    	})
+    },
     clickNotifikasiMobile:function(req,res){
         Notifikasi.findOne(req.param('id')).exec(function(err,notif){
             if(err) return res.serverError(err)
-            Notifikasi.update({id:notif.id},{status:'1'}).exec(function(err,updated){
+            Notifikasi.update({id:notif.id},{status:true}).exec(function(err,updated){
                 if(err) return res.serverError(err)
                 res.json(notif)
             })

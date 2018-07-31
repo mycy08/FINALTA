@@ -51,15 +51,19 @@ module.exports = {
                     Episode_anime.count().exec(function (err, count) {
                         if (err) return next(err)
                         if (req.session.User) {
-                            Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function (err, notif) {
-                                res.view('user/anime-terbaru/', {
-                                    title: "Anime Terbaru",
-                                    notif: notif,
-                                    episode: episode,
-                                    genre: genre,
-                                    current: page,
-                                    pages: Math.ceil(count / perPage)
+                            Notifikasi.find({ id_user: req.session.User.id }).sort('updatedAt DESC').exec(function (err, notif) {
+                                Notifikasi.count({ id_user: req.session.User.id, status:"false" }).sort('updatedAt DESC').exec(function(err,countNotif){
+                                    res.view('user/anime-terbaru/', {
+                                        title: "Anime Terbaru",
+                                        notif: notif,
+                                        episode: episode,
+                                        genre: genre,
+                                        countNotif:countNotif,
+                                        current: page,
+                                        pages: Math.ceil(count / perPage)
+                                    })
                                 })
+                                
                             })
                         }
                         else {
@@ -97,20 +101,24 @@ module.exports = {
                 
                 Genre.find().exec(function (err, genre) {
                     if (req.session.User) {
-                        Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function (err, notif) {
-                            Anime.count({ like: { nama_anime: '%' + req.param('search') + '%' } }).exec(function(err,count){
-                                res.view("user/search/", {
-                                    status: 'OK',
-                                    notif: notif,
-                                    title: 'Hasil Pencarian',
-                                    genre: genre,
-                                    search: search,
-                                    current: page,
-                                    pages: Math.ceil(count / perPage)
-                                    
-                                   
+                        Notifikasi.find({ id_user: req.session.User.id }).sort('updatedAt DESC').exec(function (err, notif) {
+                            Notifikasi.count({ id_user: req.session.User.id, status:"false" }).sort('updatedAt DESC').exec(function(err,countNotif){
+                                Anime.count({ like: { nama_anime: '%' + req.param('search') + '%' } }).exec(function(err,count){
+                                    res.view("user/search/", {
+                                        status: 'OK',
+                                        notif: notif,
+                                        title: 'Hasil Pencarian',
+                                        genre: genre,
+                                        search: search,
+                                        countNotif:countNotif,
+                                        current: page,
+                                        pages: Math.ceil(count / perPage)
+                                        
+                                       
+                                    })
                                 })
                             })
+                            
                             
                         })
                     }
@@ -158,15 +166,19 @@ module.exports = {
                         Anime.count().exec(function (err, count) {
                             if (err) return next(err)
                             if (req.session.User) {
-                                Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function (err, notif) {
-                                    res.view('user/daftar-anime/', {
-                                        title: "Daftar Anime",
-                                        notif: notif,
-                                        anime: anime,
-                                        genre: genre,
-                                        current: page,
-                                        pages: Math.ceil(count / perPage)
+                                Notifikasi.find({ id_user: req.session.User.id }).sort('updatedAt DESC').exec(function (err, notif) {
+                                    Notifikasi.count({ id_user: req.session.User.id, status:"false" }).sort('updatedAt DESC').exec(function(err,countNotif){
+                                        res.view('user/daftar-anime/', {
+                                            title: "Daftar Anime",
+                                            notif: notif,
+                                            anime: anime,
+                                            genre: genre,
+                                            countNotif:countNotif,
+                                            current: page,
+                                            pages: Math.ceil(count / perPage)
+                                        })
                                     })
+                                    
                                 })
                             }
                             else {
@@ -210,15 +222,19 @@ module.exports = {
                         Anime.count().exec(function (err, count) {
                             if (err) return next(err)
                             if (req.session.User) {
-                                Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function (err, notif) {
-                                    res.view('user/popular/', {
-                                        title: "Anime Populer",
-                                        notif: notif,
-                                        anime: anime,
-                                        genre: genre,
-                                        current: page,
-                                        pages: Math.ceil(count / perPage)
+                                Notifikasi.find({ id_user: req.session.User.id }).sort('updatedAt DESC').exec(function (err, notif) {
+                                    Notifikasi.count({ id_user: req.session.User.id, status:"false" }).sort('updatedAt DESC').exec(function(err,countNotif){
+                                        res.view('user/popular/', {
+                                            title: "Anime Populer",
+                                            notif: notif,
+                                            anime: anime,
+                                            genre: genre,
+                                            countNotif:countNotif,
+                                            current: page,
+                                            pages: Math.ceil(count / perPage)
+                                        })
                                     })
+                                    
                                 })
                             }
                             else {
@@ -1572,17 +1588,21 @@ module.exports = {
                                                 });
                                                 Genre.find().exec(function (err, genre) {
                                                     if (req.session.User) {
-                                                        Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function (err, notif) {
-                                                            res.view("user/detail-anime/", {
+                                                        Notifikasi.find({ id_user: req.session.User.id }).sort('updatedAt DESC').exec(function (err, notif) {
+                                                            Notifikasi.count({ id_user: req.session.User.id, status:"false" }).sort('updatedAt DESC').exec(function(err,countNotif){
+                                                                res.view("user/detail-anime/", {
                                                                 
-                                                                status: 'OK',
-                                                                notif: notif,
-                                                                rekomUser: rekomUser,
-                                                                title: 'Detail Anime',
-                                                                rekom: rekom,
-                                                                genre: genre,
-                                                                anime: anime
+                                                                    status: 'OK',
+                                                                    notif: notif,
+                                                                    rekomUser: rekomUser,
+                                                                    title: 'Detail Anime',
+                                                                    rekom: rekom,
+                                                                    countNotif:countNotif,
+                                                                    genre: genre,
+                                                                    anime: anime
+                                                                })
                                                             })
+                                                            
                                                         })
                                                     }
                                                     
@@ -1636,15 +1656,19 @@ module.exports = {
                     Temp.count().exec(function (err, count) {
                         if (err) return next(err)
                         if (req.session.User) {
-                            Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function (err, notif) {
-                                res.view('user/rekomendasi/', {
-                                    title: "Rekomendasi",
-                                    notif: notif,
-                                    temp: temp,
-                                    genre: genre,
-                                    current: page,
-                                    pages: Math.ceil(count / perPage)
+                            Notifikasi.find({ id_user: req.session.User.id }).sort('updatedAt DESC').exec(function (err, notif) {
+                                Notifikasi.count({ id_user: req.session.User.id, status:"false" }).sort('updatedAt DESC').exec(function(err,countNotif){
+                                    res.view('user/rekomendasi/', {
+                                        title: "Rekomendasi",
+                                        notif: notif,
+                                        temp: temp,
+                                        genre: genre,
+                                        countNotif:countNotif,
+                                        current: page,
+                                        pages: Math.ceil(count / perPage)
+                                    })
                                 })
+                                
                             })
                         }
                         else {

@@ -79,31 +79,41 @@
                 <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
               </form>
-              <li class="nav-item dropdown">
+              <li class="nav-item ">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <% if(notif.length==0){%>
+                    <% if(countNotif==0){%>
                       <i class="fa d-inline fa-lg fa-bell-o mxnav"></i>
                     <%}else{%>
-                      <i class="fa d-inline fa-lg fa-bell-o mxnav"></i><span class="badge"><%= notif.length%></span>
+                      <i class="fa d-inline fa-lg fa-bell-o mxnav"></i><span class="badge"><%= countNotif %></span>
                     <%}%>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <%
-                    if(req.session.User){
-                      if(notif.length==0){%>
-                        <a class="dropdown-item" href="#">Pemberitahuan tidak ada </a>
-                        <div class="dropdown-divider"></div>
-                        <%}
-                      else{
-                        _.each(notif,function(notif){
-                            if(notif.status==false){
-                          %>
-                        <a class="dropdown-item" href="/notifikasi/clickNotifikasi?id=<%=notif.id%> "target="_blank"><%= notif.nama_anime+" Episode "+notif.episode+" Subtitle "+notif.bahasa+" telah diperbaharui"%></a>
-                        <div class="dropdown-divider"></div>
-                      <%}})
-                    }}
-                  %>
-                </div>
+                <ul class="dropdown-menu scrollable-menu" style="margin-left: 630px;width: 570px" role="menu">
+                   
+                        <%
+                          if(req.session.User){
+                            if(notif.length==0){%>
+                              <a class="dropdown-item" href="#">Pemberitahuan tidak ada </a>
+                              <div class="dropdown-divider"></div>
+                              <%}
+                            else{
+                              _.each(notif,function(notif){
+                                  if(notif.status){ %>
+                                    <a class="dropdown-item"  href="/notifikasi/clickNotifikasi?id=<%=notif.id%> "target="_blank"><%= notif.nama_anime+" Episode "+notif.episode+" Sub "+notif.bahasa+" telah diperbaharui "%></a>
+                                    <div class="dropdown-divider"></div>
+                                  <%}
+                                  else{%>
+                                    <a class="dropdown-item" style="color: rgb(25, 181, 253)"  href="/notifikasi/clickNotifikasi?id=<%=notif.id%> "target="_blank"><%= notif.nama_anime+" Episode "+notif.episode+" Sub "+notif.bahasa+" telah diperbaharui "%></a>
+                                    <div class="dropdown-divider" ></div>
+                                  <% }
+                                %>
+                              
+                              
+                            <%})
+                          }}
+                        %>
+                      
+                </ul>
+                
                 </li>
                 <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -46,130 +46,9 @@ module.exports = {
                       err: successRating
                     }
                   }
+                  res.redirect("/rating/updateRating?id_anime="+req.param('id_anime'))
                 })
-                Anime.findOne(req.param('id_anime')).populateAll().exec(function (err, anime) {
-                  if (err) {
-                      return res.serverError(err);
-                  } else {
-      
-                      anime.genreStrings = []
-                      anime.userStrings = []
-                      async.each(anime.genre_lists, function (genre, callback) {
-                          Genre.findOne({ id: genre.id_genre }).exec(function (err, genres) {
-                              if (err) {
-                                  callback(err)
-                              } else {
-      
-                                  anime.genreStrings.push({
-      
-                                      id: genres.id,
-                                      nama_genre: genres.nama_genre
-                                  })
-                                  callback()
-                              }
-                          })
-                      }, function (err) {
-      
-                          if (err)
-                              return res.serverError(err);
-                          else {
-                              async.each(anime.ratings, function (user, callback) {
-      
-                                  User.findOne({ id: user.id_user }).exec(function (err, users) {
-                                      if (err) {
-                                          callback(err)
-                                      } else {
-                                          anime.userStrings.push({
-                                              id: users.id,
-                                              nama: users.nama,
-                                              photo_url: users.photo_url, users,
-                                              review: user.review,
-                                              score: user.score,
-                                              createdAt: user.createdAt,
-                                              updatedAt: user.updatedAt
-      
-      
-                                          })
-                                          callback()
-                                      }
-                                  })
-                              }, function (err) {
-                                var jumlahRating,
-                                bintang,
-                                persenBintang5=0,
-                                persenBintang4=0,
-                                persenBintang3=0,
-                                persenBintang2=0,
-                                persenBintang1=0,
-                                t_score1=0,
-                                t_score2=0,
-                                t_score3=0,
-                                t_score4=0,
-                                t_score5=0,
-                                t_score6=0,
-                                t_score7=0,
-                                t_score8=0,
-                                t_score9=0,
-                                t_score10=0,
-                                score =0
-                                
-                            _.each(anime.userStrings,function(cariRating){
-                                if(cariRating.score==10){
-                                  t_score10 =t_score10+1
-                                  score =score+10
-                                }      
-                                else if(cariRating.score==9){
-                                  t_score9 =t_score9+1
-                                  score =score+9
-                                }  
-                                else if(cariRating.score==8) {
-                                  t_score8 =t_score8+1
-                                  score =score+8
-                                } 
-                                else if(cariRating.score==7)  {
-                                  t_score7 =t_score7+1
-                                  score =score+7
-                                }
-                                else if(cariRating.score==6) {
-                                  t_score6 =t_score6+1
-                                  score =score+6
-                                } 
-                                else if(cariRating.score==5){
-                                  t_score5 =t_score5+1
-                                  score =score+5
-                                }  
-                                else if(cariRating.score==4){
-                                  t_score4 =t_score4+1
-                                  score =score+4
-                                }  
-                                else if(cariRating.score==3)  {
-                                  t_score3 =t_score3+1
-                                  score =score+3
-                                }
-                                else if(cariRating.score==2){
-                                  t_score2 =t_score2+1
-                                  score =score+2
-                                }  
-                                else  {
-                                  t_score1 =t_score1+1
-                                  score =score+1
-                                }   
-                                
-                                 jumlahRating =t_score1+t_score2+t_score3+t_score4+t_score5+t_score6+t_score7+t_score8+t_score9+t_score10
-                                 
-                                  
-                                })
-          
-                                var ratingAkhir = (score/anime.userStrings.length)
-                                Anime.update({id:req.param('id_anime')},{score:ratingAkhir}).exec(function(err,animeUpdated){
-                                  res.redirect('/detail-anime/'+req.param('id_anime'));
-                                  return
-                                })
-                              })
-                            }
-                        })
-                      }
-                    })
+                
               }
               else{
                 Rating.update({
@@ -185,135 +64,140 @@ module.exports = {
                   req.session.flash = {
                     err: updateRating
                   }
+                  res.redirect("/rating/updateRating?id_anime="+req.param('id_anime'))
                 })
-                Anime.findOne(req.param('id_anime')).populateAll().exec(function (err, anime) {
-                  if (err) {
-                      return res.serverError(err);
-                  } else {
-      
-                      anime.genreStrings = []
-                      anime.userStrings = []
-                      async.each(anime.genre_lists, function (genre, callback) {
-                          Genre.findOne({ id: genre.id_genre }).exec(function (err, genres) {
-                              if (err) {
-                                  callback(err)
-                              } else {
-      
-                                  anime.genreStrings.push({
-      
-                                      id: genres.id,
-                                      nama_genre: genres.nama_genre
-                                  })
-                                  callback()
-                              }
-                          })
-                      }, function (err) {
-      
-                          if (err)
-                              return res.serverError(err);
-                          else {
-                              async.each(anime.ratings, function (user, callback) {
-      
-                                  User.findOne({ id: user.id_user }).exec(function (err, users) {
-                                      if (err) {
-                                          callback(err)
-                                      } else {
-                                          anime.userStrings.push({
-                                              id: users.id,
-                                              nama: users.nama,
-                                              photo_url: users.photo_url, users,
-                                              review: user.review,
-                                              score: user.score,
-                                              createdAt: user.createdAt,
-                                              updatedAt: user.updatedAt
-      
-      
-                                          })
-                                          callback()
-                                      }
-                                  })
-                              }, function (err) {
-                                var jumlahRating,
-                                bintang,
-                                persenBintang5=0,
-                                persenBintang4=0,
-                                persenBintang3=0,
-                                persenBintang2=0,
-                                persenBintang1=0,
-                                t_score1=0,
-                                t_score2=0,
-                                t_score3=0,
-                                t_score4=0,
-                                t_score5=0,
-                                t_score6=0,
-                                t_score7=0,
-                                t_score8=0,
-                                t_score9=0,
-                                t_score10=0,
-                                score =0
-                                
-                            _.each(anime.userStrings,function(cariRating){
-                                if(cariRating.score==10){
-                                  t_score10 =t_score10+1
-                                  score =score+10
-                                }      
-                                else if(cariRating.score==9){
-                                  t_score9 =t_score9+1
-                                  score =score+9
-                                }  
-                                else if(cariRating.score==8) {
-                                  t_score8 =t_score8+1
-                                  score =score+8
-                                } 
-                                else if(cariRating.score==7)  {
-                                  t_score7 =t_score7+1
-                                  score =score+7
-                                }
-                                else if(cariRating.score==6) {
-                                  t_score6 =t_score6+1
-                                  score =score+6
-                                } 
-                                else if(cariRating.score==5){
-                                  t_score5 =t_score5+1
-                                  score =score+5
-                                }  
-                                else if(cariRating.score==4){
-                                  t_score4 =t_score4+1
-                                  score =score+4
-                                }  
-                                else if(cariRating.score==3)  {
-                                  t_score3 =t_score3+1
-                                  score =score+3
-                                }
-                                else if(cariRating.score==2){
-                                  t_score2 =t_score2+1
-                                  score =score+2
-                                }  
-                                else  {
-                                  t_score1 =t_score1+1
-                                  score =score+1
-                                }   
-                                
-                                 jumlahRating =t_score1+t_score2+t_score3+t_score4+t_score5+t_score6+t_score7+t_score8+t_score9+t_score10
-                                 
-                                  
-                                })
-          
-                                var ratingAkhir = (score/anime.userStrings.length)
-                                Anime.update({id:req.param('id_anime')},{score:ratingAkhir}).exec(function(err,animeUpdated){
-                                  res.redirect('/detail-anime/'+req.param('id_anime'));
-                                  return
-                                })
-                              })
-                            }
-                        })
-                      }
-                    })
+                
                 
               }
           }
       })
   },
+  updateRating:function(req,res){
+    Anime.findOne(req.param('id_anime')).populateAll().exec(function (err, anime) {
+      if (err) {
+          return res.serverError(err);
+      } else {
+
+          anime.genreStrings = []
+          anime.userStrings = []
+          async.each(anime.genre_lists, function (genre, callback) {
+              Genre.findOne({ id: genre.id_genre }).exec(function (err, genres) {
+                  if (err) {
+                      callback(err)
+                  } else {
+
+                      anime.genreStrings.push({
+
+                          id: genres.id,
+                          nama_genre: genres.nama_genre
+                      })
+                      callback()
+                  }
+              })
+          }, function (err) {
+
+              if (err)
+                  return res.serverError(err);
+              else {
+                  async.each(anime.ratings, function (user, callback) {
+
+                      User.findOne({ id: user.id_user }).exec(function (err, users) {
+                          if (err) {
+                              callback(err)
+                          } else {
+                              anime.userStrings.push({
+                                  id: users.id,
+                                  nama: users.nama,
+                                  photo_url: users.photo_url, users,
+                                  review: user.review,
+                                  score: user.score,
+                                  createdAt: user.createdAt,
+                                  updatedAt: user.updatedAt
+
+
+                              })
+                              callback()
+                          }
+                      })
+                  }, function (err) {
+                    var jumlahRating,
+                    bintang,
+                    persenBintang5=0,
+                    persenBintang4=0,
+                    persenBintang3=0,
+                    persenBintang2=0,
+                    persenBintang1=0,
+                    t_score1=0,
+                    t_score2=0,
+                    t_score3=0,
+                    t_score4=0,
+                    t_score5=0,
+                    t_score6=0,
+                    t_score7=0,
+                    t_score8=0,
+                    t_score9=0,
+                    t_score10=0,
+                    score =0
+                    
+                _.each(anime.userStrings,function(cariRating){
+                    if(cariRating.score==10){
+                      t_score10 =t_score10+1
+                      score =score+10
+                    }      
+                    else if(cariRating.score==9){
+                      t_score9 =t_score9+1
+                      score =score+9
+                    }  
+                    else if(cariRating.score==8) {
+                      t_score8 =t_score8+1
+                      score =score+8
+                    } 
+                    else if(cariRating.score==7)  {
+                      t_score7 =t_score7+1
+                      score =score+7
+                    }
+                    else if(cariRating.score==6) {
+                      t_score6 =t_score6+1
+                      score =score+6
+                    } 
+                    else if(cariRating.score==5){
+                      t_score5 =t_score5+1
+                      score =score+5
+                    }  
+                    else if(cariRating.score==4){
+                      t_score4 =t_score4+1
+                      score =score+4
+                    }  
+                    else if(cariRating.score==3)  {
+                      t_score3 =t_score3+1
+                      score =score+3
+                    }
+                    else if(cariRating.score==2){
+                      t_score2 =t_score2+1
+                      score =score+2
+                    }  
+                    else  {
+                      t_score1 =t_score1+1
+                      score =score+1
+                    }   
+                    
+                     jumlahRating =t_score1+t_score2+t_score3+t_score4+t_score5+t_score6+t_score7+t_score8+t_score9+t_score10
+                     
+                      
+                    })
+
+                    var ratingAkhir = (score/anime.userStrings.length)
+                    Anime.update({id:req.param('id_anime')},{score:ratingAkhir}).exec(function(err,animeUpdated){
+                      res.redirect('/detail-anime/'+req.param('id_anime'));
+                      return
+                    })
+                  })
+                }
+            })
+          }
+        })
+  },
+
 
   //mobile
   tambahRatingMobile:function(req,res){
@@ -349,130 +233,9 @@ module.exports = {
                     err: successRating
                   }
                 }
+                res.redirect("/rating/updateRatingMobile?id_anime="+req.param('id_anime'))
               })
-              Anime.findOne(req.param('id_anime')).populateAll().exec(function (err, anime) {
-                if (err) {
-                    return res.serverError(err);
-                } else {
-    
-                    anime.genreStrings = []
-                    anime.userStrings = []
-                    async.each(anime.genre_lists, function (genre, callback) {
-                        Genre.findOne({ id: genre.id_genre }).exec(function (err, genres) {
-                            if (err) {
-                                callback(err)
-                            } else {
-    
-                                anime.genreStrings.push({
-    
-                                    id: genres.id,
-                                    nama_genre: genres.nama_genre
-                                })
-                                callback()
-                            }
-                        })
-                    }, function (err) {
-    
-                        if (err)
-                            return res.serverError(err);
-                        else {
-                            async.each(anime.ratings, function (user, callback) {
-    
-                                User.findOne({ id: user.id_user }).exec(function (err, users) {
-                                    if (err) {
-                                        callback(err)
-                                    } else {
-                                        anime.userStrings.push({
-                                            id: users.id,
-                                            nama: users.nama,
-                                            photo_url: users.photo_url, users,
-                                            review: user.review,
-                                            score: user.score,
-                                            createdAt: user.createdAt,
-                                            updatedAt: user.updatedAt
-    
-    
-                                        })
-                                        callback()
-                                    }
-                                })
-                            }, function (err) {
-                              var jumlahRating,
-                              bintang,
-                              persenBintang5=0,
-                              persenBintang4=0,
-                              persenBintang3=0,
-                              persenBintang2=0,
-                              persenBintang1=0,
-                              t_score1=0,
-                              t_score2=0,
-                              t_score3=0,
-                              t_score4=0,
-                              t_score5=0,
-                              t_score6=0,
-                              t_score7=0,
-                              t_score8=0,
-                              t_score9=0,
-                              t_score10=0,
-                              score =0
-                              
-                          _.each(anime.userStrings,function(cariRating){
-                              if(cariRating.score==10){
-                                t_score10 =t_score10+1
-                                score =score+10
-                              }      
-                              else if(cariRating.score==9){
-                                t_score9 =t_score9+1
-                                score =score+9
-                              }  
-                              else if(cariRating.score==8) {
-                                t_score8 =t_score8+1
-                                score =score+8
-                              } 
-                              else if(cariRating.score==7)  {
-                                t_score7 =t_score7+1
-                                score =score+7
-                              }
-                              else if(cariRating.score==6) {
-                                t_score6 =t_score6+1
-                                score =score+6
-                              } 
-                              else if(cariRating.score==5){
-                                t_score5 =t_score5+1
-                                score =score+5
-                              }  
-                              else if(cariRating.score==4){
-                                t_score4 =t_score4+1
-                                score =score+4
-                              }  
-                              else if(cariRating.score==3)  {
-                                t_score3 =t_score3+1
-                                score =score+3
-                              }
-                              else if(cariRating.score==2){
-                                t_score2 =t_score2+1
-                                score =score+2
-                              }  
-                              else  {
-                                t_score1 =t_score1+1
-                                score =score+1
-                              }   
-                              
-                               jumlahRating =t_score1+t_score2+t_score3+t_score4+t_score5+t_score6+t_score7+t_score8+t_score9+t_score10
-                               
-                                
-                              })
-        
-                              var ratingAkhir = (score/anime.userStrings.length)
-                              Anime.update({id:req.param('id_anime')},{score:ratingAkhir}).exec(function(err,animeUpdated){
-                                res.redirect('/anime/detailAnimeMobile/'+req.param('id_anime'));
-                                return
-                              })
-                            })
-                          }
-                      })
-                    }
-                  })
+              
             }
             else{
               Rating.update({
@@ -488,134 +251,138 @@ module.exports = {
                 req.session.flash = {
                   err: updateRating
                 }
+                res.redirect("/rating/updateRatingMobile?id_anime="+req.param('id_anime'))
               })
-              Anime.findOne(req.param('id_anime')).populateAll().exec(function (err, anime) {
-                if (err) {
-                    return res.serverError(err);
-                } else {
-    
-                    anime.genreStrings = []
-                    anime.userStrings = []
-                    async.each(anime.genre_lists, function (genre, callback) {
-                        Genre.findOne({ id: genre.id_genre }).exec(function (err, genres) {
-                            if (err) {
-                                callback(err)
-                            } else {
-    
-                                anime.genreStrings.push({
-    
-                                    id: genres.id,
-                                    nama_genre: genres.nama_genre
-                                })
-                                callback()
-                            }
-                        })
-                    }, function (err) {
-    
-                        if (err)
-                            return res.serverError(err);
-                        else {
-                            async.each(anime.ratings, function (user, callback) {
-    
-                                User.findOne({ id: user.id_user }).exec(function (err, users) {
-                                    if (err) {
-                                        callback(err)
-                                    } else {
-                                        anime.userStrings.push({
-                                            id: users.id,
-                                            nama: users.nama,
-                                            photo_url: users.photo_url, users,
-                                            review: user.review,
-                                            score: user.score,
-                                            createdAt: user.createdAt,
-                                            updatedAt: user.updatedAt
-    
-    
-                                        })
-                                        callback()
-                                    }
-                                })
-                            }, function (err) {
-                              var jumlahRating,
-                              bintang,
-                              persenBintang5=0,
-                              persenBintang4=0,
-                              persenBintang3=0,
-                              persenBintang2=0,
-                              persenBintang1=0,
-                              t_score1=0,
-                              t_score2=0,
-                              t_score3=0,
-                              t_score4=0,
-                              t_score5=0,
-                              t_score6=0,
-                              t_score7=0,
-                              t_score8=0,
-                              t_score9=0,
-                              t_score10=0,
-                              score =0
-                              
-                          _.each(anime.userStrings,function(cariRating){
-                              if(cariRating.score==10){
-                                t_score10 =t_score10+1
-                                score =score+10
-                              }      
-                              else if(cariRating.score==9){
-                                t_score9 =t_score9+1
-                                score =score+9
-                              }  
-                              else if(cariRating.score==8) {
-                                t_score8 =t_score8+1
-                                score =score+8
-                              } 
-                              else if(cariRating.score==7)  {
-                                t_score7 =t_score7+1
-                                score =score+7
-                              }
-                              else if(cariRating.score==6) {
-                                t_score6 =t_score6+1
-                                score =score+6
-                              } 
-                              else if(cariRating.score==5){
-                                t_score5 =t_score5+1
-                                score =score+5
-                              }  
-                              else if(cariRating.score==4){
-                                t_score4 =t_score4+1
-                                score =score+4
-                              }  
-                              else if(cariRating.score==3)  {
-                                t_score3 =t_score3+1
-                                score =score+3
-                              }
-                              else if(cariRating.score==2){
-                                t_score2 =t_score2+1
-                                score =score+2
-                              }  
-                              else  {
-                                t_score1 =t_score1+1
-                                score =score+1
-                              }   
-                              
-                               jumlahRating =t_score1+t_score2+t_score3+t_score4+t_score5+t_score6+t_score7+t_score8+t_score9+t_score10
-                               
-                                
-                              })
-        
-                              var ratingAkhir = (score/anime.userStrings.length)
-                              Anime.update({id:req.param('id_anime')},{score:ratingAkhir}).exec(function(err,animeUpdated){
-                                res.redirect('/anime/detailAnimeMobile/'+req.param('id_anime'));
-                                return
-                              })
-                            })
-                          }
-                      })
-                    }
-                  })
+              
               
             }
         }
     })
+},
+updateRatingMobile:function(req,res){
+  Anime.findOne(req.param('id_anime')).populateAll().exec(function (err, anime) {
+    if (err) {
+        return res.serverError(err);
+    } else {
+
+        anime.genreStrings = []
+        anime.userStrings = []
+        async.each(anime.genre_lists, function (genre, callback) {
+            Genre.findOne({ id: genre.id_genre }).exec(function (err, genres) {
+                if (err) {
+                    callback(err)
+                } else {
+
+                    anime.genreStrings.push({
+
+                        id: genres.id,
+                        nama_genre: genres.nama_genre
+                    })
+                    callback()
+                }
+            })
+        }, function (err) {
+
+            if (err)
+                return res.serverError(err);
+            else {
+                async.each(anime.ratings, function (user, callback) {
+
+                    User.findOne({ id: user.id_user }).exec(function (err, users) {
+                        if (err) {
+                            callback(err)
+                        } else {
+                            anime.userStrings.push({
+                                id: users.id,
+                                nama: users.nama,
+                                photo_url: users.photo_url, users,
+                                review: user.review,
+                                score: user.score,
+                                createdAt: user.createdAt,
+                                updatedAt: user.updatedAt
+
+
+                            })
+                            callback()
+                        }
+                    })
+                }, function (err) {
+                  var jumlahRating,
+                  bintang,
+                  persenBintang5=0,
+                  persenBintang4=0,
+                  persenBintang3=0,
+                  persenBintang2=0,
+                  persenBintang1=0,
+                  t_score1=0,
+                  t_score2=0,
+                  t_score3=0,
+                  t_score4=0,
+                  t_score5=0,
+                  t_score6=0,
+                  t_score7=0,
+                  t_score8=0,
+                  t_score9=0,
+                  t_score10=0,
+                  score =0
+                  
+              _.each(anime.userStrings,function(cariRating){
+                  if(cariRating.score==10){
+                    t_score10 =t_score10+1
+                    score =score+10
+                  }      
+                  else if(cariRating.score==9){
+                    t_score9 =t_score9+1
+                    score =score+9
+                  }  
+                  else if(cariRating.score==8) {
+                    t_score8 =t_score8+1
+                    score =score+8
+                  } 
+                  else if(cariRating.score==7)  {
+                    t_score7 =t_score7+1
+                    score =score+7
+                  }
+                  else if(cariRating.score==6) {
+                    t_score6 =t_score6+1
+                    score =score+6
+                  } 
+                  else if(cariRating.score==5){
+                    t_score5 =t_score5+1
+                    score =score+5
+                  }  
+                  else if(cariRating.score==4){
+                    t_score4 =t_score4+1
+                    score =score+4
+                  }  
+                  else if(cariRating.score==3)  {
+                    t_score3 =t_score3+1
+                    score =score+3
+                  }
+                  else if(cariRating.score==2){
+                    t_score2 =t_score2+1
+                    score =score+2
+                  }  
+                  else  {
+                    t_score1 =t_score1+1
+                    score =score+1
+                  }   
+                  
+                   jumlahRating =t_score1+t_score2+t_score3+t_score4+t_score5+t_score6+t_score7+t_score8+t_score9+t_score10
+                   
+                    
+                  })
+
+                  var ratingAkhir = (score/anime.userStrings.length)
+                  Anime.update({id:req.param('id_anime')},{score:ratingAkhir}).exec(function(err,animeUpdated){
+                    res.json(200,{pesan:"Rating Sukses"});
+                    
+                  })
+                })
+              }
+          })
+        }
+      })
 },
 RatingMobile: function (req, res, next) {
 
@@ -664,5 +431,6 @@ RatingMobile: function (req, res, next) {
       }
   })
 },
+
 };
 

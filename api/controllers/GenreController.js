@@ -52,15 +52,19 @@ module.exports = {
                                 
                                 Genre.find().exec(function(err,genre){
                                     if (req.session.User) {
-                                        Notifikasi.find({ id_user: req.session.User.id }).sort('updateAt DESC').exec(function(err,notif){
-                                            res.view("user/genre/", {
-                                                notif:notif,
-                                                status: 'OK',
-                                                title: 'Genre',
-                                                gen:gen,
-                                                genre:genre,
-                                                
+                                        Notifikasi.find({ id_user: req.session.User.id }).sort('updatedAt DESC').exec(function(err,notif){
+                                            Notifikasi.count({ id_user: req.session.User.id, status:"false" }).sort('updatedAt DESC').exec(function(err,countNotif){
+                                                res.view("user/genre/", {
+                                                    notif:notif,
+                                                    status: 'OK',
+                                                    title: 'Genre',
+                                                    gen:gen,
+                                                    genre:genre,
+                                                    countNotif:countNotif
+                                                    
+                                                })
                                             })
+                                            
                                         })
                                       }
                                     else{
