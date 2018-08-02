@@ -85,6 +85,8 @@ module.exports = {
             tahunAwal=1995
             tahunAkhir=2020
         }
+        var page = req.param('page')
+        var perPage=12
         Temp.find({})
                 .sort("rata desc")
                 .skip((perPage * page) - perPage)
@@ -113,6 +115,7 @@ module.exports = {
                                 status: 'OK',
                                 notif:notif,
                                 title: 'Filter Rekomendasi',
+                                countNotif:countNotif,
                                 genre: genre,
                                 temp: temp,
                                 current: page,
@@ -129,7 +132,7 @@ module.exports = {
                         genre: genre,
                         temp: temp,
                         current: page,
-                                    pages: Math.ceil(count / perPage)
+                        pages: Math.ceil(count / perPage)
                     })
                   }
                 

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title><%=typeof title == 'undefined' ? 'New Sails App' : title%></title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css"> 
+  <link rel="stylesheet" href="/styles/custome.css" type="text/css">  
+
+<body style="background-color: azure">
+  <nav class="navbar navbar-expand-md bg-primary navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/admin">Admin Page</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/data-user">
+              <i class="fa d-inline fa-lg fa-users"></i>&nbsp;Data User</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/data-anime/1">
+              <i class="fa d-inline fa-lg fa-database"></i>&nbsp;Data Anime</a>
+          </li>
+        </ul>
+        <a class="btn navbar-btn btn-primary ml-2 text-white">
+          <i class="fa d-inline fa-lg fa-user-circle-o"></i>&nbsp;<%= req.session.Admin.nama%></a>
+      </div>
+    </div>
+  </nav>
+  <div class="py-5" style="">
+    <div class="container" style="margin-left: 180px">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-8">
+              <form class="form-inline" action="/hasil-search/" method="POST">
+                <div class="input-group">
+                  
+                    <input type="text" name="search" class="form-control" placeholder="Cari Anime">
+                    <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary" type="button">Cari Anime</button>
+                  </div>
+                  
+                  
+                </div>
+              </form>
+            </div>
+            <div class="col-md-4">
+              <a class="btn btn-primary" href="/episode_anime/updateEpisode" style="margin-left: 83px">Update Episode</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="align-self-center col-md-2" style="margin-top: 10px;margin-right:10px" >
+          <a href="/tambah-anime" style="text-decoration: none;"><i class="d-block  fa fa-5x fa-plus-circle text-success text-center text-uppercase"></i></a>
+          <h3 class="text-center">Tambah Anime</h3>
+        </div>
+        <%
+          _.each(search,function(animes){%>
+            <div class="align-self-center col-md-2 border" style="margin-top: 10px;margin-right:10px;background-color: white;">
+              <a href="/edit-anime/<%=animes.id%>"></a><img class="img-fluid d-block img-thumbnail" style="width: 260px;height: 200px;padding: 10px;margin-top: 5px;" src="/images/anime/<%= animes.photo_url%>">
+              <% if(animes.nama_anime.length>10){%>
+                <h5 class="textcenter"><p><a href="/edit-anime/<%=animes.id%>"><%= (animes?animes.nama_anime.substring(0,12) : 'ada masalah') %>...</a></p></h5>
+              <%}
+                else{%>
+                  <h5 class="textcenter"><p><a href="/edit-anime/<%=animes.id%>"><%= (animes?animes.nama_anime : 'ada masalah') %></a></p></h5>
+                <%}
+              %>
+              <p class=""><%= animes.deskripsi.substring(0,50) %></p>
+            </div>
+          <%})
+        %>
+        
+        
+        
+      </div>
+     
+      <div style="margin-left: 320px;margin-top: 10px;">
+          <div class="col-md-2 ">
+              <% if (pages > 0) { %>
+                <ul class="pagination text-center">
+                    <% if (current == 1) { %>
+                        <li class="disabled page-item"><a class="page-link">First</a></li>
+                    <% } else { %>
+                        <li class="page-item"><a class="page-link" href="/data-anime/1">First</a></li>
+                    <% } %>
+                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                    <% if (i !== 1) { %>
+                        <li class="disabled page-item"><a>...</a></li>
+                    <% } %>
+                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                        <% if (i == current) { %>
+                            <li class="active page-item"><a class="page-link"><%= i %></a></li>
+                        <% } else { %>
+                            <li class="page-item"><a class="page-link" href="/data-anime/<%= i %>"><%= i %></a></li>
+                        <% } %>
+                        <% if (i == Number(current) + 4 && i < pages) { %>
+                            <li class="disabled page-link"><a>...</a></li>
+                        <% } %>
+                    <% } %>
+                    <% if (current == pages) { %>
+                        <li class="disabled page-item"><a class="page-link">Last</a></li>
+                    <% } else { %>
+                        <li class="page-item"><a class="page-link" href="/data-anime/<%= pages %>">Last</a></li>
+                    <% } %>
+                </ul>
+            <% } %>
+            
+         </div>
+
+      </div>
+          
+        
+          
+        </div>
+      
+      
+      
+    </div>
+    </div>
+    
+  </div>
+  
+  <div class="text-white bg-primary py-2">
+    
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 mt-3 text-center">
+          <p>© Copyright 2018 TugasAkhir - Aplikasi Rekomendasi Anime dengan Metode ICHM</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+</body>
+
+</html>

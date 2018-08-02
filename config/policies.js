@@ -28,6 +28,9 @@ module.exports.policies = {
 
  '*' :"flash",
   
+  admin:{
+    dataAnime : 'authAdmin'
+  },
   anime_favorit:{
     tambah:'authenticated',
     // '*' : 'authenticated'

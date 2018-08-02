@@ -4,6 +4,8 @@
 module.exports = function(req, res, ok) {
 
     // User is allowed, proceed to controller
+    
+
     if (req.session.User) {
       return ok();
     }

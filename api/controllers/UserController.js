@@ -6,13 +6,7 @@
  */
 var bcrypt = require('bcrypt')
 module.exports = {
-  add:function(req,res){
-    layout:false,
-    res.view('admin/addUser')
-  },
-
   
-
   userProfile: function (req, res, next) {
     User.findOne(req.param('id')).populateAll().exec(function (err, user) {
       if (err) {

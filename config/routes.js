@@ -118,6 +118,24 @@ module.exports.routes = {
   action: "editProfile",
 },
 
+//routes admin
+'POST /hasil-search/':{
+  controller:"admin",
+  action:"search"
+} ,
+'GET /login-admin':{
+  controller:'admin',
+  action:'login'
+},
+'GET /data-anime/:page':{
+  controller:'admin',
+  action:'dataAnime'
+},
+'GET /tambah-anime':{
+  controller:'admin',
+  action:'addAnime'
+},
+
   //routes mobile
   'POST /masuk':{
     controller :'AuthMobile',

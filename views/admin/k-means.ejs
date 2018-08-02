@@ -1,0 +1,40 @@
+<table>
+    <tr>
+        <th>No</th>
+        <th>ID</th>
+        <th>Nama Anime</th>
+        <th>C1</th>
+        <th>C2</th>
+        <th>C3</th>
+        <th>Anggota</th>
+        
+
+    </tr>
+    <%
+        for(var i=0;i<rekomendasi.length;i++){%>
+            <tr>
+                <td><%= i+1 %></td>
+                <td><%= rekomendasi[i].id_anime %></td>
+                <td><%= rekomendasi[i].nama_anime %></td>
+                <td><%= c1[i].nilai %></td>
+                <td><%= c2[i].nilai %></td>
+                <td><%= c3[i].nilai %></td>
+                <%
+                    if(c1[i].nilai < c2[i].nilai && c1[i].nilai < c3[i].nilai){%>
+                        <td>C1</td>
+                    <%}
+                    else if(c2[i].nilai < c1[i].nilai && c2[i].nilai < c3[i].nilai){%>
+                        <td>C2</td>
+                    <%}
+                    else{%>
+                        <td>C3</td>
+                    <%}
+                %>
+                
+                
+            </tr> 
+        <% }
+    %>
+    
+    
+</table>
