@@ -1,0 +1,41 @@
+<form action="/anggotaClustering/anggota" method="POST">
+    <select name="cluster" id="">
+        <option value="0">-- Pilih Anggota --</option>
+        <option value="1">Anggota 1</option>
+        <option value="2">Anggota 2</option>
+        <option value="3">Anggota 3</option>
+    </select>
+    <input type="submit"> cek
+</form>
+
+<table>
+    <tr>
+        <th>No</th>
+        <th>Id</th>
+        <th>Photo Url</th>
+        <th>Nama Anime</th>
+        <th>Anggota</th>
+        
+    </tr>
+
+<%
+    if(anggota.length==0){%>
+        <p>Pilih Cluster Terlebih dahulu</p>
+    <%}
+    else{
+        for(var i=0;i<anggota.length;i++){%>
+            <tr>
+                <th><%= i %></th>
+                <th><%= anggota[i].id_anime %></th>
+                <th><%= anggota[i].photo_url %></th>
+                <th><%= anggota[i].nama_anime %></th>
+                <th><%= anggotac %></th>
+                
+            </tr>
+        <%}
+    }
+
+    
+%>
+</table>
+

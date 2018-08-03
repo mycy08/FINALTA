@@ -1,0 +1,29 @@
+<table>
+        <tr>
+                <th>POS</th>
+            <% 
+                 
+                for(var i=0;i<200;i++){%>
+                        <th>Anime<%= i+1 %></th> 
+                <%}
+            %>
+            
+        </tr>
+        <%
+            
+            var i=0
+            var k = 1
+            while(i<simi.length){%>
+            <tr>
+                <th>Anime<%= k %></th>
+                <% for(var j=0;j<200;j++){%>
+                      <td><%= simi[i] %></td>
+                      <%  i++    
+                }%>
+            </tr>
+            <%k++
+            }
+        %>
+        
+        
+    </table>

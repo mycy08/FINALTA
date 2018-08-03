@@ -42,7 +42,7 @@
           <h1 class="mb-2 mt-2 text-center text-black">
             <%= anime.nama_anime %>
           </h1>
-          <img class="d-block mb-4 img-thumbnail" style="width: 440px;height: 530px;"  src="/images/anime/<%= anime.photo_url %>">
+          <img class="d-block mb-4 img-thumbnail" style="width: 440px;height: 530px;" src="/images/anime/<%= anime.photo_url %>">
           <form action="/anime_favorit/tambah" method="POST">
             <input type="hidden" name="id_anime" value="<%= anime.id %>">
             <%
@@ -99,12 +99,12 @@
                     </td>
                   </tr>
                   <tr>
-                      <td>Score</td>
-                      <td>:</td>
-                      <td>
-                        <%= anime.score %>
-                      </td>
-                    </tr>
+                    <td>Score</td>
+                    <td>:</td>
+                    <td>
+                      <%= anime.score %>
+                    </td>
+                  </tr>
                   <tr>
                     <td>Tahun Terbit</td>
                     <td>:</td>
@@ -117,170 +117,178 @@
             </div>
 
             <p id="episodeSingkat">
-                <div class="col-md-12">
-                    <div class="card" >
-                        <div class="card-header"> Tonton </div>
-                        <div class="card-body">
-                            <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th class="textcenter">Judul</th>
-                                    <th class="textcenter">Episode</th>
-              
-                                    <th colspan="2" class="textcenter">Tonton</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <%  _.each(anime.episodes.sort(function(a, b){return b.episode - a.episode}).slice(0,2)  ,function(episode){ %>
-                                    <tr>
-                                      <td class="textcenter">
-                                        <%= anime.nama_anime %> Episode
-                                          <%= episode.episode %>
-                                      </td>
-                                      <td class="textcenter">
-                                        <%= episode.episode %>
-                                      </td>
-                                      <% 
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header"> Subtitle </div>
+                  <div class="card-body">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th class="textcenter">Judul</th>
+                          <th class="textcenter">Episode</th>
+
+                          <th colspan="2" class="textcenter">Tonton</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <%  
+                                  if(anime.episodes.length==0){%>
+                          <p>Anime Belum Update</p>
+                          <%}
+                                  _.each(anime.episodes.sort(function(a, b){return b.episode - a.episode}).slice(0,2)  ,function(episode){ %>
+                            <tr>
+                              <td class="textcenter">
+                                <%= anime.nama_anime %> Episode
+                                  <%= episode.episode %>
+                              </td>
+                              <td class="textcenter">
+                                <%= episode.episode %>
+                              </td>
+                              <% 
                                                 if(episode.url_versi_english){%>
+                                <td>
+                                  <button type="submit" class="btn btn-warnahijau" onclick="window.open('<%= episode.url_versi_english %>')">English</button>
+                                </td>
+                                <%}
+                                                else{%>
+                                  <td>
+                                    <a href="#" class="h">
+                                      <button type="submit" class="btn btn-warnamerah">English</button>
+                                    </a>
+                                  </td>
+                                  <%}
+                                              %>
+                                    <% 
+                                                if(episode.url_versi_indo){%>
+                                      <td>
+                                        <button type="submit" class="btn btn-warnahijau" onclick="window.open('<%= episode.url_versi_indo %>')">Indonesia</button>
+                                      </td>
+                                      <%}
+                                                else{%>
                                         <td>
-                                          <button type="submit" class="btn btn-warnahijau" onclick="window.open('<%= episode.url_versi_english %>')">English</button>
+                                          <a href="#" class="h">
+                                            <button type="submit" class="btn btn-warnamerah">Indonesia</button>
+                                          </a>
                                         </td>
                                         <%}
-                                                else{%>
-                                          <td>
-                                            <a href="#" class="h">
-                                              <button type="submit" class="btn btn-warnamerah">English</button>
-                                            </a>
-                                          </td>
-                                          <%}
                                               %>
-                                            <% 
-                                                if(episode.url_versi_indo){%>
-                                              <td>
-                                                <button type="submit" class="btn btn-warnahijau" onclick="window.open('<%= episode.url_versi_indo %>')">Indonesia</button>
-                                              </td>
-                                              <%}
-                                                else{%>
-                                                <td>
-                                                  <a href="#" class="h">
-                                                    <button type="submit" class="btn btn-warnamerah">Indonesia</button>
-                                                  </a>
-                                                </td>
-                                                <%}
-                                              %>
-              
-              
-                                    </tr>
-                                    <%})%>
-              
-                                </tbody>
-                              </table>
-                              <button type="submit" class="btn btn-warnabiru" onclick="tampil()">Lihat Semua Episode</button>
-                            </div>
-                        </div>
-                  
-              </p>
+
+
+                            </tr>
+                            <%})%>
+
+                      </tbody>
+                    </table>
+                    <button type="submit" class="btn btn-warnabiru" onclick="tampil()">Lihat Semua Episode</button>
+                  </div>
+                </div>
+
+            </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div id="lihatEpisode" style="display: none">
+    <div id="lihatEpisode" style="display: none">
+      <div class="py-2 text-center background-hitam">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h1 class="mb-2 text-white">Semua Episode</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-4 ">
+        <div class="container cardsview">
+          <div class="row">
+            <div class="col-md-12 p-4">
+              <table class="table" id="epis">
+                <thead>
+                  <tr>
+                    <th class="textcenter">Judul</th>
+                    <th class="textcenter">Episode</th>
+
+                    <th colspan="2" class="textcenter">Tonton</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%  
+                if(anime.episodes.length==0){%>
+                    <p>Anime Belum Update</p>
+                    <%}
+                _.each(anime.episodes.sort(function(a, b){return b.episode - a.episode}),function(episode){ %>
+                      <tr>
+                        <td class="textcenter">
+                          <%= anime.nama_anime %> Episode
+                            <%= episode.episode %>
+                        </td>
+                        <td class="textcenter">
+                          <%= episode.episode %>
+                        </td>
+                        <% 
+                              if(episode.url_versi_english){%>
+                          <td>
+                            <button type="submit" class="btn btn-warnahijau" onclick="window.open('<%= episode.url_versi_english %>')">English</button>
+                          </td>
+                          <%}
+                              else{%>
+                            <td>
+                              <a href="#" class="h">
+                                <button type="submit" class="btn btn-warnamerah">English</button>
+                              </a>
+                            </td>
+                            <%}
+                            %>
+                              <% 
+                              if(episode.url_versi_indo){%>
+                                <td>
+                                  <button type="submit" class="btn btn-warnahijau" onclick="window.open('<%= episode.url_versi_indo %>')">Indonesia</button>
+                                </td>
+                                <%}
+                              else{%>
+                                  <td>
+                                    <a href="#" class="h">
+                                      <button type="submit" class="btn btn-warnamerah">Indonesia</button>
+                                    </a>
+                                  </td>
+                                  <%}
+                            %>
+
+
+                      </tr>
+                      <%})%>
+
+                </tbody>
+              </table>
+              <button type="submit" class="btn btn-warnabiru" onclick="tampil()">Tutup Episode</button>
+            </div>
+
+
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
     <div class="py-2 text-center background-hitam">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-            <h1 class="mb-2 text-white">Semua Episode</h1>
+            <h1 class="mb-2 text-white">Rating Anime</h1>
           </div>
         </div>
       </div>
     </div>
-    <div class="mb-4 ">
+    <div class="mb-2 ">
       <div class="container cardsview">
         <div class="row">
-          <div class="col-md-12 p-4">
-            <table class="table" id="epis">
-              <thead>
-                <tr>
-                  <th class="textcenter">Judul</th>
-                  <th class="textcenter">Episode</th>
-
-                  <th colspan="2" class="textcenter">Tonton</th>
-                </tr>
-              </thead>
-              <tbody>
-                <%  _.each(anime.episodes.sort(function(a, b){return b.episode - a.episode}),function(episode){ %>
-                  <tr>
-                    <td class="textcenter">
-                      <%= anime.nama_anime %> Episode
-                        <%= episode.episode %>
-                    </td>
-                    <td class="textcenter">
-                      <%= episode.episode %>
-                    </td>
-                    <% 
-                              if(episode.url_versi_english){%>
-                      <td>
-                        <button type="submit" class="btn btn-warnahijau" onclick="window.open('<%= episode.url_versi_english %>')">English</button>
-                      </td>
-                      <%}
-                              else{%>
-                        <td>
-                          <a href="#" class="h">
-                            <button type="submit" class="btn btn-warnamerah">English</button>
-                          </a>
-                        </td>
-                        <%}
-                            %>
-                          <% 
-                              if(episode.url_versi_indo){%>
-                            <td>
-                              <button type="submit" class="btn btn-warnahijau" onclick="window.open('<%= episode.url_versi_indo %>')">Indonesia</button>
-                            </td>
-                            <%}
-                              else{%>
-                              <td>
-                                <a href="#" class="h">
-                                  <button type="submit" class="btn btn-warnamerah">Indonesia</button>
-                                </a>
-                              </td>
-                              <%}
-                            %>
-
-
-                  </tr>
-                  <%})%>
-
-              </tbody>
-            </table>
-            <button type="submit" class="btn btn-warnabiru" onclick="tampil()">Tutup Episode</button>
-          </div>
-
-
-        </div>
-
-
-
-      </div>
-    </div>
-  </div>
-  <div class="py-2 text-center background-hitam">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h1 class="mb-2 text-white">Rating Anime</h1>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="mb-2 ">
-    <div class="container cardsview">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="row">
-            <div class="col-md-5">
-              <div class="col-md-10 m-5 py-5">
-                <% 
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="col-md-10 m-5 py-5">
+                  <% 
                   var jumlahRating,
                       bintang,
                       persenBintang5=0,
@@ -299,8 +307,63 @@
                       t_score9=0,
                       t_score10=0,
                       score =0
-                      
-                  _.each(anime.userStrings,function(cariRating){
+
+                      if(anime.userStrings.length==0){%>
+                    <h1 class="">
+                        0 Dari 10</h1>
+                      <h6 class="">Banyak Ulasan
+                        <%= anime.userStrings.length %> Orang</h6>
+
+                </div>
+              </div>
+              <div class="col-md-5  mt-3">
+
+
+
+                <h5 class="mb-1">Bintang 5</h5>
+                <h6>Banyak Rating
+                  <%= t_score10%>
+                </h6>
+                <div class="progress mb-1">
+                  <div class="progress-bar progress-bar-striped" role="progressbar" style="width: <%= persenBintang5 %>%">
+                    <%= persenBintang5.toFixed(0)%> %</div>
+                </div>
+                <h5 class="mb-1">Bintang 4</h5>
+                <h6>Banyak Rating
+                  <%= t_score9+t_score8%>
+                </h6>
+                <div class="progress mb-1">
+                  <div class="progress-bar progress-bar-striped" role="progressbar" style="width:<%= persenBintang4 %>%">
+                    <%= persenBintang4.toFixed(0) %> %</div>
+                </div>
+                <h5 class="mb-1">Bintang 3</h5>
+                <h6>Banyak Rating
+                  <%= t_score7+t_score6%>
+                </h6>
+                <div class="progress mb-1">
+                  <div class="progress-bar progress-bar-striped" role="progressbar" style="width: <%= persenBintang3 %>%">
+                    <%= persenBintang3.toFixed(0) %> %</div>
+                </div>
+                <h5 class="mb-1">Bintang 2</h5>
+                <h6>Banyak Rating
+                  <%= t_score5+t_score4%>
+                </h6>
+                <div class="progress mb-1">
+                  <div class="progress-bar progress-bar-striped" role="progressbar" style="width: <%= persenBintang2 %>%">
+                    <%= persenBintang2.toFixed(0) %> %</div>
+                </div>
+                <h5 class="mb-1">Bintang 1</h5>
+                <h6>Banyak Rating
+                  <%= t_score3+t_score2+t_score1%>
+                </h6>
+                <div class="progress mb-1">
+                  <div class="progress-bar progress-bar-striped" role="progressbar" style="width: <%= persenBintang1 %>%">
+                    <%= persenBintang1.toFixed(0) %> %</div>
+                </div>
+              </div>
+              <%}
+                   else{
+                    _.each(anime.userStrings,function(cariRating){
                       if(cariRating.score==10){
                         t_score10 =t_score10+1
                         score =score+10
@@ -358,62 +421,64 @@
                       
                       
                 %>
-                  <h1 class="">
-                    <%= ratingAkhir.toFixed(2) %> Dari 10</h1>
-                  <h6 class="">Banyak Ulasan
-                    <%= anime.userStrings.length %> Orang</h6>
+                <h1 class="">
+                  <%= ratingAkhir.toFixed(2) %> Dari 10</h1>
+                <h6 class="">Banyak Ulasan
+                  <%= anime.userStrings.length %> Orang</h6>
 
-              </div>
-            </div>
-            <div class="col-md-5  mt-3">
-
-
-
-              <h5 class="mb-1">Bintang 5</h5>
-              <h6>Banyak Rating
-                <%= t_score10%>
-              </h6>
-              <div class="progress mb-1">
-                <div class="progress-bar progress-bar-striped" role="progressbar" style="width: <%= persenBintang5 %>%">
-                  <%= persenBintang5.toFixed(0)%> %</div>
-              </div>
-              <h5 class="mb-1">Bintang 4</h5>
-              <h6>Banyak Rating
-                <%= t_score9+t_score8%>
-              </h6>
-              <div class="progress mb-1">
-                <div class="progress-bar progress-bar-striped" role="progressbar" style="width:<%= persenBintang4 %>%">
-                  <%= persenBintang4.toFixed(0) %> %</div>
-              </div>
-              <h5 class="mb-1">Bintang 3</h5>
-              <h6>Banyak Rating
-                <%= t_score7+t_score6%>
-              </h6>
-              <div class="progress mb-1">
-                <div class="progress-bar progress-bar-striped" role="progressbar" style="width: <%= persenBintang3 %>%">
-                  <%= persenBintang3.toFixed(0) %> %</div>
-              </div>
-              <h5 class="mb-1">Bintang 2</h5>
-              <h6>Banyak Rating
-                <%= t_score5+t_score4%>
-              </h6>
-              <div class="progress mb-1">
-                <div class="progress-bar progress-bar-striped" role="progressbar" style="width: <%= persenBintang2 %>%">
-                  <%= persenBintang2.toFixed(0) %> %</div>
-              </div>
-              <h5 class="mb-1">Bintang 1</h5>
-              <h6>Banyak Rating
-                <%= t_score3+t_score2+t_score1%>
-              </h6>
-              <div class="progress mb-1">
-                <div class="progress-bar progress-bar-striped" role="progressbar" style="width: <%= persenBintang1 %>%">
-                  <%= persenBintang1.toFixed(0) %> %</div>
-              </div>
             </div>
           </div>
+          <div class="col-md-5  mt-3">
+
+
+
+            <h5 class="mb-1">Bintang 5</h5>
+            <h6>Banyak Rating
+              <%= t_score10%>
+            </h6>
+            <div class="progress mb-1">
+              <div class="progress-bar progress-bar-striped" role="progressbar" style="width: <%= persenBintang5 %>%">
+                <%= persenBintang5.toFixed(0)%> %</div>
+            </div>
+            <h5 class="mb-1">Bintang 4</h5>
+            <h6>Banyak Rating
+              <%= t_score9+t_score8%>
+            </h6>
+            <div class="progress mb-1">
+              <div class="progress-bar progress-bar-striped" role="progressbar" style="width:<%= persenBintang4 %>%">
+                <%= persenBintang4.toFixed(0) %> %</div>
+            </div>
+            <h5 class="mb-1">Bintang 3</h5>
+            <h6>Banyak Rating
+              <%= t_score7+t_score6%>
+            </h6>
+            <div class="progress mb-1">
+              <div class="progress-bar progress-bar-striped" role="progressbar" style="width: <%= persenBintang3 %>%">
+                <%= persenBintang3.toFixed(0) %> %</div>
+            </div>
+            <h5 class="mb-1">Bintang 2</h5>
+            <h6>Banyak Rating
+              <%= t_score5+t_score4%>
+            </h6>
+            <div class="progress mb-1">
+              <div class="progress-bar progress-bar-striped" role="progressbar" style="width: <%= persenBintang2 %>%">
+                <%= persenBintang2.toFixed(0) %> %</div>
+            </div>
+            <h5 class="mb-1">Bintang 1</h5>
+            <h6>Banyak Rating
+              <%= t_score3+t_score2+t_score1%>
+            </h6>
+            <div class="progress mb-1">
+              <div class="progress-bar progress-bar-striped" role="progressbar" style="width: <%= persenBintang1 %>%">
+                <%= persenBintang1.toFixed(0) %> %</div>
+            </div>
+          </div>
+                   <%}%>   
+                
         </div>
       </div>
     </div>
+  </div>
   </div>
   <div class="py-2 text-center background-hitam">
     <div class="container">
@@ -428,29 +493,33 @@
     <div class="container cardsview">
       <div class="row">
         <div class="col-md-12 p-4">
-          <%  _.each(anime.userStrings.sort(function(a, b){return b.updatedAt - a.updatedAt}).slice(0,3),function(user){ %>
+          <%  
+          if(anime.userStrings.length==0){%>
+            <p>Jadilah yang pertama mereview Anime ini !!</p>
+            <%}
+          _.each(anime.userStrings.sort(function(a, b){return b.updatedAt - a.updatedAt}).slice(0,3),function(user){ %>
 
 
-            <div class="row  border py-2 mb-2">
-              <div class="col-sm-2 text-center">
-                <% if(user.photo_url) {%>
-                  <a href="/profile/<%= user.id %>">
-                    <img class="d-block img-fluid mb-2" src="/images/user/<%= user.photo_url %>"> </a>
-                  <%}
-                else{ %>
+              <div class="row  border py-2 mb-2">
+                <div class="col-sm-2 text-center">
+                  <% if(user.photo_url) {%>
                     <a href="/profile/<%= user.id %>">
-                      <img class="d-block img-fluid mb-2" src="/images/user/default.png"> </a>
-                    <%}%>
+                      <img class="d-block img-fluid mb-2" src="/images/user/<%= user.photo_url %>"> </a>
+                    <%}
+                else{ %>
+                      <a href="/profile/<%= user.id %>">
+                        <img class="d-block img-fluid mb-2" src="/images/user/default.png"> </a>
+                      <%}%>
 
-              </div>
-              <div class="col-sm-9">
-                <h3>
-                  <a href="/profile/<%= user.id %>">
-                    <%= user.nama %>
-                  </a>
-                </h3>
-                <div>
-                  <%
+                </div>
+                <div class="col-sm-9">
+                  <h3>
+                    <a href="/profile/<%= user.id %>">
+                      <%= user.nama %>
+                    </a>
+                  </h3>
+                  <div>
+                    <%
                         var mod = user.score % 2 ;
                         if(mod==0){
                           var bintang = user.score / 2;
@@ -461,8 +530,8 @@
   
                       for(var i=0;i<bintang;i++){
                       %>
-                    <span class="fa fa-star colorbintang"></span>
-                    <%}
+                      <span class="fa fa-star colorbintang"></span>
+                      <%}
                       if(bintang==1){
                         var btg_hitam=4
                       }
@@ -480,23 +549,23 @@
                       }
                       for(var k=0;k<btg_hitam;k++){
                           %>
-                      <span class="fa fa-star"></span>
-                      <%}  
+                        <span class="fa fa-star"></span>
+                        <%}  
                       %>
 
-                </div>
-                <% if(user.review){%>
-                  <p class="">
-                    <%= user.review %>
-                  </p>
-                  <%}
+                  </div>
+                  <% if(user.review){%>
+                    <p class="">
+                      <%= user.review %>
+                    </p>
+                    <%}
                     else{%>
-                    <p></p>
-                    <%}%>
+                      <p></p>
+                      <%}%>
 
+                </div>
               </div>
-            </div>
-            <%})%>
+              <%})%>
         </div>
       </div>
       <div class="col-md-12 riviewslink">
@@ -519,29 +588,34 @@
     <div class="container cardsview">
       <div class="row">
         <div class="col-md-12 p-4">
-          <%  _.each(anime.userStrings.sort(function(a, b){return b.createdAt - a.createdAt}),function(user){ %>
+
+          <%  
+            if(anime.userStrings.length==0){%>
+            <p>Jadilah yang pertama mereview Anime ini !!</p>
+            <%}
+          _.each(anime.userStrings.sort(function(a, b){return b.createdAt - a.createdAt}),function(user){ %>
 
 
-            <div class="row  border py-2 mb-2">
-              <div class="col-sm-2 text-center">
-                <% if(user.photo_url) {%>
-                  <a href="/profile/<%= user.id %>">
-                    <img class="d-block img-fluid mb-2" src="/images/user/<%= user.photo_url %>"> </a>
-                  <%}
-                else{ %>
+              <div class="row  border py-2 mb-2">
+                <div class="col-sm-2 text-center">
+                  <% if(user.photo_url) {%>
                     <a href="/profile/<%= user.id %>">
-                      <img class="d-block img-fluid mb-2" src="/images/user/default.png"> </a>
-                    <%}%>
+                      <img class="d-block img-fluid mb-2" src="/images/user/<%= user.photo_url %>"> </a>
+                    <%}
+                else{ %>
+                      <a href="/profile/<%= user.id %>">
+                        <img class="d-block img-fluid mb-2" src="/images/user/default.png"> </a>
+                      <%}%>
 
-              </div>
-              <div class="col-sm-9">
-                <h3>
-                  <a href="/profile/<%= user.id %>">
-                    <%= user.nama %>
-                  </a>
-                </h3>
-                <div>
-                  <%
+                </div>
+                <div class="col-sm-9">
+                  <h3>
+                    <a href="/profile/<%= user.id %>">
+                      <%= user.nama %>
+                    </a>
+                  </h3>
+                  <div>
+                    <%
                         var mod = user.score % 2 ;
                         if(mod==0){
                           var bintang = user.score / 2;
@@ -552,8 +626,8 @@
   
                       for(var i=0;i<bintang;i++){
                       %>
-                    <span class="fa fa-star colorbintang"></span>
-                    <%}
+                      <span class="fa fa-star colorbintang"></span>
+                      <%}
                       if(bintang==1){
                         var btg_hitam=4
                       }
@@ -571,23 +645,23 @@
                       }
                       for(var k=0;k<btg_hitam;k++){
                           %>
-                      <span class="fa fa-star"></span>
-                      <%}  
+                        <span class="fa fa-star"></span>
+                        <%}  
                       %>
 
-                </div>
-                <% if(user.review){%>
-                  <p class="">
-                    <%= user.review %>
-                  </p>
-                  <%}
+                  </div>
+                  <% if(user.review){%>
+                    <p class="">
+                      <%= user.review %>
+                    </p>
+                    <%}
                     else{%>
-                    <p></p>
-                    <%}%>
+                      <p></p>
+                      <%}%>
 
+                </div>
               </div>
-            </div>
-            <%})%>
+              <%})%>
         </div>
       </div>
       <div class="col-md-12 riviewslink">

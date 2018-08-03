@@ -135,6 +135,10 @@ module.exports.routes = {
   controller:'admin',
   action:'addAnime'
 },
+'GET /edit-anime/:id':{
+  controller:'admin',
+  action:'editAnime'
+},
 
   //routes mobile
   'POST /masuk':{

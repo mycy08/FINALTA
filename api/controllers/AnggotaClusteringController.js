@@ -1,17 +1,15 @@
 /**
- * KmeansController
+ * AnggotaClusteringController
  *
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
-var Promise = require('bluebird');
+
 module.exports = {
-    add:function(req,res){
-        res.view('admin/k-means',{
-            layout:false
-        })
-    },
-    kmeans: function (req, res) {
+    
+    anggota: function (req, res) {
+        
+
         Rekomendasi.native(function (err, collection) {
             if (err) return res.serverError(err);
 
@@ -939,33 +937,46 @@ module.exports = {
                     }
                     iterasi++
                 }
-
-                
-                
-    
-                
-                
-                
-    
-                
-                
-                
-                res.view("admin/algoritma/k-means",{
-                    c1:c1,
-                    c2:c2,
-                    c3:c3,
-                    anggotac1:anggotac1,
-                    anggotac2:anggotac2,
-                    anggotac3:anggotac3,
-                    layout:false,
-                    rekomendasi:rekomendasi
-                })      
-            
+                console.log(anggotac1.length)
+                console.log(anggotac2.length)
+                console.log(anggotac3.length)
+                if(req.param('cluster')==1){
+                    res.view("admin/algoritma/anggota",{
+                        anggota:anggotac1,
+                        anggotac:"c1",
+                        
+                        layout:false,
+                        
+                    }) 
+                }
+                else if(req.param('cluster')==2){
+                    res.view("admin/algoritma/anggota",{
+                        anggota:anggotac2,
+                        anggotac:"c2",
+                        layout:false,
+                        
+                    }) 
+                }
+                else if(req.param('cluster')==3){
+                    res.view("admin/algoritma/anggota",{
+                        anggota:anggotac3,
+                        anggotac:"c3",
+                        layout:false,
+                        
+                    })  
+                }
+                else{
+                    res.view("admin/algoritma/anggota",{
+                        anggota:"",
+                        layout:false,
+                        
+                    })  
+                }
+                     
             })
 
         })
-    },
-    
-    
+    } 
+
 };
 

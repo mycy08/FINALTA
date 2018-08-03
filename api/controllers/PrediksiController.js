@@ -1,20 +1,16 @@
 /**
- * KmeansController
+ * PrediksiController
  *
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
-var Promise = require('bluebird');
+
 module.exports = {
-    add:function(req,res){
-        res.view('admin/k-means',{
-            layout:false
-        })
-    },
-    kmeans: function (req, res) {
+  
+    prediksi:function(req,res){
         Rekomendasi.native(function (err, collection) {
             if (err) return res.serverError(err);
-
+    
             collection.find({}, {
                 id_anime: true,
                 nama_anime: true,
@@ -45,7 +41,6 @@ module.exports = {
                 magic: true,
                 photo_url: true
             }).toArray(function (err, rekomendasi) {
-                // console.log(rekomendasi)
                 if (err) return res.serverError(err);
                 var iterasi = 0
                 var cluster = []
@@ -74,15 +69,15 @@ module.exports = {
                 var nhoror = 0
                 var nmartialarts = 0
                 var nmagic = 0
-
-
+    
+    
                 var c1 = []
                 var c2 = []
                 var c3 = []
                 var c1New = []
                 var c2New = []
                 var c3New = []
-
+    
                 var sentroid = []
                 var sentroid1 = []
                 var sentroid2 = []
@@ -95,9 +90,9 @@ module.exports = {
                 var anggotac3New = []
                 var jarak_terpendek = []
                 for (var i = 0; i < 3; i++) {
-                    // var rand = Math.floor(Math.random() * 200);
+                    var rand = Math.floor(Math.random() * 200);
                     cluster.push(rekomendasi[i+10])
-
+    
                 }
                 for (var j = 0; j < rekomendasi.length; j++) {
                     nilai = Math.sqrt((parseInt(rekomendasi[j].action - cluster[0].action) ^ 2)
@@ -158,7 +153,7 @@ module.exports = {
                         nilai: nilai
                     }
                     )
-
+    
                 }
                 for (var j = 0; j < rekomendasi.length; j++) {
                     nilai = Math.sqrt((
@@ -219,7 +214,7 @@ module.exports = {
                         magic: rekomendasi[j].magic,
                         nilai: nilai
                     })
-
+    
                 }
                 for (var j = 0; j < rekomendasi.length; j++) {
                     nilai = Math.sqrt((
@@ -280,10 +275,10 @@ module.exports = {
                         magic: rekomendasi[j].magic,
                         nilai: nilai
                     })
-
+    
                 }
                 for (var i = 0; i < c1.length; i++) {
-
+    
                     if (c1[i].nilai < c2[i].nilai && c1[i].nilai < c3[i].nilai) {
                         naction = parseInt(naction) + parseInt(c1[i].action)
                         nadventure = parseInt(nadventure) + parseInt(c1[i].adventure)
@@ -310,9 +305,9 @@ module.exports = {
                         nhoror = parseInt(nhoror) + parseInt(c1[i].horor)
                         nmartialarts = parseInt(nmartialarts) + parseInt(c1[i].martialarts)
                         nmagic = parseInt(nmagic) + parseInt(c1[i].magic)
-
-
-
+    
+    
+    
                         anggotac1.push({
                             id_anime: c1[i].id_anime,
                             nama_anime: c1[i].nama_anime,
@@ -343,8 +338,8 @@ module.exports = {
                             nmartialarts: nmartialarts,
                             nmagic: nmagic,
                             nilai: c1[i].nilai
-
-
+    
+    
                         }
                         )
                     }
@@ -374,7 +369,7 @@ module.exports = {
                         nhoror = parseInt(nhoror) + parseInt(c2[i].horor)
                         nmartialarts = parseInt(nmartialarts) + parseInt(c2[i].martialarts)
                         nmagic = parseInt(nmagic) + parseInt(c2[i].magic)
-
+    
                         anggotac2.push({
                             id_anime: c2[i].id_anime,
                             nama_anime: c2[i].nama_anime,
@@ -405,7 +400,7 @@ module.exports = {
                             nmartialarts: nmartialarts,
                             nmagic: nmagic,
                             nilai: c2[i].nilai
-
+    
                         })
                     }
                     else {
@@ -434,7 +429,7 @@ module.exports = {
                         nhoror = parseInt(nhoror) + parseInt(c3[i].horor)
                         nmartialarts = parseInt(nmartialarts) + parseInt(c3[i].martialarts)
                         nmagic = parseInt(nmagic) + parseInt(c3[i].magic)
-
+    
                         anggotac3.push({
                             id_anime: c3[i].id_anime,
                             nama_anime: c3[i].nama_anime,
@@ -496,7 +491,7 @@ module.exports = {
                         horor: parseInt(nhoror) / anggotac1.length,
                         martialarts: parseInt(nmartialarts) / anggotac1.length,
                         magic: parseInt(nmagic) / anggotac1.length,
-
+    
                     })
                     sentroid2.push({
                         id_anime: cluster[0].id_anime,
@@ -525,8 +520,8 @@ module.exports = {
                         horor: parseInt(nhoror) / anggotac2.length,
                         martialarts: parseInt(nmartialarts) / anggotac2.length,
                         magic: parseInt(nmagic) / anggotac2.length,
-
-
+    
+    
                     })
                     sentroid3.push({
                         id_anime: cluster[0].id_anime,
@@ -555,15 +550,15 @@ module.exports = {
                         horor: parseInt(nhoror) / anggotac3.length,
                         martialarts: parseInt(nmartialarts) / anggotac3.length,
                         magic: parseInt(nmagic) / anggotac3.length,
-
-
+    
+    
                     })
                     sentroid.push(
                         sentroid1,
                         sentroid2,
                         sentroid3
                     )
-
+    
                     for (var j = 0; j < rekomendasi.length; j++) {
                         nilai = Math.sqrt(
                             (parseInt(rekomendasi[j].action - sentroid[0].action) ^ 2)
@@ -591,7 +586,7 @@ module.exports = {
                             + (parseInt(rekomendasi[j].horor - sentroid[0].horor) ^ 2)
                             + (parseInt(rekomendasi[j].martialarts - sentroid[0].martialarts) ^ 2)
                             + (parseInt(rekomendasi[j].magic - sentroid[0].magic) ^ 2)
-
+    
                         )
                         c1New.push({
                             id_anime: rekomendasi[j].id_anime,
@@ -625,7 +620,7 @@ module.exports = {
                             nilai: nilai
                         }
                         )
-
+    
                     }
                     for (var j = 0; j < rekomendasi.length; j++) {
                         nilai = Math.sqrt((
@@ -654,7 +649,7 @@ module.exports = {
                             + (parseInt(rekomendasi[j].horor - sentroid[1].horor) ^ 2)
                             + (parseInt(rekomendasi[j].martialarts - sentroid[1].martialarts) ^ 2)
                             + (parseInt(rekomendasi[j].magic - sentroid[1].magic) ^ 2)
-
+    
                         ))
                         c2New.push({
                             id_anime: rekomendasi[j].id_anime,
@@ -687,7 +682,7 @@ module.exports = {
                             magic: rekomendasi[j].magic,
                             nilai: nilai
                         })
-
+    
                     }
                     for (var j = 0; j < rekomendasi.length; j++) {
                         nilai = Math.sqrt((
@@ -716,7 +711,7 @@ module.exports = {
                             + (parseInt(rekomendasi[j].horor - sentroid[2].horor) ^ 2)
                             + (parseInt(rekomendasi[j].martialarts - sentroid[2].martialarts) ^ 2)
                             + (parseInt(rekomendasi[j].magic - sentroid[2].magic) ^ 2)
-
+    
                         ))
                         c3New.push({
                             id_anime: rekomendasi[j].id_anime,
@@ -749,10 +744,10 @@ module.exports = {
                             magic: rekomendasi[j].magic,
                             nilai: nilai
                         })
-
+    
                     }
                     for (var i = 0; i < c1.length; i++) {
-
+    
                         if (c1New[i].nilai < c2New[i].nilai && c1New[i].nilai < c3New[i].nilai) {
                             naction = parseInt(naction) + parseInt(c1New[i].action)
                             nadventure = parseInt(nadventure) + parseInt(c1New[i].adventure)
@@ -779,10 +774,10 @@ module.exports = {
                             nhoror = parseInt(nhoror) + parseInt(c1New[i].horor)
                             nmartialarts = parseInt(nmartialarts) + parseInt(c1New[i].martialarts)
                             nmagic = parseInt(nmagic) + parseInt(c1New[i].magic)
-
-
-
-
+    
+    
+    
+    
                             anggotac1New.push({
                                 id_anime: c1New[i].id_anime,
                                 nama_anime: c1New[i].nama_anime,
@@ -812,8 +807,8 @@ module.exports = {
                                 nhoror: nhoror,
                                 nmartialarts: nmartialarts,
                                 nmagic: nmagic,
-
-
+    
+    
                             }
                             )
                         }
@@ -843,8 +838,8 @@ module.exports = {
                             nhoror = parseInt(nhoror) + parseInt(c2New[i].horor)
                             nmartialarts = parseInt(nmartialarts) + parseInt(c2New[i].martialarts)
                             nmagic = parseInt(nmagic) + parseInt(c2New[i].magic)
-
-
+    
+    
                             anggotac2New.push({
                                 id_anime: c2New[i].id_anime,
                                 nama_anime: c2New[i].nama_anime,
@@ -874,7 +869,7 @@ module.exports = {
                                 nhoror: nhoror,
                                 nmartialarts: nmartialarts,
                                 nmagic: nmagic,
-
+    
                             })
                         }
                         else {
@@ -903,8 +898,8 @@ module.exports = {
                             nhoror = parseInt(nhoror) + parseInt(c3New[i].horor)
                             nmartialarts = parseInt(nmartialarts) + parseInt(c3New[i].martialarts)
                             nmagic = parseInt(nmagic) + parseInt(c3New[i].magic)
-
-
+    
+    
                             anggotac3New.push({
                                 id_anime: c3New[i].id_anime,
                                 nama_anime: c3New[i].nama_anime,
@@ -939,33 +934,248 @@ module.exports = {
                     }
                     iterasi++
                 }
+    
+                var sum = 0
+                var sum1 = 0
+                var sum2 = 0
+                var c1Max = []
+                var c2Max = []
+                var c3Max = []
+                var prob1 = []
+                var prob2 = []
+                var prob3 = []
+                for (var i = 0; i < c1.length; i++) {
+    
+                    c1Max.push(c1[i].nilai)
+                }
+                for (var i = 0; i < c2.length; i++) {
+    
+                    c2Max.push(c2[i].nilai)
+                }
+                for (var i = 0; i < c2.length; i++) {
+    
+                    c3Max.push(c3[i].nilai)
+                }
+                var max1 = Math.max.apply(Math, c1Max)
+                var max2 = Math.max.apply(Math, c2Max)
+                var max3 = Math.max.apply(Math, c3Max)
+                
+                for (var i = 0; i < c1.length; i++) {
+                    
+                    prob1.push(
+                        1 - (c1[i].nilai / max1)
+                    )
+    
+                }
+                for (var i = 0; i < c2.length; i++) {
+                    prob2.push(
+                        1 - (c2[i].nilai / max2)
+                    )
+                }
+                for (var i = 0; i < c3.length; i++) {
+                    prob3.push(
+                        1 - (c3[i].nilai / max3)
+                    )
+                }
+    
+                for (var i = 0; i < c1.length; i++) {
+                    sum = parseFloat(sum) + parseFloat(prob1[i])
+                }
+                for (var i = 0; i < c2.length; i++) {
+                    sum1 = parseFloat(sum1) + parseFloat(prob2[i])
+                }
+                for (var i = 0; i < c3.length; i++) {
+                    sum2 = parseFloat(sum2) + parseFloat(prob3[i])
+                }
+                var rataC1 = parseFloat(sum) / c1.length
+                var rataC2 = parseFloat(sum1) / c2.length
+                var rataC3 = parseFloat(sum2) / c3.length
 
+                var groupRating = []
+
+                                            for (var i = 0; i < rekomendasi.length; i++) {
+                                                var hSementaraUp = 0
+                                                var hSementaraDown = 0
+                                                var hasil = 0
+                                                for (var j = 0; j < rekomendasi.length; j++) {
+
+                                                    hSementaraUp = hSementaraUp +
+                                                        ((parseFloat(c1[j].nilai - parseFloat(rataC1) * (parseFloat(c1[i].nilai) - parseFloat(rataC1))))
+                                                            + ((parseFloat(c2[j].nilai) - parseFloat(rataC2)) * (parseFloat(c2[i].nilai - parseFloat(rataC2))))
+                                                            + ((parseFloat(c3[j].nilai) - parseFloat(rataC3)) * (parseFloat(c3[i].nilai - parseFloat(rataC3))))
+                                                        )
+                                                    hSementaraDown = parseFloat(hSementaraDown)
+                                                        + Math.sqrt((Math.pow(parseFloat(c1[j].nilai) - parseFloat(rataC1), 2) +
+                                                            (Math.pow(parseFloat(c2[j].nilai) - parseFloat(rataC2), 2)) +
+                                                            (Math.pow(parseFloat(c3[j].nilai) - parseFloat(rataC3), 2))
+                                                        )) * Math.sqrt((Math.pow(parseInt(c1[i].nilai) - parseInt(rataC1), 2))
+                                                            + (Math.pow(parseFloat(c2[i].nilai) - parseFloat(rataC2), 2))
+                                                            + (Math.pow(parseFloat(c3[i].nilai) - parseFloat(rataC3), 2)))
+
+                                                    groupRating.push(parseFloat(hSementaraUp) / parseFloat(hSementaraDown))
+
+                                                }
+                    
+
+
+                    }
+                    var nativePromise = new Promise(function (resolve, reject) {
+                        Rating.native(function (err, collection) {
+
+                            if (err) return res.serverError(err);
+                            var scoreSem = [1, 3, 4, 6, 3, 1, 2, 9, 3, 1, 3, 2, 4, 6, 3, 5, 2, 9, 3, 9, 1, 3, 4, 6, 3, 10, 2, 7, 6, 3, 7, 3, 5, 7, 3, 10, 2, 9, 2, 5, 7, 4, 4, 8, 3, 1, 2, 9, 3, 8, 5, 6, 8, 1, 3, 7, 2, 7, 3, 10, 8, 9, 1, 6, 3, 1, 2, 8, 4, 10, 7, 3, 4, 6, 3, 3, 2, 6, 5, 10, 2, 3, 4, 9, 3, 1, 2, 9, 3, 1, 10, 6, 5, 7, 5, 2, 8, 9, 2, 2, 5, 7, 9, 8, 4, 5, 3, 7, 4, 10, 7, 5, 4, 6, 3, 7, 2, 7, 3, 7, 5, 8, 3, 1, 10, 5, 3, 7, 8, 9, 6, 4, 5, 7, 8, 10, 2, 9, 8, 9, 6, 3, 4, 7, 0, 8, 3, 7, 5, 4, 7, 4, 5, 9, 8, 5, 2, 9, 3, 3, 7, 3, 4, 7, 5, 1, 2, 9, 3, 9, 5, 5, 4, 3, 1, 2, 9, 3, 5, 5, 8, 4, 5, 7, 8, 10, 6, 8, 4, 10, 10, 9, 5, 4, 3, 2, 1, 1, 5, 4, 10, 5, 4, 7, 9, 6, 4, 8, 7, 6, 5, 4, 7, 8, 6, 4, 4, 3, 2, 1, 5, 3, 4, 5, 6, 7, 1, 2, 3, 9, 6, 4, 2, 1, 3, 5, 6, 3, 2, 1, 2, 3, 5, 7]
+
+                            collection.find({}, {
+                                id_anime: true,
+                                id_user: true,
+                                score: true
+
+                            }).toArray(function (err, rating) {
+
+                                if (err) return res.serverError(err);
+                                Anime.native(function (err, collection) {
+                                    if (err) return res.serverError(err);
+                                    collection.find({}, {
+                                        id_anime: true,
+                                        type:true,
+                                        nama_anime: true,
+                                        photo_url: true,
+                                        genre: true,
+                                        tahun_terbit: true,
+                                        score: true
+
+
+                                    }).toArray(function (err, anime) {
+
+                                        if (err) return res.serverError(err);
+                                        User.native(function (err, collection) {
+                                            if (err) return res.serverError(err);
+                                            collection.find({}, {
+                                                nama: true,
+
+                                            }).toArray(function (err, user) {
+                                                if (err) return res.serverError(err);
+                                                var rata2 = []
+                                                for (var i = 0; i < anime.length; i++) {
+                                                    var total = 0
+                                                    for (var j = 0; j < rating.length; j++) {
+                                                        if (anime[i]._id == rating[j].id_anime) {
+                                                            total = total + parseInt(rating[j].score)
+                                                        }
+                                                    }
+                                                    var rata = parseInt(total) / user.length
+                                                    rata2.push(rata)
+                                                }
+
+                                                var itemRating = []
+                                                                                                    
+                                                for (var i = 0; i < user.length; i++) {
+                                                    var hSup = 0
+                                                    var hSDown = 0
+                                                    for (var j = 0; j < anime.length; j++) {
+                                                        hSup = hSup + (scoreSem[j] - parseInt(rata2[j]) * (scoreSem[i] - parseInt(rata2[i])))
+                                                        hSDown = hSDown + Math.sqrt((Math.pow(scoreSem[j] - parseInt(rata2[j]), 2)) * Math.pow(scoreSem[i] - parseInt(rata2[i]), 2))
+
+                                                    }
+                                                    var hasil = parseInt(hSup) / parseInt(hSDown)
+                                                    itemRating.push(hasil)
+                                                }
+
+                                               
+                                                var c = 0.5
+                                                var simi = []
+                                                
+                                                
+
+                                                for (var i = 0; i < groupRating.length; i++) {
+                                                    j = 0
+                                                    if (j == parseInt(user.length)) {
+                                                        jsimi.push((parseFloat(itemRating[j]) * (1 - c)) + (parseFloat(groupRating[i]) * c))
+                                                        j = j - parseInt(user.length)
+                                                    }
+                                                    else {
+                                                        simi.push((parseFloat(itemRating[j]) * (1 - c)) + (parseFloat(groupRating[i]) * c))
+                                                        j++
+                                                    }
+                                                }
+
+                                                var totalRata = []
+                                                var bnyk = 0
+                                                var hsl = 0
+                                                var x = 199
+                                               
+                                                while (bnyk < simi.length ) {
+                                                    hsl = hsl + simi[bnyk]
+                                                    if (bnyk == x) {
+                                                        totalRata.push(hsl)
+                                                        hsl = 0
+                                                        x = x + 200                                          
+                                                    }
+                                                    
+                                                    bnyk++
+                                                }
+                                                var arrHasilSementara = []
+                                               
+
+                                                for (var i = 0; i < user.length; i++) {
+                                                    var hasilRateSementara = 0
+
+                                                    for (var j = 0; j < anime.length; j++) {
+                                                        hasilRateSementara = hasilRateSementara + ((parseInt(scoreSem[j]) - parseInt(rata2[j])) * simi[i])
+                                                    }
+                                                    arrHasilSementara.push(hasilRateSementara)
+                                                }
+                                                var hasilRateAkhir = []
+                                                
+                                             
+                                                for (var i = 0; i < anime.length; i++) {
+                                                    var hasilAkhir = 0
+                                                    for (var j = 0; j < user.length; j++) {
+                                                        hasilAkhir = hasilAkhir + ((scoreSem[i] + arrHasilSementara[j]) / totalRata[i])
+                                                        hasilRateAkhir.push(hasilAkhir)
+                                                        hasilAkhir = 0
+                                                    }
+                                                }
+                                                
+                                               
+                                             
+                                                User.find().exec(function(err,user){
+                                                    res.view("admin/algoritma/prediksi",{
+                                                        layout:false,
+                                                        user:user,
+                                                        hasilRateAkhir:hasilRateAkhir
+                                    
+                                                    })
+                                                })
+                                               
+                                                
+
+
+
+                                            })                                                                                                      
+                                        })
+
+                                    })
+
+                                })
+
+
+                            })
+
+                        })
+                    })    
+                
+                  
+               
                 
                 
     
-                
-                
-                
     
-                
-                
-                
-                res.view("admin/algoritma/k-means",{
-                    c1:c1,
-                    c2:c2,
-                    c3:c3,
-                    anggotac1:anggotac1,
-                    anggotac2:anggotac2,
-                    anggotac3:anggotac3,
-                    layout:false,
-                    rekomendasi:rekomendasi
-                })      
-            
+    
+    
+    
             })
-
         })
-    },
-    
-    
+    }
 };
 

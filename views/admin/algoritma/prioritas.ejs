@@ -1,0 +1,23 @@
+<table>
+    <tr>
+        <th>No</th>
+        <th>Id Anime</th>
+        <th>Nama Anime</th>
+        <th>Rata-rata</th>
+        <th>Prioritas</th>
+    </tr>
+    <% 
+        var i=1
+        _.each(prioritas.sort(function(a, b){return b.rata - a.rata}),function(prioritas){%>
+            <tr>
+                <td><%= i%></td>
+                <td><%= prioritas.id_anime %></td>
+                <td><%= prioritas.nama_anime %></td>
+                <td><%= prioritas.rata %></td>
+                <td>Prioritas <%= i %></td>
+            </tr>
+        <%
+            i++
+        })
+    %>
+</table>

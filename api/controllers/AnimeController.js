@@ -1346,30 +1346,31 @@ module.exports = {
                                                 prob1.push(
                                                     1 - (c1[i].nilai / max1)
                                                 )
+                                                
                                             }
                                             for (var i = 0; i < c2.length; i++) {
                                                 prob2.push(
-                                                    1 - (c2[i].nilai / max1)
+                                                    1 - (c2[i].nilai / max2)
                                                 )
                                             }
                                             for (var i = 0; i < c3.length; i++) {
                                                 prob3.push(
-                                                    1 - (c3[i].nilai / max1)
+                                                    1 - (c3[i].nilai / max3)
                                                 )
                                             }
 
                                             for (var i = 0; i < c1.length; i++) {
-                                                sum = parseInt(sum) + parseInt(prob1[i])
+                                                sum = parseFloat(sum) + parseFloat(prob1[i])
                                             }
                                             for (var i = 0; i < c2.length; i++) {
-                                                sum1 = parseInt(sum1) + parseInt(prob2[i])
+                                                sum1 = parseFloat(sum1) + parseFloat(prob2[i])
                                             }
                                             for (var i = 0; i < c3.length; i++) {
-                                                sum2 = parseInt(sum2) + parseInt(prob3[i])
+                                                sum2 = parseFloat(sum2) + parseFloat(prob3[i])
                                             }
-                                            var rataC1 = parseInt(sum) / c1.length
-                                            var rataC2 = parseInt(sum1) / c2.length
-                                            var rataC3 = parseInt(sum2) / c2.length
+                                            var rataC1 = parseFloat(sum) / c1.length
+                                            var rataC2 = parseFloat(sum1) / c2.length
+                                            var rataC3 = parseFloat(sum2) / c2.length
                                             var groupRating = []
 
                                             for (var i = 0; i < rekomendasi.length; i++) {
@@ -1401,7 +1402,7 @@ module.exports = {
                                                 Rating.native(function (err, collection) {
 
                                                     if (err) return res.serverError(err);
-                                                    var scoreSem = [1, 3, 4, 6, 3, 1, 2, 9, 3, 1, 3, 2, 4, 6, 3, 5, 2, 9, 3, 9, 1, 3, 4, 6, 3, 10, 2, 7, 6, 3, 7, 3, 5, 7, 3, 10, 2, 9, 2, 5, 7, 4, 4, 8, 3, 1, 2, 9, 3, 8, 5, 6, 8, 1, 3, 7, 2, 7, 3, 10, 8, 9, 1, 6, 3, 1, 2, 8, 4, 10, 7, 3, 4, 6, 3, 3, 2, 6, 5, 10, 2, 3, 4, 9, 3, 1, 2, 9, 3, 1, 10, 6, 5, 7, 5, 2, 8, 9, 2, 2, 5, 7, 9, 8, 4, 5, 3, 7, 4, 10, 7, 5, 4, 6, 3, 7, 2, 7, 3, 7, 5, 8, 3, 1, 10, 5, 3, 7, 8, 9, 6, 4, 5, 7, 8, 10, 2, 9, 8, 9, 6, 3, 4, 7, 0, 8, 3, 7, 5, 4, 7, 4, 5, 9, 8, 5, 2, 9, 3, 3, 7, 3, 4, 7, 5, 1, 2, 9, 3, 9, 5, 5, 4, 3, 1, 2, 9, 3, 5, 5, 8, 4, 5, 7, 8, 10, 6, 8, 4, 10, 10, 9, 5, 4, 3, 2, 1, 1, 5, 4, 10, 5, 4, 7, 9, 6, 4, 8, 7, 6, 5, 4, 7, 8, 6, 4, 4, 3, 2, 1, 5, 3, 4, 5, 6, 7, 1, 2, 3, 9, 6, 4, 2, 1, 3, 5, 6, 3, 2, 1, 2, 3, 5, 7]
+                                                    var scoreSem = [1, 3, 4, 6, 3, 1, 2, 9, 3, 1, 3, 2, 4, 6, 3, 5, 2, 9, 3, 9, 1, 3, 4, 6, 3, 10, 2, 7, 6, 3, 7, 3, 5, 7, 3, 10, 2, 9, 2, 5, 7, 4, 4, 8, 3, 1, 2, 9, 3, 8, 5, 6, 8, 1, 3, 7, 2, 7, 3, 10, 8, 9, 1, 6, 3, 1, 2, 8, 4, 10, 7, 3, 4, 6, 3, 3, 2, 6, 5, 10, 2, 3, 4, 9, 3, 1, 2, 9, 3, 1, 10, 6, 5, 7, 5, 2, 8, 9, 2, 2, 5, 7, 9, 8, 4, 5, 3, 7, 4, 10, 7, 5, 4, 6, 3, 7, 2, 7, 3, 7, 5, 8, 3, 1, 10, 5, 3, 7, 8, 9, 6, 4, 5, 7, 8, 10, 2, 9, 8, 9, 6, 3, 4, 7, 0, 8, 3, 7, 5, 4, 7, 4, 5, 9, 8, 5, 2, 9, 3, 3, 7, 3, 4, 7, 5, 1, 2, 9, 3, 9, 5, 5, 4, 3, 1, 2, 9, 3, 5, 5, 8, 4, 5, 7, 8, 10, 6, 8, 4, 10, 10, 9, 5, 4, 3, 2, 1, 1, 5, 4, 10, 5, 4, 7, 9, 6, 4, 8, 7, 6, 5, 4, 7, 8, 6, 4, 4, 3, 2, 1, 5, 3, 4, 5, 6, 7, 1, 2, 3, 9, 6, 4, 2, 1, 3, 5, 6, 3, 2, 1, 2, 3, 5, 7,7,8,9,5,4,2,1,2,3,4,5,6,7,8,9,6,5,3,2,1,3,5,5,2,3,4,6,7,8,9,6,4,2,1,3,1,2,3,4,5,2,1]
 
                                                     collection.find({}, {
                                                         id_anime: true,
@@ -1451,15 +1452,15 @@ module.exports = {
                                                                             var hSup = 0
                                                                             var hSDown = 0
                                                                             for (var j = 0; j < anime.length; j++) {
-                                                                                hSup = hSup + (scoreSem[j] - parseFloat(rata2[j]) * (scoreSem[i] - parseFloat(rata2[i])))
-                                                                                hSDown = hSDown + Math.sqrt((Math.pow(scoreSem[j] - parseFloat(rata2[j]), 2)) * Math.pow(scoreSem[i] - parseFloat(rata2[i]), 2))
+                                                                                hSup = hSup + (scoreSem[j] - parseInt(rata2[j]) * (scoreSem[i] - parseInt(rata2[i])))
+                                                                                hSDown = hSDown + Math.sqrt((Math.pow(scoreSem[j] - parseInt(rata2[j]), 2)) * Math.pow(scoreSem[i] - parseInt(rata2[i]), 2))
 
                                                                             }
-                                                                            var hasil = parseFloat(hSup) / parseFloat(hSDown)
+                                                                            var hasil = parseInt(hSup) / parseInt(hSDown)
                                                                             itemRating.push(hasil)
                                                                         }
 
-
+                                                                        
                                                                         var c = 0.5
                                                                         var simi = []
                                                                         
@@ -1476,6 +1477,7 @@ module.exports = {
                                                                                 j++
                                                                             }
                                                                         }
+                                                                        
 
                                                                         var totalRata = []
                                                                         var bnyk = 0
@@ -1496,7 +1498,7 @@ module.exports = {
                                                                             var hasilRateSementara = 0
 
                                                                             for (var j = 0; j < user.length; j++) {
-                                                                                hasilRateSementara = hasilRateSementara + ((parseInt(scoreSem[j]) - parseInt(rata2[i])) * simi[j])
+                                                                                hasilRateSementara = parseFloat(hasilRateSementara) + ((parseFloat(scoreSem[j]) - parseFloat(rata2[i])) * parseFloat(simi[j]))
                                                                             }
                                                                             arrHasilSementara.push(hasilRateSementara)
                                                                         }
@@ -1505,11 +1507,12 @@ module.exports = {
                                                                         for (var i = 0; i < user.length; i++) {
                                                                             var hasilAkhir = 0
                                                                             for (var j = 0; j < anime.length; j++) {
-                                                                                hasilAkhir = hasilAkhir + ((scoreSem[i] + arrHasilSementara[j]) / totalRata[i])
+                                                                                hasilAkhir = parseFloat(hasilAkhir) + ((parseFloat(scoreSem[i]) + parseFloat(arrHasilSementara[j])) / parseFloat(totalRata[i]))
                                                                                 hasilRateAkhir.push(hasilAkhir)
                                                                                 hasilAkhir = 0
                                                                             }
                                                                         }
+                                                                    
                                                                         var rerataAkhir = []
                                                                         var banyak = 0
                                                                         var rerata = 0
@@ -2808,27 +2811,27 @@ module.exports = {
                                             }
                                             for (var i = 0; i < c2.length; i++) {
                                                 prob2.push(
-                                                    1 - (c2[i].nilai / max1)
+                                                    1 - (c2[i].nilai / max2)
                                                 )
                                             }
                                             for (var i = 0; i < c3.length; i++) {
                                                 prob3.push(
-                                                    1 - (c3[i].nilai / max1)
+                                                    1 - (c3[i].nilai / max3)
                                                 )
                                             }
 
                                             for (var i = 0; i < c1.length; i++) {
-                                                sum = parseInt(sum) + parseInt(prob1[i])
+                                                sum = parseFloat(sum) + parseFloat(prob1[i])
                                             }
                                             for (var i = 0; i < c2.length; i++) {
-                                                sum1 = parseInt(sum1) + parseInt(prob2[i])
+                                                sum1 = parseFloat(sum1) + parseFloat(prob2[i])
                                             }
                                             for (var i = 0; i < c3.length; i++) {
-                                                sum2 = parseInt(sum2) + parseInt(prob3[i])
+                                                sum2 = parseFloat(sum2) + parseFloat(prob3[i])
                                             }
-                                            var rataC1 = parseInt(sum) / c1.length
-                                            var rataC2 = parseInt(sum1) / c2.length
-                                            var rataC3 = parseInt(sum2) / c2.length
+                                            var rataC1 = parseFloat(sum) / c1.length
+                                            var rataC2 = parseFloat(sum1) / c2.length
+                                            var rataC3 = parseFloat(sum2) / c2.length
                                             var groupRating = []
 
                                             for (var i = 0; i < rekomendasi.length; i++) {
@@ -2917,6 +2920,7 @@ module.exports = {
                                                                             var hasil = parseFloat(hSup) / parseFloat(hSDown)
                                                                             itemRating.push(hasil)
                                                                         }
+                                                                        
 
 
                                                                         var c = 0.5

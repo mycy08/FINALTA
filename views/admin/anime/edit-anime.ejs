@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        <%=typeof title == 'undefined' ? 'New Sails App' : title%>
+    </title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
+    <link rel="stylesheet" href="/styles/custome.css" type="text/css">
+
+    <body style="background-color: azure">
+        <nav class="navbar navbar-expand-md bg-primary navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="/admin">Admin Page</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/data-user">
+                                <i class="fa d-inline fa-lg fa-users"></i>&nbsp;Data User</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/data-anime/1">
+                                <i class="fa d-inline fa-lg fa-database"></i>&nbsp;Data Anime</a>
+                        </li>
+                    </ul>
+                    <a class="btn navbar-btn btn-primary ml-2 text-white">
+                        <i class="fa d-inline fa-lg fa-user-circle-o"></i>&nbsp;
+                        <%= req.session.Admin.nama%>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="py-5">
+            <div class="container">
+                <div class="row">
+                        <div class="col-md-12">
+                                <div class="row">
+                                  <div class="col-md-8">
+                                    <form class="form-inline" action="/hasil-search/" method="POST">
+                                      <div class="input-group">
+                                        
+                                          
+                                          <div class="input-group-append">
+                                          
+                                        </div>
+                                        
+                                        
+                                      </div>
+                                    </form>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <a class="btn btn-danger" href="/admin/hapus/<%= anime.id %>" style="margin-left: 75px">Hapus Anime</a>
+                                  </div>
+                                </div>
+                              </div>
+                    <div class="col-md-9" style="margin-left: 125px">
+                        <form class="" enctype="multipart/form-data" method="POST" action="/admin/updateAnime/<%= anime.id %>">
+                            <div class="form-group">
+                                <label>Nama Anime</label>
+                                <input type="text" name="nama_anime" value="<%= anime.nama_anime %>" required class="form-control" placeholder="Masukan Nama Anime">
+                                
+                            </div>
+                            <div class="form-group">
+                                    <label>Url Anime Indo</label>
+                                    <input type="text" name="url_anime_indo"  value="<%= anime.url_anime_indo %>" class="form-control" placeholder="Masukan Url Anime indo">
+                                    <small class="form-text text-muted">Url didapat dari website oploverz.in .</small>
+                                </div>
+                                <div class="form-group">
+                                        <label>Url Anime English</label>
+                                        <input type="text" name="url_anime_english" value="<%= anime.url_anime_english %>" class="form-control" placeholder="Masukan Url Anime English">
+                                        <small class="form-text text-muted">Url didapat dari website animeheaven.eu .</small>
+                                </div>
+                            <div class="form-group">
+                                <label>Type</label>
+                                <select class="form-control" name="type">
+                                    <option value="TV">TV</option>
+                                    <option value="OVA">OVA</option>
+                                    <option value="Movie">Movie</option>
+                                </select>    
+                             </div>
+                             <div class="form-group">
+                                    <label>Status</label>
+                                    <select class="form-control" name="status">
+                                        <option value="OnGoing">On Going</option>
+                                        <option value="Complete">Complete</option>
+                                        <option value="Tidak Diketahui">Tidak Diketahui</option>
+                                    </select>    
+                            </div>
+                            <div class="form-group">
+                                    <label>Tahun Terbit</label>
+                                    <select class="form-control" name="tahun_terbit">
+                                        <%
+                                            for(var i=2020;i>=1996;i--){%>
+                                                <option value="<%= i %>"><%= i %></option>
+                                            <%}
+                                        %>
+                                        </select>     
+                                </div>
+                                
+                                <div class="form-group">
+                                        <label>Deskripsi</label>
+                                        <textarea class="form-control" name="deskripsi"  placeholder="Masukan Deskripsi" required><%= anime.deskripsi %></textarea>
+                                        
+                                </div>
+                                <div class="form-group">
+                                        <label>Genre</label><br>
+                                        <table>
+                                                <%
+                                                _.each(genre,function(genre){%>
+                                                    <tr>
+                                                           
+                                                            <td style="vertical-align: text-top;width: 100px;"><h5><%= genre.nama_genre %></h5></td>
+                                                            <td>
+                                                                <label class="switch">
+                                                                    <input type="checkbox" name="genre" value="<%= genre.nama_genre %>">
+                                                                    <span class="slider round">
+                                                                </label>
+                                                            </td>
+                                                          
+                                                        </tr>
+                                                        <%})
+                                                        %>
+                                                
+                                            
+                                        </table>
+                                        
+                                </div>
+                                <div class="form-group">
+                                    <label>Upload Gambar Anime</label>
+                                    <input type="file" class="form-control" name="photo_url" placeholder="Pilih Gambar" required>
+                                    
+                            </div>
+                            
+
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-white bg-primary py-2">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mt-3 text-center">
+                        <p>© Copyright 2018 TugasAkhir - Aplikasi Rekomendasi Anime dengan Metode ICHM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    </body>
+
+</html>

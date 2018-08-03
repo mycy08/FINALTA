@@ -1,0 +1,24 @@
+<table>
+    <tr>
+        <th>No</th>
+        <th>Probabilitas Cluster 1</th>
+        <th>Probabilitas Cluster 2</th>
+        <th>Probabilitas Cluster 3</th>
+    </tr>
+    <%
+        for(var i=0;i<prob1.length;i++){%>
+            <tr>
+                <td><%= i+1%></td>
+                <td><%= prob1[i]%></td>
+                <td><%= prob2[i]%></td>
+                <td><%= prob3[i]%></td>
+            </tr>
+        <%}
+    %>
+    <tr>
+        <th>Rata-Rata</th>
+        <th><%= ratac1 %></th>
+        <th><%= ratac2 %></th>
+        <th><%= ratac3 %></th>
+    </tr>
+</table>
