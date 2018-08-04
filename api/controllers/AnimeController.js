@@ -6,6 +6,7 @@
  */
 var nestedPop = require('nested-pop')
 var Promise = require('bluebird');
+var moment = require('moment');
 function paginate(array, perPage, page) {
     --page; // because pages logically start with 1, but technically with 0
     return array.slice(page * perPage, (page + 1) * perPage);
@@ -19,8 +20,7 @@ module.exports = {
     editAnime: function (req, res, next) {
         var id = req.param('id_anime')
         Anime.update({ id: id }, {
-            tahun_terbit: req.param('tahun_terbit'),
-            score: req.param('score')
+            genre: req.param('genre'),
 
         }).exec(function (err, animeUpdated) {
             if (err) {
@@ -58,6 +58,7 @@ module.exports = {
                                         notif: notif,
                                         episode: episode,
                                         genre: genre,
+                                        moment:moment,
                                         countNotif:countNotif,
                                         current: page,
                                         pages: Math.ceil(count / perPage)
@@ -71,6 +72,7 @@ module.exports = {
                                 title: "Anime Terbaru",
                                 episode: episode,
                                 genre: genre,
+                                moment:moment,
                                 current: page,
                                 pages: Math.ceil(count / perPage)
                             })
@@ -396,7 +398,6 @@ module.exports = {
                                             var anggotac1New = []
                                             var anggotac2New = []
                                             var anggotac3New = []
-                                            var jarak_terpendek = []
                                             for (var i = 0; i < 3; i++) {
                                                 var rand = Math.floor(Math.random() * 200);
                                                 cluster.push(rekomendasi[rand])
@@ -1447,20 +1448,20 @@ module.exports = {
                                                                         }
 
                                                                         var itemRating = []
-                                                                                                                            
+                                                                                                    
                                                                         for (var i = 0; i < user.length; i++) {
                                                                             var hSup = 0
                                                                             var hSDown = 0
                                                                             for (var j = 0; j < anime.length; j++) {
                                                                                 hSup = hSup + (scoreSem[j] - parseInt(rata2[j]) * (scoreSem[i] - parseInt(rata2[i])))
                                                                                 hSDown = hSDown + Math.sqrt((Math.pow(scoreSem[j] - parseInt(rata2[j]), 2)) * Math.pow(scoreSem[i] - parseInt(rata2[i]), 2))
-
+                        
                                                                             }
                                                                             var hasil = parseInt(hSup) / parseInt(hSDown)
                                                                             itemRating.push(hasil)
                                                                         }
-
-                                                                        
+                        
+                                                                      
                                                                         var c = 0.5
                                                                         var simi = []
                                                                         
@@ -1477,71 +1478,73 @@ module.exports = {
                                                                                 j++
                                                                             }
                                                                         }
-                                                                        
-
+                        
                                                                         var totalRata = []
                                                                         var bnyk = 0
                                                                         var hsl = 0
-                                                                        var x = 200
-                                                                        while (bnyk < simi.length) {
+                                                                        var x = 199
+                                                                       
+                                                                        while (bnyk < simi.length ) {
                                                                             hsl = hsl + simi[bnyk]
                                                                             if (bnyk == x) {
                                                                                 totalRata.push(hsl)
                                                                                 hsl = 0
-                                                                                x = x + 200
+                                                                                x = x + 200                                          
                                                                             }
+                                                                            
                                                                             bnyk++
                                                                         }
                                                                         var arrHasilSementara = []
-                                                                        var sementara = 0
-                                                                        for (var i = 0; i < anime.length; i++) {
+                                                                       
+                        
+                                                                        for (var i = 0; i < user.length; i++) {
                                                                             var hasilRateSementara = 0
-
-                                                                            for (var j = 0; j < user.length; j++) {
-                                                                                hasilRateSementara = parseFloat(hasilRateSementara) + ((parseFloat(scoreSem[j]) - parseFloat(rata2[i])) * parseFloat(simi[j]))
+                        
+                                                                            for (var j = 0; j < anime.length; j++) {
+                                                                                hasilRateSementara = hasilRateSementara + ((parseInt(scoreSem[j]) - parseInt(rata2[j])) * simi[i])
                                                                             }
                                                                             arrHasilSementara.push(hasilRateSementara)
                                                                         }
                                                                         var hasilRateAkhir = []
-
-                                                                        for (var i = 0; i < user.length; i++) {
+                                                                        
+                                                                     
+                                                                        for (var i = 0; i < anime.length; i++) {
                                                                             var hasilAkhir = 0
-                                                                            for (var j = 0; j < anime.length; j++) {
-                                                                                hasilAkhir = parseFloat(hasilAkhir) + ((parseFloat(scoreSem[i]) + parseFloat(arrHasilSementara[j])) / parseFloat(totalRata[i]))
+                                                                            for (var j = 0; j < user.length; j++) {
+                                                                                hasilAkhir = hasilAkhir + ((scoreSem[i] + arrHasilSementara[j]) / totalRata[i])
                                                                                 hasilRateAkhir.push(hasilAkhir)
                                                                                 hasilAkhir = 0
                                                                             }
                                                                         }
-                                                                    
                                                                         var rerataAkhir = []
-                                                                        var banyak = 0
-                                                                        var rerata = 0
-                                                                        var jumlahUser = user.length
-
-                                                                        while (banyak < hasilRateAkhir.length) {
-                                                                            rerata = rerata + hasilRateAkhir[banyak]
-                                                                            if (banyak == jumlahUser) {
-                                                                                rerata = parseFloat(rerata) / user.length
-                                                                                rerataAkhir.push(rerata)
-                                                                                jumlahUser = jumlahUser + user.length
-                                                                            }
-                                                                            banyak++
-                                                                        }
-                                                                        var prioritas = []
-
-                                                                        for (var i = 0; i < anime.length; i++) {
-
-                                                                            prioritas.push({
-                                                                                id_anime: anime[i]._id.toString(),
-                                                                                photo_url: anime[i].photo_url,
-                                                                                type: anime[i].type,
-                                                                                nama_anime: anime[i].nama_anime,
-                                                                                score: anime[i].score,
-                                                                                tahun: anime[i].tahun_terbit,
-                                                                                genre: anime[i].genre,
-                                                                                rata: rerataAkhir[i]
-                                                                            })
-                                                                        }
+                                                                                                var banyak = 0
+                                                                                                var rerata = 0
+                                                                                                var jumlahUser = user.length - 1
+                        
+                                                                                                while (banyak < hasilRateAkhir.length) {
+                                                                                                    rerata = rerata + hasilRateAkhir[banyak]
+                                                                                                    if (banyak == jumlahUser) {
+                                                                                                        rerata = parseFloat(rerata) / user.length
+                                                                                                        rerataAkhir.push(rerata)
+                                                                                                        jumlahUser = jumlahUser + user.length
+                                                                                                    }
+                                                                                                    banyak++
+                                                                                                }
+                                                                                                var prioritas = []
+                        
+                                                                                                for (var i = 0; i < anime.length; i++) {
+                        
+                                                                                                    prioritas.push({
+                                                                                                        id_anime: anime[i]._id.toString(),
+                                                                                                        photo_url: anime[i].photo_url,
+                                                                                                        nama_anime: anime[i].nama_anime,
+                                                                                                        type: anime[i].type,
+                                                                                                        score: anime[i].score,
+                                                                                                        tahun: anime[i].tahun_terbit,
+                                                                                                        genre: anime[i].genre,
+                                                                                                        rata: rerataAkhir[i]
+                                                                                                    })
+                                                                                                }
 
                                                                         var rekomendasiAkhir = []
 
@@ -2908,122 +2911,154 @@ module.exports = {
                                                                         }
 
                                                                         var itemRating = []
-                                                                                                                           
-                                                                        for (var i = 0; i < user.length; i++) {
-                                                                            var hSup = 0
-                                                                            var hSDown = 0
-                                                                            for (var j = 0; j < anime.length; j++) {
-                                                                                hSup = hSup + (scoreSem[j] - parseFloat(rata2[j]) * (scoreSem[i] - parseFloat(rata2[i])))
-                                                                                hSDown = hSDown + Math.sqrt((Math.pow(scoreSem[j] - parseFloat(rata2[j]), 2)) * Math.pow(scoreSem[i] - parseFloat(rata2[i]), 2))
+                                                                                                    
+                                                for (var i = 0; i < user.length; i++) {
+                                                    var hSup = 0
+                                                    var hSDown = 0
+                                                    for (var j = 0; j < anime.length; j++) {
+                                                        hSup = hSup + (scoreSem[j] - parseInt(rata2[j]) * (scoreSem[i] - parseInt(rata2[i])))
+                                                        hSDown = hSDown + Math.sqrt((Math.pow(scoreSem[j] - parseInt(rata2[j]), 2)) * Math.pow(scoreSem[i] - parseInt(rata2[i]), 2))
 
-                                                                            }
-                                                                            var hasil = parseFloat(hSup) / parseFloat(hSDown)
-                                                                            itemRating.push(hasil)
-                                                                        }
-                                                                        
+                                                    }
+                                                    var hasil = parseInt(hSup) / parseInt(hSDown)
+                                                    itemRating.push(hasil)
+                                                }
 
+                                               
+                                                var c = 0.5
+                                                var simi = []
+                                                
+                                                
 
-                                                                        var c = 0.5
-                                                                        var simi = []
-                                                                        
+                                                for (var i = 0; i < groupRating.length; i++) {
+                                                    j = 0
+                                                    if (j == parseInt(user.length)) {
+                                                        jsimi.push((parseFloat(itemRating[j]) * (1 - c)) + (parseFloat(groupRating[i]) * c))
+                                                        j = j - parseInt(user.length)
+                                                    }
+                                                    else {
+                                                        simi.push((parseFloat(itemRating[j]) * (1 - c)) + (parseFloat(groupRating[i]) * c))
+                                                        j++
+                                                    }
+                                                }
 
-                                                                        for (var i = 0; i < groupRating.length; i++) {
-                                                                            j = 0
-                                                                            if (j == parseInt(user.length)) {
-                                                                                simi.push((parseFloat(itemRating[j]) * (1 - c)) + (parseFloat(groupRating[i]) * c))
-                                                                                j = j - parseInt(user.length)
-                                                                            }
-                                                                            else {
-                                                                                simi.push((parseFloat(itemRating[j]) * (1 - c)) + (parseFloat(groupRating[i]) * c))
-                                                                                j++
-                                                                            }
-                                                                        }
+                                                var totalRata = []
+                                                var bnyk = 0
+                                                var hsl = 0
+                                                var x = 199
+                                               
+                                                while (bnyk < simi.length ) {
+                                                    hsl = hsl + simi[bnyk]
+                                                    if (bnyk == x) {
+                                                        totalRata.push(hsl)
+                                                        hsl = 0
+                                                        x = x + 200                                          
+                                                    }
+                                                    
+                                                    bnyk++
+                                                }
+                                                var arrHasilSementara = []
+                                               
 
-                                                                        var totalRata = []
-                                                                        var bnyk = 0
-                                                                        var hsl = 0
-                                                                        var x = 200
-                                                                        while (bnyk < simi.length) {
-                                                                            hsl = hsl + simi[bnyk]
-                                                                            if (bnyk == x) {
-                                                                                totalRata.push(hsl)
-                                                                                hsl = 0
-                                                                                x = x + 200
-                                                                            }
-                                                                            bnyk++
-                                                                        }
-                                                                        var arrHasilSementara = []
-                                                                        var sementara = 0
-                                                                        for (var i = 0; i < anime.length; i++) {
-                                                                            var hasilRateSementara = 0
+                                                for (var i = 0; i < user.length; i++) {
+                                                    var hasilRateSementara = 0
 
-                                                                            for (var j = 0; j < user.length; j++) {
-                                                                                hasilRateSementara = hasilRateSementara + ((parseInt(scoreSem[j]) - parseInt(rata2[i])) * simi[j])
-                                                                            }
-                                                                            arrHasilSementara.push(hasilRateSementara)
-                                                                        }
-                                                                        var hasilRateAkhir = []
+                                                    for (var j = 0; j < anime.length; j++) {
+                                                        hasilRateSementara = hasilRateSementara + ((parseInt(scoreSem[j]) - parseInt(rata2[j])) * simi[i])
+                                                    }
+                                                    arrHasilSementara.push(hasilRateSementara)
+                                                }
+                                                var hasilRateAkhir = []
+                                                
+                                             
+                                                for (var i = 0; i < anime.length; i++) {
+                                                    var hasilAkhir = 0
+                                                    for (var j = 0; j < user.length; j++) {
+                                                        hasilAkhir = hasilAkhir + ((scoreSem[i] + arrHasilSementara[j]) / totalRata[i])
+                                                        hasilRateAkhir.push(hasilAkhir)
+                                                        hasilAkhir = 0
+                                                    }
+                                                }
+                                                var rerataAkhir = []
+                                                var banyak = 0
+                                                var rerata = 0
+                                                var jumlahUser = user.length - 1
 
-                                                                        for (var i = 0; i < user.length; i++) {
-                                                                            var hasilAkhir = 0
-                                                                            for (var j = 0; j < anime.length; j++) {
-                                                                                hasilAkhir = hasilAkhir + ((scoreSem[i] + arrHasilSementara[j]) / totalRata[i])
-                                                                                hasilRateAkhir.push(hasilAkhir)
-                                                                                hasilAkhir = 0
-                                                                            }
-                                                                        }
-                                                                        var rerataAkhir = []
-                                                                        var banyak = 0
-                                                                        var rerata = 0
-                                                                        var jumlahUser = user.length
+                                                while (banyak < hasilRateAkhir.length) {
+                                                    rerata = rerata + hasilRateAkhir[banyak]
+                                                    if (banyak == jumlahUser) {
+                                                        rerata = parseFloat(rerata) / user.length
+                                                        rerataAkhir.push(rerata)
+                                                        jumlahUser = jumlahUser + user.length
+                                                    }
+                                                    banyak++
+                                                }
+                                                var prioritas = []
 
-                                                                        while (banyak < hasilRateAkhir.length) {
-                                                                            rerata = rerata + hasilRateAkhir[banyak]
-                                                                            if (banyak == jumlahUser) {
-                                                                                rerata = parseFloat(rerata) / user.length
-                                                                                rerataAkhir.push(rerata)
-                                                                                jumlahUser = jumlahUser + user.length
-                                                                            }
-                                                                            banyak++
-                                                                        }
-                                                                        var prioritas = []
+                                                for (var i = 0; i < anime.length; i++) {
 
-                                                                        for (var i = 0; i < anime.length; i++) {
+                                                    prioritas.push({
+                                                        id_anime: anime[i]._id.toString(),
+                                                        photo_url: anime[i].photo_url,
+                                                        nama_anime: anime[i].nama_anime,
+                                                        type: anime[i].type,
+                                                        score: anime[i].score,
+                                                        tahun: anime[i].tahun_terbit,
+                                                        genre: anime[i].genre,
+                                                        rata: rerataAkhir[i]
+                                                    })
+                                                }var rerataAkhir = []
+                                                var banyak = 0
+                                                var rerata = 0
+                                                var jumlahUser = user.length - 1
 
-                                                                            prioritas.push({
-                                                                                id_anime: anime[i]._id.toString(),
-                                                                                photo_url: anime[i].photo_url,
-                                                                                nama_anime: anime[i].nama_anime,
-                                                                                type: anime[i].type,
-                                                                                score: anime[i].score,
-                                                                                tahun: anime[i].tahun_terbit,
-                                                                                genre: anime[i].genre,
-                                                                                rata: rerataAkhir[i]
-                                                                            })
-                                                                        }
+                                                while (banyak < hasilRateAkhir.length) {
+                                                    rerata = rerata + hasilRateAkhir[banyak]
+                                                    if (banyak == jumlahUser) {
+                                                        rerata = parseFloat(rerata) / user.length
+                                                        rerataAkhir.push(rerata)
+                                                        jumlahUser = jumlahUser + user.length
+                                                    }
+                                                    banyak++
+                                                }
+                                                var prioritas = []
 
-                                                                        var rekomendasiAkhir = []
+                                                for (var i = 0; i < anime.length; i++) {
 
-                                                                        for (var j = 0; j < prioritas.length; j++) {
-                                                                            if (req.param('id') == prioritas[j].id_anime) {
-                                                                                continue
-                                                                            }
-                                                                            else {
-                                                                                rekomendasiAkhir.push({
-                                                                                    id_anime: prioritas[j].id_anime,
-                                                                                    type:prioritas[j].type,
-                                                                                    nama_anime: prioritas[j].nama_anime,
-                                                                                    photo_url: prioritas[j].photo_url,
-                                                                                    score: prioritas[j].score,
-                                                                                    tahun: prioritas[j].tahun,
-                                                                                    genre: prioritas[j].genre,
-                                                                                    rata: rerataAkhir[j]
+                                                    prioritas.push({
+                                                        id_anime: anime[i]._id.toString(),
+                                                        photo_url: anime[i].photo_url,
+                                                        nama_anime: anime[i].nama_anime,
+                                                        type: anime[i].type,
+                                                        score: anime[i].score,
+                                                        tahun: anime[i].tahun_terbit,
+                                                        genre: anime[i].genre,
+                                                        rata: rerataAkhir[i]
+                                                    })
+                                                }
 
-                                                                                })
-                                                                            }
-                                                                        }
+                                                var rekomendasiAkhir = []
 
-                                                                        return resolve(rekomendasiAkhir)
+                                                for (var j = 0; j < prioritas.length; j++) {
+                                                    if (req.param('id') == prioritas[j].id_anime) {
+                                                        continue
+                                                    }
+                                                    else {
+                                                        rekomendasiAkhir.push({
+                                                            id_anime: prioritas[j].id_anime,
+                                                            type:prioritas[j].type,
+                                                            nama_anime: prioritas[j].nama_anime,
+                                                            photo_url: prioritas[j].photo_url,
+                                                            score: prioritas[j].score,
+                                                            tahun: prioritas[j].tahun,
+                                                            genre: prioritas[j].genre,
+                                                            rata: rerataAkhir[j]
+
+                                                        })
+                                                    }
+                                                }
+
+                                return resolve(rekomendasiAkhir)
 
 
 

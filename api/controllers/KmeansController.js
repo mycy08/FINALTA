@@ -45,7 +45,7 @@ module.exports = {
                 magic: true,
                 photo_url: true
             }).toArray(function (err, rekomendasi) {
-                // console.log(rekomendasi)
+                
                 if (err) return res.serverError(err);
                 var iterasi = 0
                 var cluster = []
@@ -951,6 +951,7 @@ module.exports = {
                 
                 
                 res.view("admin/algoritma/k-means",{
+                    title:"K-Means",
                     c1:c1,
                     c2:c2,
                     c3:c3,

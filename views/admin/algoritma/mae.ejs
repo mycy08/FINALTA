@@ -1,4 +1,4 @@
-<!-- K-means -->
+
 <!DOCTYPE html>
 <html>
 
@@ -68,55 +68,44 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9" style="margin-left: 125px">
-                    <form class="" enctype="multipart/form-data" method="POST" action="/anggotaClustering/anggota">
+                    <form class="" enctype="multipart/form-data" method="POST" action="/mae/mae">
                         
-                            <label>Pilih Anggota</label>
-                            <select class="form-control" name="cluster" id="">
-                                <option value="0">-- Pilih Anggota --</option>
-                                <option value="1">Anggota 1</option>
-                                <option value="2">Anggota 2</option>
-                                <option value="3">Anggota 3</option>
-                            </select>
+                            <label>Pilih Koefisien</label>
+                            <select name="koefisien" id="" class="form-control">
+                                    <option value="0">-- Pilih Koefisien --</option>
+                                    <option value="0.25">0.25</option>
+                                    <option value="0.5">0.5</option>
+                                    <option value="0.75">0.75</option>   
+                                    <option value="1">1</option>
+                                    
+                                </select>
                             
                         
                         <button type="submit" class="btn btn-primary" style="margin-top: 10px">Submit</button>
                     </form>
+                    <div class="card" style="margin-top: 10px;">
+                            <div class="card-header"> Informasi </div>
+                            <div class="card-body">
+                              <p class="">
+                                    <%
+                                    if(MAE!="undenfined "){%>
+                                        <p>Koefisien = <%= koefisien %></p>
+                                    <p>MAE = <%= MAE %></p>  
+                                    <%}
+                                    else{%>
+                                        <p>Pilih koefisien terlebih dahulu</p>
+                                    <%}   
+                                %>
+                              </p>
+                              
+                            </div>
+                          </div>
+                    
                 </div>
             </div>
         </div>
     </div>
-  <div class="table-responsive">
-        
-        
-        <table class="table">
-            <tr>
-                <th>No</th>
-                <th>Id</th>
-                <th>Photo Url</th>
-                <th>Nama Anime</th>
-                <th>Anggota</th>
-                
-            </tr>
-        
-        <%
-            
-            
-                for(var i=0;i<anggota.length;i++){%>
-                    <tr>
-                        <th><%= i %></th>
-                        <th><%= anggota[i].id_anime %></th>
-                        <th><%= anggota[i].photo_url %></th>
-                        <th><%= anggota[i].nama_anime %></th>
-                        <th><%= anggotac %></th>
-                        
-                    </tr>
-                <%}
-            
-        
-            
-        %>
-        </table>
-</div>
+
      
       
           
@@ -131,7 +120,7 @@
     
   </div>
   
-  <div class="text-white bg-primary py-2" style="margin-top: 144px">
+  <div class="text-white bg-primary py-2" style="margin-top: 20px">
     
     <div class="container">
       <div class="row">
@@ -157,8 +146,6 @@
 
 </html>
 
-
-<!-- end k-means -->
 
 
 

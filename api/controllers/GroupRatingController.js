@@ -1018,12 +1018,17 @@ module.exports = {
 
                     }
                 
-                  
-                res.view("admin/algoritma/group-rating",{
-                    layout:false,
-                    groupRating:groupRating
-
-                })
+                Anime.count().exec(function(err, count){
+                    if(err) return res.serverError(err)
+                    res.view("admin/algoritma/group-rating",{
+                        layout:false,
+                        title:"Group Rating",
+                        count:count,
+                        groupRating:groupRating
+    
+                    })
+                })  
+                
                 
                 
     

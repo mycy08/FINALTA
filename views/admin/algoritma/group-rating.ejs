@@ -1,29 +1,141 @@
-<table>
-    <tr>
-            <th>POS</th>
-        <% 
-             
-            for(var i=0;i<200;i++){%>
-                    <th>Anime<%= i+1 %></th> 
-            <%}
-        %>
+<!-- K-means -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title><%=typeof title == 'undefined' ? 'New Sails App' : title%></title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css"> 
+  <link rel="stylesheet" href="/styles/custome.css" type="text/css">  
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
+<body style="background-color: azure">
+  <nav class="navbar navbar-expand-md bg-primary navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/admin">Admin Page</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/kmeans/kmeans">
+              <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;K-Means</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/anggotaClustering/anggota">
+              <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;Anggota</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="/probabilitas/probabilitas">
+                <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;probabilitas</a>
+            </li>
+            <li class="nav-item">
+                    <a class="nav-link" href="/groupRating/groupRating">
+                      <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;G Rating</a>
+            </li>
+            <li class="nav-item">
+                    <a class="nav-link" href="/itemRating/itemRating">
+                      <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;I Rating</a>
+            </li>
+            <li class="nav-item">
+                    <a class="nav-link" href="/kombinasiLinear/kombinasiLinear">
+                      <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;K Linear</a>
+            </li>
+            
+            <li class="nav-item">
+                    <a class="nav-link" href="/prediksi/prediksi">
+                      <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;Prediksi</a>
+            </li>
+            <li class="nav-item">
+                    <a class="nav-link" href="/prioritas/prioritas">
+                      <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;Prioritas</a>
+            </li>
+            <li class="nav-item">
+                    <a class="nav-link" href="/mae/mae">
+                      <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;Mae</a>
+            </li>
+        </ul>
+        <a class="btn navbar-btn btn-primary ml-2 text-white" href="/admin/destroy/">
+          <i class="fa d-inline fa-lg fa-user-circle-o"></i>&nbsp;<%= req.session.Admin.nama%></a>
+      </div>
+    </div>
+  </nav>
+  <div class="table-responsive">
+        <table class="table">
+                <tr>
+                        <th></th>
+                    <% 
+                         
+                        for(var i=0;i<count;i++){%>
+                                <th>Anime<%= i+1 %></th> 
+                        <%}
+                    %>
+                    
+                </tr>
+                <%
+                    
+                    var i=0
+                    var k = 1
+                    while(i<groupRating.length){%>
+                    <tr>
+                        <th>Anime<%= k %></th>
+                        <% for(var j=0;j<count;j++){%>
+                              <td><%= groupRating[i] %></td>
+                              <%  i++    
+                        }%>
+                    </tr>
+                    <%k++
+                    }
+                %>
+                
+                
+            </table>
+</div>
+     
+      
+          
         
-    </tr>
-    <%
-        console.log(groupRating) 
-        var i=0
-        var k = 1
-        while(i<groupRating.length){%>
-        <tr>
-            <th>Anime<%= k %></th>
-            <% for(var j=0;j<200;j++){%>
-                  <td><%= groupRating[i] %></td>
-                  <%  i++    
-            }%>
-        </tr>
-        <%k++
-        }
-    %>
+          
+        </div>
+      
+      
+      
+    </div>
+    </div>
     
+  </div>
+  
+  <div class="text-white bg-primary py-2">
     
-</table>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 mt-3 text-center">
+          <p>© Copyright 2018 TugasAkhir - Aplikasi Rekomendasi Anime dengan Metode ICHM</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+        } );
+    </script>
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" ></script>
+  
+  <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
+</body>
+
+</html>
+
+
+<!-- end k-means -->
+
+

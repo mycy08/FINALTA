@@ -90,7 +90,7 @@ module.exports.routes = {
   controller:"anime",
   action:"daftarAnime"
 } ,
-'GET /genre/:id':{
+'GET /genre/:nama_genre':{
   controller:"genre",
   action:"tampilGenre"
 } ,
@@ -119,9 +119,21 @@ module.exports.routes = {
 },
 
 //routes admin
+'GET /algoritma':{
+  controller:"admin",
+  action:"algo"
+},
+'GET /admin':{
+  controller:"admin",
+  action:"dash"
+},
 'POST /hasil-search/':{
   controller:"admin",
   action:"search"
+} ,
+'POST /hasil-search-user/':{
+  controller:"admin",
+  action:"searchUser"
 } ,
 'GET /login-admin':{
   controller:'admin',
@@ -130,6 +142,10 @@ module.exports.routes = {
 'GET /data-anime/:page':{
   controller:'admin',
   action:'dataAnime'
+},
+'GET /data-user/:page':{
+  controller:'admin',
+  action:'dataUser'
 },
 'GET /tambah-anime':{
   controller:'admin',

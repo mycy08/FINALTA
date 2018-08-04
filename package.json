@@ -25,6 +25,7 @@
     "jsonwebtoken": "^8.3.0",
     "kmeans-js": "^0.1.2",
     "mkdirp": "^0.5.1",
+    "moment": "^2.22.2",
     "nested-pop": "^0.1.4",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",

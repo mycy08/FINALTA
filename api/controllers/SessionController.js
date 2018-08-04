@@ -94,7 +94,7 @@ module.exports = {
 			}
 
 			if (user.kode_verifikasi == req.param('kode_verifikasi')) {
-				User.update({ id: req.param('id') }, { status: true }).exec(function (err, userUpdated) {
+				User.update({ id: req.param('id') }, { status: "true" }).exec(function (err, userUpdated) {
 					var akunAktif = [
 						"Akun anda sudah di aktivasi, silahkan Login !!"
 					]
@@ -155,7 +155,8 @@ module.exports = {
 				res.redirect('/login');
 				return;
 			}
-			if (user.status) {
+			
+			if (user.status=="true") {
 				bcrypt.compare(req.param('password'), user.password, function (err, valid) {
 					if (err) return next(err);
 
@@ -177,6 +178,16 @@ module.exports = {
 					res.redirect('/anime-terbaru/1');
 
 				});
+			}
+			else if(user.status=="Banned"){
+				var noAccountError = [
+					"Akun Anda sudah di Banned !!"
+				]
+				req.session.flash = {
+					err: noAccountError
+				}
+				res.redirect('/login');
+				return;
 			}
 			else {
 				res.view("user/akun-aktivasi", {

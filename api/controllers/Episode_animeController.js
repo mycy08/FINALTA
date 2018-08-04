@@ -64,7 +64,7 @@ module.exports = {
 
                         }
                         
-                        async.map(metadata, (function(object, callback) {
+                        async.map(metadata.sort(function (a, b) { return b.episode - a.episode }), (function(object, callback) {
                             Episode_anime.findOne({id_anime:object.id_anime,episode:object.episode}).exec(function(err,found){
                                 if(err) return res.serverError(err)
                                 // console.log(found)
@@ -191,7 +191,7 @@ module.exports = {
                 
                 
 
-                return res.ok(results);
+                return res.redirect('/data-anime/1');
             })
 
         })

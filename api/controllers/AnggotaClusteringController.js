@@ -43,7 +43,7 @@ module.exports = {
                 magic: true,
                 photo_url: true
             }).toArray(function (err, rekomendasi) {
-                // console.log(rekomendasi)
+                
                 if (err) return res.serverError(err);
                 var iterasi = 0
                 var cluster = []
@@ -937,20 +937,19 @@ module.exports = {
                     }
                     iterasi++
                 }
-                console.log(anggotac1.length)
-                console.log(anggotac2.length)
-                console.log(anggotac3.length)
+                
                 if(req.param('cluster')==1){
                     res.view("admin/algoritma/anggota",{
                         anggota:anggotac1,
                         anggotac:"c1",
-                        
+                        title:"Anggota",
                         layout:false,
                         
                     }) 
                 }
                 else if(req.param('cluster')==2){
                     res.view("admin/algoritma/anggota",{
+                        title:"Anggota",
                         anggota:anggotac2,
                         anggotac:"c2",
                         layout:false,
@@ -959,6 +958,7 @@ module.exports = {
                 }
                 else if(req.param('cluster')==3){
                     res.view("admin/algoritma/anggota",{
+                        title:"Anggota",
                         anggota:anggotac3,
                         anggotac:"c3",
                         layout:false,
@@ -967,6 +967,7 @@ module.exports = {
                 }
                 else{
                     res.view("admin/algoritma/anggota",{
+                        title:"Anggota",
                         anggota:"",
                         layout:false,
                         

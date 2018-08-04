@@ -91,11 +91,15 @@
                     <td>Genre</td>
                     <td>:</td>
                     <td>
-                      <%  _.each(anime.genreStrings,function(genre_list){ %>
-                        <a href="#">
-                          <%= genre_list.nama_genre %>
+                      <%  
+                          var genre = anime.genre
+                          var genres = genre.split(',')
+                          console.log(genres)
+                      for(var i=0;i<genres.length;i++){ %>
+                        <a href="/genre/<%= genres[i] %>">
+                          <%= genres[i] %>,
                         </a>
-                        <%})%>
+                        <%}%>
                     </td>
                   </tr>
                   <tr>

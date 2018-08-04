@@ -991,6 +991,7 @@ module.exports = {
                 
 
                 res.view("admin/algoritma/probabilitas",{
+                    title:"Probabilitas",
                     layout:false,
                     prob1:prob1,
                     prob2:prob2,

@@ -14,7 +14,7 @@
         <div class="container">
           <div class="row">
             <div class="col-md-12">
-              <h1 class="mb-2 mt-2 text-white">Daftar Anime Genre "<%= gen.nama_genre%>"</h1>
+              <h1 class="mb-2 mt-2 text-white">Daftar Anime Genre "<%= nama_genre%>"</h1>
             </div>
           </div>
         </div>
@@ -25,7 +25,7 @@
         
             <%
 
-            _.each(gen.animeStrings,function(animes){%>
+            _.each(anime,function(animes){%>
                 <div class="col-md3 mr-1 mb-1 p-1 border">
                     <div class="col-md-12 ">    
                       <a href="/detail-anime/<%=animes.id%>">

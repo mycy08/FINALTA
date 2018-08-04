@@ -1090,7 +1090,7 @@ module.exports = {
                                                 for (var i = 0; i < groupRating.length; i++) {
                                                     j = 0
                                                     if (j == parseInt(user.length)) {
-                                                        jsimi.push((parseFloat(itemRating[j]) * (1 - c)) + (parseFloat(groupRating[i]) * c))
+                                                        simi.push((parseFloat(itemRating[j]) * (1 - c)) + (parseFloat(groupRating[i]) * c))
                                                         j = j - parseInt(user.length)
                                                     }
                                                     else {
@@ -1142,6 +1142,7 @@ module.exports = {
                                                 User.find().exec(function(err,user){
                                                     res.view("admin/algoritma/prediksi",{
                                                         layout:false,
+                                                        title:"Prediksi",
                                                         user:user,
                                                         hasilRateAkhir:hasilRateAkhir
                                     

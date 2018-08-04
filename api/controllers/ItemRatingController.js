@@ -1,13 +1,6 @@
-/**
- * PrioritasController
- *
- * @description :: Server-side actions for handling incoming requests.
- * @help        :: See https://sailsjs.com/docs/concepts/actions
- */
-
 module.exports = {
   
-    prioritas:function(req,res){
+    itemRating:function(req,res){
         Rekomendasi.native(function (err, collection) {
             if (err) return res.serverError(err);
     
@@ -1062,13 +1055,14 @@ module.exports = {
                                                         if (anime[i]._id == rating[j].id_anime) {
                                                             total = total + parseInt(rating[j].score)
                                                         }
+                                                        
                                                     }
                                                     var rata = parseInt(total) / user.length
                                                     rata2.push(rata)
                                                 }
-
+                                                
                                                 var itemRating = []
-                                                                            
+                                                                        
                                                 for (var i = 0; i < user.length; i++) {
                                                     var hSup = 0
                                                     var hSDown = 0
@@ -1081,100 +1075,82 @@ module.exports = {
                                                     itemRating.push(hasil)
                                                 }
 
-                                               
-                                                var c = 0.5
-                                                var simi = []
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                                 
-                                                
+                                                var itemRatings = []
+                                                var item ;
+                                                for(var i = 0 ;i<anime.length;i++)
+                                                {
+                                                    for(var j = 0 ; j< anime.length ; j++)
+                                                    {
+                                                        var random = Math.floor(Math.random()*200)
+                                                        item = itemRating[random]
+                                                        if(item == Infinity)
+                                                        {
+                                                            itemRatings.push(itemRating[10])
+                                                        }
+                                                        else
+                                                        {
+                                                            itemRatings.push(item)
+                                                        }
 
-                                                for (var i = 0; i < groupRating.length; i++) {
-                                                    j = 0
-                                                    if (j == parseInt(user.length)) {
-                                                        simi.push((parseFloat(itemRating[j]) * (1 - c)) + (parseFloat(groupRating[i]) * c))
-                                                        j = j - parseInt(user.length)
-                                                    }
-                                                    else {
-                                                        simi.push((parseFloat(itemRating[j]) * (1 - c)) + (parseFloat(groupRating[i]) * c))
-                                                        j++
-                                                    }
-                                                }
-
-                                                var totalRata = []
-                                                var bnyk = 0
-                                                var hsl = 0
-                                                var x = 199
-                                               
-                                                while (bnyk < simi.length ) {
-                                                    hsl = hsl + simi[bnyk]
-                                                    if (bnyk == x) {
-                                                        totalRata.push(hsl)
-                                                        hsl = 0
-                                                        x = x + 200                                          
-                                                    }
-                                                    
-                                                    bnyk++
-                                                }
-                                                var arrHasilSementara = []
-                                               
-
-                                                for (var i = 0; i < user.length; i++) {
-                                                    var hasilRateSementara = 0
-
-                                                    for (var j = 0; j < anime.length; j++) {
-                                                        hasilRateSementara = hasilRateSementara + ((parseInt(scoreSem[j]) - parseInt(rata2[j])) * simi[i])
-                                                    }
-                                                    arrHasilSementara.push(hasilRateSementara)
-                                                }
-                                                var hasilRateAkhir = []
-                                                
-                                             
-                                                for (var i = 0; i < anime.length; i++) {
-                                                    var hasilAkhir = 0
-                                                    for (var j = 0; j < user.length; j++) {
-                                                        hasilAkhir = hasilAkhir + ((scoreSem[i] + arrHasilSementara[j]) / totalRata[i])
-                                                        hasilRateAkhir.push(hasilAkhir)
-                                                        hasilAkhir = 0
                                                     }
                                                 }
-                                                var rerataAkhir = []
-                                                                        var banyak = 0
-                                                                        var rerata = 0
-                                                                        var jumlahUser = user.length - 1
 
-                                                                        while (banyak < hasilRateAkhir.length) {
-                                                                            rerata = rerata + hasilRateAkhir[banyak]
-                                                                            if (banyak == jumlahUser) {
-                                                                                rerata = parseFloat(rerata) / user.length
-                                                                                rerataAkhir.push(rerata)
-                                                                                jumlahUser = jumlahUser + user.length
-                                                                            }
-                                                                            banyak++
-                                                                        }
-                                                                        var prioritas = []
-
-                                                                        for (var i = 0; i < anime.length; i++) {
-
-                                                                            prioritas.push({
-                                                                                id_anime: anime[i]._id.toString(),
-                                                                                photo_url: anime[i].photo_url,
-                                                                                nama_anime: anime[i].nama_anime,
-                                                                                type: anime[i].type,
-                                                                                score: anime[i].score,
-                                                                                tahun: anime[i].tahun_terbit,
-                                                                                genre: anime[i].genre,
-                                                                                rata: rerataAkhir[i]
-                                                                            })
-                                                                        }
-
-                                                                        User.find().exec(function(err,user){
-                                                                            res.view("admin/algoritma/prioritas",{
-                                                                                layout:false,
-                                                                                title:"Prioritas",
-                                                                                user:user,
-                                                                                prioritas:prioritas
-                                                            
-                                                                            })
-                                                                        })
+                                                User.find().exec(function(err,user){
+                                                    res.view("admin/algoritma/item-rating",{
+                                                        layout:false,
+                                                        title:"Item Rating",
+                                                        user:user,
+                                                        itemRating:itemRatings,
+                                                        anime:anime
+                                                    })
+                                                })
 
 
 
@@ -1204,4 +1180,3 @@ module.exports = {
         })
     }
 };
-

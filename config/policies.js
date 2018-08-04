@@ -31,7 +31,9 @@ module.exports.policies = {
   admin:{
     dataAnime : 'authAdmin',
     tambahAnime : 'authAdmin',
-    editAnime : 'authAdmin'
+    addAnime:'authAdmin',
+    editAnime : 'authAdmin',
+    dataUser:'authAdmin',
   },
   anime_favorit:{
     tambah:'authenticated',

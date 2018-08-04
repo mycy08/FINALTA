@@ -321,7 +321,7 @@ module.exports = {
                 nama:req.param('nama'),
                 no_hp:req.param('no_hp'),
                 kode_verifikasi:kode,
-                status:false
+                status:"false"
               }
               User.create(userObj).exec(function(err,user){ 
                   if (err) {
@@ -534,7 +534,7 @@ createMobile:function(req,res,next){
                 nama:req.param('nama'),
                 no_hp:req.param('no_hp'),
                 kode_verifikasi:kode,
-                status:false
+                status:"false"
               }
               User.create(userObj).exec(function(err,user){ 
                   if (err) {

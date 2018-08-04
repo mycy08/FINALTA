@@ -92,10 +92,10 @@
                                         <img class="d-block img-fluid" style="width: 180px;height: 220px;" src="/images/anime/<%= rekomus.photo_url %>"> </a>
                             </div>
                             <% if(rekomus.nama_anime.length>20){%>
-                                <h5 class="textcenter"><p><a href="/detail-anime/<%=rekomus.id%>"><%= (rekomus?rekomus.nama_anime.substring(0,20) : 'ada masalah') %>...</a></p></h5>
+                                <h5 class="textcenter"><p><a href="/detail-anime/<%=rekomus.id_anime%>"><%= (rekomus?rekomus.nama_anime.substring(0,20) : 'ada masalah') %>...</a></p></h5>
                               <%}
                                 else{%>
-                                  <h5 class="textcenter"><p><a href="/detail-anime/<%=rekomus.id%>"><%= (rekomus?rekomus.nama_anime : 'ada masalah') %></a></p></h5>
+                                  <h5 class="textcenter"><p><a href="/detail-anime/<%=rekomus.id_anime%>"><%= (rekomus?rekomus.nama_anime : 'ada masalah') %></a></p></h5>
                                 <%}
                               %>
                               <form action="/anime_favorit/tambah" method="POST">
@@ -120,7 +120,7 @@
                                   <% if (current == 1) { %>
                                       <li class="disabled page-item"><a class="page-link">First</a></li>
                                   <% } else { %>
-                                      <li class="page-item"><a class="page-link" href="/rekomendasi/<%= req.params.id%>/1">First</a></li>
+                                      <li class="page-item"><a class="page-link" href="/rekomendasi/filter-rekomendasi/1">First</a></li>
                                   <% } %>
                                   <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
                                   <% if (i !== 1) { %>
@@ -130,7 +130,7 @@
                                       <% if (i == current) { %>
                                           <li class="active page-item"><a class="page-link"><%= i %></a></li>
                                       <% } else { %>
-                                          <li class="page-item"><a class="page-link" href="/rekomendasi/<%= req.params.id%>/<%= i %>"><%= i %></a></li>
+                                          <li class="page-item"><a class="page-link" href="/rekomendasi/filter-rekomendasi/<%= i %>"><%= i %></a></li>
                                       <% } %>
                                       <% if (i == Number(current) + 4 && i < pages) { %>
                                           <li class="disabled page-link"><a>...</a></li>
@@ -139,7 +139,7 @@
                                   <% if (current == pages) { %>
                                       <li class="disabled page-item"><a class="page-link">Last</a></li>
                                   <% } else { %>
-                                      <li class="page-item"><a class="page-link" href="/rekomendasi/<%= req.params.id%>/<%= pages %>">Last</a></li>
+                                      <li class="page-item"><a class="page-link" href="/rekomendasi/filter-rekomendasi/<%= pages %>">Last</a></li>
                                   <% } %>
                               </ul>
                           <% } %>

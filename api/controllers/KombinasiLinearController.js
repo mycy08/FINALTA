@@ -1098,12 +1098,17 @@ module.exports = {
                                                         j++
                                                     }
                                                 }
-                                                
-                                                res.view("admin/algoritma/linear",{
-                                                    layout:false,
-                                                    simi:simi
-                                
+                                                Anime.count().exec(function(err,count){
+                                                    if(err) return res.serverError(err)
+                                                    res.view("admin/algoritma/linear",{
+                                                        layout:false,
+                                                        title:"Kombinasi Linear",
+                                                        count:count,
+                                                        simi:simi
+                                    
+                                                    })
                                                 })
+                                                
                                                 
 
 

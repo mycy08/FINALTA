@@ -50,7 +50,7 @@ module.exports = {
       type:"string"
     },
     status:{
-      type:"boolean"
+      type:"string"
     },
     ratings:{
       collection:'rating',

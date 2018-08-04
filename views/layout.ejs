@@ -57,7 +57,7 @@
               </li>
               <li class="nav-item ">
                 <a class="nav-link text-white" href="/popular/1">
-                <i class="fa d-inline fa-lg fa-thumbs-o-up mxnav"></i>&nbsp;Rekomendasi</a>
+                <i class="fa d-inline fa-lg fa-thumbs-o-up mxnav"></i>&nbsp;Anime populer</a>
               </li>
               
               <li class="nav-item dropdown  ">
@@ -67,7 +67,7 @@
                 <ul class="dropdown-menu scrollable-menu" role="menu">
                   <%
                     _.each(genre,function(genre){%>
-                      <li><a class="dropdown-item" href="/genre/<%= genre.id %>"><%= genre.nama_genre %></a></li>
+                      <li><a class="dropdown-item" href="/genre/<%= genre.nama_genre %>"><%= genre.nama_genre %></a></li>
                     <%})
                   %>
                   
@@ -145,7 +145,7 @@
                       </li>
                       <li class="nav-item ">
                         <a class="nav-link text-white mr-1" href="/popular/1">
-                        <i class="fa d-inline fa-lg fa-thumbs-o-up mxnav"></i>&nbsp;Rekomendasi</a>
+                        <i class="fa d-inline fa-lg fa-thumbs-o-up mxnav"></i>&nbsp;Anime populer</a>
                       </li>
                       
                       <li class="nav-item dropdown  ">
@@ -155,7 +155,7 @@
                           <ul class="dropdown-menu scrollable-menu" role="menu">
                             <%
                               _.each(genre,function(genre){%>
-                                <li><a class="dropdown-item" href="/genre/<%= genre.id %>"><%= genre.nama_genre %></a></li>
+                                <li><a class="dropdown-item" href="/genre/<%= genre.nama_genre %>"><%= genre.nama_genre %></a></li>
                               <%})
                             %>
                             
