@@ -22,6 +22,20 @@ module.exports = {
     
     filterRekomendasi: function (req, res) {
         var genre,genres
+        var tahunAwal
+        var tahunAkhir
+        var Taw = req.param('tahun_awal')
+        var Tak = req.param('tahun_akhir')
+        if(Taw>Tak){
+            tahunAwal =parseInt(Tak)-1
+            tahunAkhir=parseInt(Taw)+1
+        }
+        else{
+            tahunAwal =parseInt(Taw)-1
+            tahunAkhir=parseInt(Tak)+1
+        }
+
+        
         if(req.param('genre')==undefined){
              genres = ""
         }
@@ -32,14 +46,13 @@ module.exports = {
         
         var star = req.param('star')
         var tahun = req.param('tahun')
-       console.log(genres)
-
+       
+        
         
         var scoreAwal
         var scoreAkhir
 
-        var tahunAwal
-        var tahunAkhir
+        
         if(star==5){
             scoreAwal =10
             scoreAkhir=10
@@ -53,38 +66,14 @@ module.exports = {
             scoreAkhir=7
         } 
         else if(star==2){
-            scoreAwal =1
-            scoreAkhir=8
+            scoreAwal =4
+            scoreAkhir=5
         }
         else{
             scoreAwal =1
-            scoreAkhir=10
+            scoreAkhir=3
         }
 
-        if(tahun==1){
-            tahunAwal=1996
-            tahunAkhir=2000
-        }
-        else if(tahun==2){
-            tahunAwal=2001
-            tahunAkhir=2005
-        }
-        else if(tahun==3){
-            tahunAwal=2006
-            tahunAkhir=2010
-        }
-        else if(tahun==4){
-            tahunAwal=2011
-            tahunAkhir=2015
-        }
-        else if(tahun==5){
-            tahunAwal=2016
-            tahunAkhir=2020
-        }
-        else{
-            tahunAwal=1995
-            tahunAkhir=2020
-        }
         var page = req.param('page')
         var perPage=12
         Temp.find({})
@@ -96,7 +85,7 @@ module.exports = {
                 .where({like:{genre:'%' + genres + '%' }})
                 
         .exec(function(err,temp){
-            console.log(temp)
+            
             if(err) return res.serverError(err)
             Temp.count({})
                 .sort("rata desc")

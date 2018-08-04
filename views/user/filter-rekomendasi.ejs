@@ -26,8 +26,27 @@
                         <div class="cardfilter border" style="background-color:white;">
                             <h4 class="text-black text-center">Filter</h4>
                         </div>
+                        <form id="ratingsForm" method="POST" action="/rekomendasi/filterRekomendasi/">
+                            <div class="col-md-12 border" style="background-color:white;">
+                                    <h6 class="text-black mt-2">Rating</h6>
+                                    <div class="stars" style="margin-bottom: 20px;">
+                                            <input type="radio" name="star" value="1" class="star-1" id="star-1" />
+                                            <label class="star-1" for="star-1">1</label>
+                                            <input type="radio" name="star" value="2" class="star-2" id="star-2" />
+                                            <label class="star-2" for="star-2">2</label>
+                                            <input type="radio" name="star" value="3" class="star-3" id="star-3" />
+                                            <label class="star-3" for="star-3">3</label>
+                                            <input type="radio" name="star" value="4"class="star-4" id="star-4" />
+                                            <label class="star-4" for="star-4">4</label>
+                                            <input type="radio" name="star" value="5" class="star-5" id="star-5" />
+                                            <label class="star-5" for="star-5">5</label>
+                                            <span></span>
+                                        </div>    
+                            </div>
                         <div class="col-md-12 border scrollable-menu" style="background-color:white;">
-                            <form method="POST" action="/rekomendasi/filterRekomendasi/">
+                                
+                            
+                                
                             <h6 class="text-black mt-2  ">Genre</h6>
                             <%
                                 _.each(genre,function(genre){%>
@@ -39,40 +58,14 @@
                             
                             
                         </div>
-                        <div class="col-md-12 border" style="background-color:white;">
-                            <h6 class="text-black mt-2">Rating</h6>
-                            <div>
-                                <input type="radio" class="m-1" placeholder="pria" name="star" value="5">5 Star
-                            </div>
-                            <div>
-                                <input type="radio" class="m-1" placeholder="pria" name="star" value="4">4 Star Keatas
-                            </div>
-                            <div>
-                                <input type="radio" class="m-1" placeholder="pria" name="star" value="3">3 Star Keatas
-                            </div>
-                            <div>
-                                <input type="radio" class="m-1" placeholder="pria" name="star" value="2">2 Star Kebawah
-                            </div>
-                        </div>
+                        
                         <div class="col-md-12 border" style="background-color:white;">
                             <h6 class="text-black mt-2">Tahun</h6>
-                            <div class="overflows">
-                                <div>
-                                    <input type="radio" class="m-1" placeholder="pria" name="tahun" value="1">1996-2000
-                                </div>
-                                <div>
-                                    <input type="radio" class="m-1" placeholder="pria" name="tahun" value="2">2001-2005
-                                </div>
-                                <div>
-                                    <input type="radio" class="m-1" placeholder="pria" name="tahun" value="3">2006-2010
-                                </div>
-                                <div>
-                                    <input type="radio" class="m-1" placeholder="pria" name="tahun" value="4">2011-2015
-                                </div>
-                                <div>
-                                    <input type="radio" class="m-1" placeholder="pria" name="tahun" value="5">2016 keatas
-                                </div>
-                            </div>
+                            <section class="range-slider" style="margin-left: 30px">
+                                    <span class="rangeValues" style="text-align: center"></span>
+                                    <input value="1996" min="1996" max="2018" step="1" type="range" name="tahun_awal">
+                                    <input value="2018" min="1996" max="2018" step="1" type="range" name="tahun_akhir">
+                                  </section>
                             <input type="hidden" name="page" value="1">
                             <button type="submit" class="btn btn-warnabiru mt-3 mb-2">Terapkan</button>
                         </div>

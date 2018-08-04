@@ -71,6 +71,9 @@ module.exports.policies = {
     search:'flash',
     rekomendasi:'authenticated'
   },
+  rekomendasi:{
+    filterRekomendasi:'authenticated'
+  },
   rating:{
     tambahRating:'flash'
   },
