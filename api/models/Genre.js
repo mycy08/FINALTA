@@ -11,11 +11,7 @@ module.exports = {
     nama_genre:{
       type:'string'
     },
-    genres:{
-      collection:'genre_list',
-      via:'id_genre'
-      
-    }
+    
   },
   connection:'database'
 };

@@ -12,22 +12,34 @@ module.exports = {
 
 	lupaPassword: function (req, res) {
 		res.view('lupa-password', {
-			layout: false
-
+			layout: false,
+			title:"Lupa Password",
 		})
 	},
 	daftar: function (req, res) {
-		res.view('daftar', {
-			layout: false
-
-		})
+		if(req.session.User){
+			res.redirect('/anime-terbaru/1')
+		}
+		else{
+			res.view('daftar', {
+				layout: false,
+				title:"Daftar"
+			})
+		}
+		
 	},
 	login: function (req, res) {
-		res.view('login', {
-
-			layout: false
-
-		})
+		if(req.session.User){
+			res.redirect('/anime-terbaru/1')
+		}
+		else{
+			res.view('login', {
+				title:"Login",
+				layout: false
+	
+			})
+		}
+		
 	},
 	lupaSandi: function (req, res, next) {
 		User.findOne({ email: req.param('email') }).exec(function (err, user) {
@@ -38,7 +50,7 @@ module.exports = {
 				var kode = Math.floor(Math.random() * 90000) + 10000;
 				User.update({ email: req.param('email') }, { kode_verifikasi: kode }).exec(function (err, userUpdated) {
 					if (err) {
-						console.log(err);
+						return res.serverError(err)
 
 					}
 					else {
@@ -53,6 +65,16 @@ module.exports = {
 						})
 					}
 				})
+			}
+			else{
+				var noAccountError = [
+					"Email Belum Terdaftar"
+				]
+				req.session.flash = {
+					err: noAccountError
+				}
+				res.redirect('/lupa-password');
+				return;
 			}
 		})
 	},

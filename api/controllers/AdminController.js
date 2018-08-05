@@ -578,6 +578,7 @@ module.exports = {
 
                                 nama_anime: req.param('nama_anime'),
                                 action: action,
+                                photo_url: nameImage,
                                 adventure: adventure,
                                 comedy: comedy,
                                 scifi: scifi,

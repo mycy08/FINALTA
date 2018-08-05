@@ -48,10 +48,6 @@ module.exports = {
       collection:'anime_favorit',
       via :'owner_anime'
     },
-    genre_lists:{
-      collection:'genre_list',
-      via:'id_anime'
-    },
     
     ratings:{
       collection:'rating',
