@@ -455,7 +455,7 @@ module.exports = {
                         photo_url: nameImage,
                         deskripsi: req.param('deskripsi'),
                         genre: genres,
-                        score: 0
+                        
 
                     }).exec(function (err, addAnime) {
                         if (err) { return res.serverError(err) }
