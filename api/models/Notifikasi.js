@@ -11,6 +11,14 @@ module.exports = {
     id_anime:{
       type:'string'
     },
+    owner_anime:{
+      model:'anime',
+      required:true
+    },
+    owner_user:{
+      model:'user',
+      required:true
+    },
     id_user:{
       type:'string'
     },

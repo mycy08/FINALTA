@@ -52,6 +52,10 @@ module.exports = {
     status:{
       type:"string"
     },
+    notifikasi:{
+      collection:'notifikasi',
+      via :'owner_user'
+    },
     ratings:{
       collection:'rating',
       via:'owner_user'

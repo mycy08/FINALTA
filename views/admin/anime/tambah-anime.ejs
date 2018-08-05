@@ -43,7 +43,15 @@
         </nav>
         <div class="py-5">
             <div class="container">
+                    <% if(flash && flash.err) { %>
+                        <p class="alert alert-success" style="text-align: center;">
+                      <% Object.keys(flash.err).forEach(function(error) { %>
+                        <%- JSON.stringify(flash.err[error]) %></p>
+                      <% }) %>
+                      
+                      <% } %>
                 <div class="row">
+                        
                     <div class="col-md-9" style="margin-left: 125px">
                         <form class="" enctype="multipart/form-data" method="POST" action="/admin/tambahAnime">
                             <div class="form-group">

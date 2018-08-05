@@ -41,6 +41,13 @@
     <div class="container" style="margin-left: 180px">
       <div class="row">
         <div class="col-md-12">
+            <% if(flash && flash.err) { %>
+              <p class="alert alert-success" style="text-align: center;width: 975px;">
+            <% Object.keys(flash.err).forEach(function(error) { %>
+              <%- JSON.stringify(flash.err[error]) %></p>
+            <% }) %>
+            
+            <% } %>
           <div class="row">
             <div class="col-md-8">
               <form class="form-inline" action="/hasil-search/" method="POST">

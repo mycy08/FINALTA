@@ -85,7 +85,9 @@ module.exports = {
                                                 if(err) return res.serverError(err)
                                                 async.map(anfav,(function(notif,callback){
                                                     var ObjNotifikasi={
+                                                        owner_anime:created.id_anime,
                                                         id_anime:created.id_anime,
+                                                        owner_user:notif.id_user,
                                                         id_user:notif.id_user,
                                                         nama_anime:created.nama_anime,
                                                         url:created.url_versi_english,
@@ -133,6 +135,7 @@ module.exports = {
                             
 
                         }
+                        
                         Episode_anime.find({id_anime:anime._id.toString()}).exec(function(err,episode){
                             if(err) return res.serverError(err)
                             var data =[]
@@ -165,7 +168,9 @@ module.exports = {
                                                             if(err) return res.serverError(err)
                                                             async.map(anfav,(function(notif,callback){
                                                                 var ObjNotifikasi={
+                                                                    owner_anime:up.id_anime,
                                                                     id_anime:up.id_anime,
+                                                                    owner_user:notif.id_user,
                                                                     id_user:notif.id_user,
                                                                     nama_anime:up.nama_anime,
                                                                     url:up.url_versi_indo,
@@ -187,10 +192,17 @@ module.exports = {
                         })
           
                      })
+                     
                 })
                 
                 
-
+                var urlSalah = [
+                    'Episode Anime telah di update'
+                  ]
+                  req.session.flash = {
+                    err: urlSalah
+                  }
+                 
                 return res.redirect('/data-anime/1');
             })
 

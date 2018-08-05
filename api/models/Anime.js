@@ -40,6 +40,10 @@ module.exports = {
     score:{
       type:'float'
     },
+    notifikasi:{
+      collection:'notifikasi',
+      via :'owner_anime'
+    },
     episodes:{
       collection:'episode_anime',
       via :'owner_anime'

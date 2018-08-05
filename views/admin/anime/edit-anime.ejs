@@ -44,8 +44,16 @@
         </nav>
         <div class="py-5">
             <div class="container">
+                    <% if(flash && flash.err) { %>
+                        <p class="alert alert-success" style="text-align: center;">
+                      <% Object.keys(flash.err).forEach(function(error) { %>
+                        <%- JSON.stringify(flash.err[error]) %></p>
+                      <% }) %>
+                      
+                      <% } %>
                 <div class="row">
                         <div class="col-md-12">
+                                
                                 <div class="row">
                                   <div class="col-md-8">
                                     <form class="form-inline" action="/hasil-search/" method="POST">
@@ -61,7 +69,7 @@
                                     </form>
                                   </div>
                                   <div class="col-md-4">
-                                    <a class="btn btn-danger" href="/admin/hapus/<%= anime.id %>" style="margin-left: 75px">Hapus Anime</a>
+                                    <a class="btn btn-danger" href="#" style="margin-left: 75px" onclick="Confirm('Delete Anime', 'Are you sure you want to delete anime?', 'Yes', 'Cancel','http://localhost:1337/admin/hapus/<%= anime.id %>');">Hapus Anime</a>
                                   </div>
                                 </div>
                               </div>
@@ -69,17 +77,17 @@
                         <form class="" enctype="multipart/form-data" method="POST" action="/admin/updateAnime/<%= anime.id %>">
                             <div class="form-group">
                                 <label>Nama Anime</label>
-                                <input type="text" name="nama_anime" value="<%= anime.nama_anime %>" required class="form-control" placeholder="Masukan Nama Anime">
+                                <input type="text" name="nama_anime" value="<%= anime.nama_anime %>" required class="form-control" placeholder="Masukan Nama Anime" required>
                                 
                             </div>
                             <div class="form-group">
                                     <label>Url Anime Indo</label>
-                                    <input type="text" name="url_anime_indo"  value="<%= anime.url_anime_indo %>" class="form-control" placeholder="Masukan Url Anime indo">
+                                    <input type="text" name="url_anime_indo"  value="<%= anime.url_anime_indo %>" class="form-control" placeholder="Masukan Url Anime indo" required>
                                     <small class="form-text text-muted">Url didapat dari website oploverz.in .</small>
                                 </div>
                                 <div class="form-group">
                                         <label>Url Anime English</label>
-                                        <input type="text" name="url_anime_english" value="<%= anime.url_anime_english %>" class="form-control" placeholder="Masukan Url Anime English">
+                                        <input type="text" name="url_anime_english" value="<%= anime.url_anime_english %>" class="form-control" placeholder="Masukan Url Anime English" required>
                                         <small class="form-text text-muted">Url didapat dari website animeheaven.eu .</small>
                                 </div>
                             <div class="form-group">
@@ -139,7 +147,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Upload Gambar Anime</label>
-                                    <input type="file" class="form-control" name="photo_url" placeholder="Pilih Gambar" >
+                                    <input type="file" class="form-control" name="photo_url" placeholder="Pilih Gambar" required>
                                     
                             </div>
                             
@@ -160,7 +168,46 @@
                 </div>
             </div>
         </div>
-        
+        <script>
+                function Confirm(title, msg, $true, $false, $link) { /*change*/
+                    var $content =  "<div class='dialog-ovelay'>" +
+                                    "<div class='dialog'><header>" +
+                                     " <h3> " + title + " </h3> " +
+                                     "<i class='fa fa-close'></i>" +
+                                 "</header>" +
+                                 "<div class='dialog-msg'>" +
+                                     " <p> " + msg + " </p> " +
+                                 "</div>" +
+                                 "<footer>" +
+                                     "<div class='controls'>" +
+                                         " <button class='button button-danger doAction'>" + $true + "</button> " +
+                                         " <button class='button button-default cancelAction'>" + $false + "</button> " +
+                                     "</div>" +
+                                 "</footer>" +
+                              "</div>" +
+                            "</div>";
+                     $('body').prepend($content);
+                  $('.doAction').click(function () {
+                    window.location = $link
+                    
+                    $(this).parents('.dialog-ovelay').fadeOut(500, function () {
+                      $(this).remove();
+                    });
+                  });
+            $('.cancelAction, .fa-close').click(function () {
+                    window.location = 'http://localhost:1337/data-anime/1'
+                    $(this).parents('.dialog-ovelay').fadeOut(500, function () {
+                      $(this).remove();
+                    });
+                  });
+                  
+               }
+            
+                    
+            
+            
+                
+              </script>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
             crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"

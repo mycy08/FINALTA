@@ -29,11 +29,12 @@ module.exports.policies = {
  '*' :"flash",
   
   admin:{
-    dataAnime : 'authAdmin',
-    tambahAnime : 'authAdmin',
-    addAnime:'authAdmin',
-    editAnime : 'authAdmin',
-    dataUser:'authAdmin',
+    
+    dataAnime : ['flash','authAdmin'],
+    tambahAnime : ['flash','authAdmin'],
+    addAnime:['flash','authAdmin'],
+    editAnime : ['flash','authAdmin'],
+    dataUser: ['flash','authAdmin'],
   },
   anime_favorit:{
     tambah:'authenticated',
