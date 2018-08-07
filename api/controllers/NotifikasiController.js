@@ -4,7 +4,10 @@
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
-
+function paginate(array, perPage, page) {
+    --page; // because pages logically start with 1, but technically with 0
+    return array.slice(page * perPage, (page + 1) * perPage);
+}
 module.exports = {
     clickNotifikasi:function(req,res){
         Notifikasi.findOne(req.param('id')).exec(function(err,notif){
@@ -45,10 +48,10 @@ module.exports = {
     	var page = req.param('page')
     	var item_count = req.param('item_count')
     	
-    	Notifikasi.count({ id_user: req.param('id_user'),status:false })
+    	Notifikasi.count({ id_user: req.param('id_user'),status:"false" })
     	.sort('updatedAt DESC').exec(function(err,count){
             if(err) return res.serverError(err)
-            res.json(count)
+            res.json({count:count})
     	})
     },
     clickNotifikasiMobile:function(req,res){

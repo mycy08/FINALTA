@@ -134,6 +134,29 @@ module.exports = {
     //mobile
     filterRekomendasiMobile: function (req, res) {
         var genre,genres
+        var tahunAwal
+        var tahunAkhir
+        var Taw = req.param('tahun_awal')
+        var Tak = req.param('tahun_akhir')
+
+        
+        if(Taw>Tak){
+            tahunAwal =parseInt(Tak)-1
+            tahunAkhir=parseInt(Taw)+1
+        }
+        else if(Taw==undefined && Tak==undefined){
+            tahunAwal=1995
+            tahunAkhir=2019
+        }
+        else{
+            tahunAwal =parseInt(Taw)-1
+            tahunAkhir=parseInt(Tak)+1
+        }
+
+        console.log("TAawl : " +tahunAwal)
+        console.log("TAHIR :" +tahunAkhir)
+
+        
         if(req.param('genre')==undefined){
              genres = ""
         }
@@ -141,115 +164,56 @@ module.exports = {
              genre = req.param('genre')+""
              genres = genre.replace(/,/g,", ")
         }
+        
+        var star = req.param('star')
+        
+        console.log(star);      
+       
+        
+        
+        var scoreAwal
+        var scoreAkhir
 
-        var star,stars
-        if(req.param('star')==undefined){
-             stars = ""
+        
+        if(star==5){
+            scoreAwal =10
+            scoreAkhir=10
+        }
+        else if(star==4){
+            scoreAwal =8
+            scoreAkhir=9
+        } 
+        else if(star==3){
+            scoreAwal =6
+            scoreAkhir=7
+        } 
+        else if(star==2){
+            scoreAwal =4
+            scoreAkhir=5
         }
         else{
-             star = req.param('star')+""
-             stars = star.split(',')
+            scoreAwal =1
+            scoreAkhir=3
         }
+        console.log(scoreAwal)
+        console.log(scoreAkhir)
 
-        var dataStar=[]
-        for(var i=0;i<stars.length;i++){
-            dataStar.push({
-                score:stars[i]
-            })
-        }
-         var datas=[]    
-        dataStar.forEach(function(stars){
-            
-            if(stars.score==5){
-                 scoreAwal=10
-                 scoreAkhir=10
-            }
-            else if(stars.score==4){
-                scoreAwal =8
-                scoreAkhir=9
-            }
-            else if(stars.score==3){
-                scoreAwal =6
-                scoreAkhir=7
-            } 
-            else if(stars.score==2){
-                scoreAwal =4
-                scoreAkhir=5
-            }
-            else{
-                scoreAwal =1
-                scoreAkhir=10
-            }
-            Temp.find({})
+        var page = req.param('page')
+        var perPage=req.param('item_count')
+        Temp.find({})
                 .sort("rata desc")
-                 .where({score : {'>=': parseInt(scoreAwal)}},{score : {'<=': parseInt(scoreAkhir)}})
-                // .where({ tahun :{'>=': parseInt(tahunAwal)}},{tahun : {'<=': parseInt(tahunAkhir)} })
-                // .where({like:{genre:'%' + genres + '%' }})
+                .skip((perPage * page) - perPage)
+                .limit(perPage)
+                .where({score : {'>=': scoreAwal}},{score : {'<=': scoreAkhir}})
+                .where({ tahun :{$gt: tahunAwal, $lt: tahunAkhir} })
+                .where({like:{genre:'%' + genres + '%' }})
                 
-            .exec(function(err,temp){
-             if(err) return res.serverError(err)
-
-            async.map(temp,(function(data,callback){
-                
-                datas.push({
-                    id_anime:data.id_anime,
-                    nama_anime:data.nama_anime,
-                    type:data.type,
-                    photo_url:data.photo_url,
-                    score:data.score,
-
-                })
-                callback()
-            }),function(err,found){
-                console.log(datas.length)
-            })
+        .exec(function(err,temp){
+            console.log(temp);
+            if(err) return res.serverError(err)
+            res.json(temp)
             
-            res.json(datas)
-        }) 
-       
-        
-    })
-        
-        
-        
-        
-//         var tahunAwal = req.param('tahun_awal')
-//         var tahunAkhir = req.param('tahun_akhir')
-
-       
-// // console.log(genre)
-// //         console.log(genres)
-// //         console.log(tahunAwal)
-// //         console.log(tahunAkhir)
-//         var scoreAwal
-//         var scoreAkhir
-//         var datas=[]
-        
-//         for(var i=0;i<stars.length;i++){
-//             console.log("ini star :" +stars[i])
-//             if(stars[i]==5){
-//                  scoreAwal=10
-//                  scoreAkhir=10
-//             }
-//             else if(stars[i]==4){
-//                 scoreAwal =8
-//                 scoreAkhir=9
-//             }
-//             else if(stars[i]==3){
-//             scoreAwal =6
-//             scoreAkhir=7
-//             } 
-//             else if(stars[i]==2){
-//                 scoreAwal =4
-//                 scoreAkhir=5
-//             }
-//             else{
-//                 scoreAwal =1
-//                 scoreAkhir=10
-//             }
-//             console.log(scoreAwal,scoreAkhir)
-           
-        
+        })
     }
 
 };
