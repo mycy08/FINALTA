@@ -939,17 +939,6 @@ module.exports = {
                     }
                     iterasi++
                 }
-
-                
-                
-    
-                
-                
-                
-    
-                
-                
-                
                 res.view("admin/algoritma/k-means",{
                     title:"K-Means",
                     c1:c1,

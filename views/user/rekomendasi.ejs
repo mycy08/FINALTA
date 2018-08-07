@@ -84,7 +84,7 @@
                         <div class="col-md3 mr-1 mb-1 p-1 border">
 
                             <div class="col-md-12 ">
-                                    <a href="/detail-anime/<%=rekomus.id_anime%>">
+                                    <a class="as" href="http://localhost:1337/detail-anime/<%=rekomus.id_anime%>">
                                         <img class="d-block" style="width: 180px;height: 220px;" src="/images/anime/<%= rekomus.photo_url %>"> </a>
                             </div>
                             <% if(rekomus.nama_anime.length>20){%>
@@ -147,7 +147,9 @@
         </div>
     </div>
     </div>
-    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.js'></script>
+    <script src='https://unpkg.com/axios/dist/axios.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/qtip2/3.0.3/jquery.qtip.min.js'></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"

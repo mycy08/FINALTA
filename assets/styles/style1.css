@@ -1,0 +1,162 @@
+body {
+  background-color: black;
+  color: white;
+}
+
+.deck-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.stats {
+  margin: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  height: 440px;
+  width: auto;
+}
+
+.card-img {
+  display: flex;
+  align-items: center;
+  margin: 2rem;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
+}
+
+#label {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+#deck {
+  width: 450px;
+  height: auto;
+  display: flex;
+  border: 1px solid white;
+  background-color: #000016;
+  background-image: url("https://www.konami.com/yugioh/duel_links/images/common/bk_layer_a.png");
+  background-size: cover;
+  cursor: default;
+}
+
+#cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+.item {
+  box-sizing: border-box;
+  margin: 0.5rem;
+}
+.item img.cards {
+  height: auto;
+  width: 70px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+}
+.item p {
+  display: flex;
+  align-content: center;
+  border: 1px solid blue;
+  height: 100%;
+  width: 56px;
+}
+
+.deckinfo p {
+  font-weight: bold;
+  margin-bottom: 1px;
+}
+
+.name {
+  padding-left: 10px;
+  text-align: justify;
+}
+
+.value {
+  padding-left: 10px;
+  text-align: left;
+}
+
+.main {
+  height: 1.7rem;
+  padding-bottom: 0.3rem;
+}
+
+.stats p {
+  display: block;
+  margin: 1px;
+}
+
+.skill {
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+}
+
+.info {
+  position: absolute;
+  display: flex;
+}
+
+.noimg img[src] {
+  display: block;
+  position: absolute;
+}
+
+.cardinfo {
+  display: flex !important;
+  flex-direction: row;
+}
+
+.qtip-content {
+  display: flex;
+}
+
+.thumbnail img {
+  width: 120px;
+  height: 180px;
+}
+
+.carddata {
+  color: white;
+  font-size: 14px;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cardname {
+  font-weight: bold;
+}
+
+.thumbnail img {
+  margin: 1rem 1rem 1rem .5rem;
+  width: 120px;
+  display: flex;
+  height: 180px;
+}
+
+.qtip-dark {
+  background-color: #111;
+  min-width: 400px;
+}
+
+@media only screen and (max-width: 760px) {
+  .stats {
+    display: none;
+  }
+
+  #deck {
+    width: 362px;
+  }
+}

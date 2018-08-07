@@ -87,10 +87,12 @@
                             <td><%= c2[i].nilai %></td>
                             <td><%= c3[i].nilai %></td>
                             <%
-                                if(c1[i].nilai < c2[i].nilai && c1[i].nilai < c3[i].nilai){%>
+                                if(c1[i].nilai <= c2[i].nilai && c1[i].nilai <= c3[i].nilai){
+                                  
+                                  %>
                                     <td>C1</td>
                                 <%}
-                                else if(c2[i].nilai < c1[i].nilai && c2[i].nilai < c3[i].nilai){%>
+                                else if(c2[i].nilai < c1[i].nilai && c2[i].nilai <= c3[i].nilai){%>
                                     <td>C2</td>
                                 <%}
                                 else{%>

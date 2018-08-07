@@ -5,6 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 var bcrypt = require('bcrypt')
+var fs =require('fs')
 module.exports = {
   
   userProfile: function (req, res, next) {
@@ -71,7 +72,7 @@ module.exports = {
   editProfile: function (req, res, next) {
     User.findOne(req.param('id'), function (err, editProfile) {
       if (err) {
-        console.log(err);
+        return res.serverError(err)
       }
       else {
         Genre.find().exec(function (err, genre) {
@@ -249,6 +250,7 @@ module.exports = {
     })
   },
   uploadPhotoProfil: function(req, res) {
+    console.log(req.file('photo_url'))
     req.file('photo_url') // this is the name of the file in your multipart form
     .upload({ dirname: '../../assets/images/user' }, function(err, uploads) {
       // try to always handle errors
@@ -261,16 +263,41 @@ module.exports = {
       var id =User.id;
       var photo = User.photo;
       var fd = uploads[0].fd;  
-      var nameImage = fd.substring(64)
+      var nameImage = fd.substring(63)
+      console.log(fd)
+      console.log(nameImage)
       
-      User.update({id:req.param('id')}
+      if(nameImage.split('.').pop()=="jpg" || nameImage.split('.').pop()=="png" ){
+        User.update({id:req.param('id')}
                 ,
                 {photo_url: nameImage
               }).exec(function(err, file) {
                 if (err) { return res.serverError(err) }
-                // if it was successful return the registry in the response
+                var sukses = [
+                  'Photo Profil berhasil diubah'
+                ]
+                req.session.flash = {
+                  err: sukses
+                }
                 res.redirect('/profile/' + req.param('id'));
-    })
+      })
+      }
+      else{
+        link='assets/images/user/'+nameImage
+        fs.unlink(link, function(err) {
+          if (err) return console.log(err); // handle error as you wish
+          var failed = [
+            'Photo Profil harus berformat jpg/png'
+          ]
+          req.session.flash = {
+            err: failed
+          }
+          res.redirect('/profile/' + req.param('id'));
+          // file deleted... continue your logic
+        });
+        
+      }
+      
     })
     
 },
@@ -455,28 +482,32 @@ animeFavoritMobile: function(req, res, next){
 uploadPhotoProfilMobile: function(req, res) {
     req.file('file') // this is the name of the file in your multipart form
     .upload({ dirname: '../../assets/images/user' }, function(err, uploads) {
-      // try to always handle errors
       if (err) { return res.serverError(err) }
-      // uploads is an array of files uploaded 
-      // so remember to expect an array object
       if (uploads.length === 0) { return res.badRequest('No file was uploaded') }
-      // if file was uploaded create a new registry
-      // at this point the file is phisicaly available in the hard drive
       var id =User.id;
       var photo = User.photo;
       var fd = uploads[0].fd;
-      
       var nameImage = fd.substring(64)
-      
-      
-      User.update({id:req.param('id')}
+      if(nameImage.split('.').pop()=="jpg" || nameImage.split('.').pop()=="png" ){
+        User.update({id:req.param('id')}
                 ,
                 {photo_url: nameImage
               }).exec(function(err, file) {
                 if (err) { return res.serverError(err) }
-                // if it was successful return the registry in the response
+                
                 res.json(file);
-    })
+      })
+      }
+      else{
+        link='assets/images/user/'+nameImage
+        fs.unlink(link, function(err) {
+          if (err) return console.log(err); 
+          res.json(201,{pesan:"failed"})
+        });
+        
+      }
+      
+      
     })
     
 },

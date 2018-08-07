@@ -3022,7 +3022,7 @@ module.exports = {
     },
     detailAnimeM: function (req, res, next) {
 
-        Anime.findOne(req.param('id')).populateAll().exec(function (err, anime) {
+        Anime.findOne(req.param('id')).exec(function (err, anime) {
             if (err) {
                 return res.serverError(err);
             } else {
