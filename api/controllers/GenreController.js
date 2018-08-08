@@ -53,109 +53,20 @@ module.exports = {
                         
                     })
                 })
-                // gen.animeStrings =[]
-                // async.each(gen.genres, function (genres, callback) {
-                //     Anime.findOne({ id: genres.id_anime }).exec(function (err, anime) {
-                //         if (err) {
-                //             callback(err)
-                //         } else {
-                //             gen.animeStrings.push({
-                //                 id: anime.id,
-                //                 type:anime.type,
-                //                 score:anime.score,
-                //                 nama_anime: anime.nama_anime,
-                //                 photo_url: anime.photo_url, 
-                //                 deskripsi : anime.deskripsi
-                //             })
-                //             callback()
-                //         }
-                //     })
-                // }, function (err) { 
-                    
-                //     if (err)
-                //         return res.serverError(err);
-                //     else {
-                //         if (err)
-                //                 return res.serverError(err);
-                //             else {
-                                
-                //                 Genre.find().exec(function(err,genre){
-                //                     if (req.session.User) {
-                //                         Notifikasi.find({ id_user: req.session.User.id }).sort('updatedAt DESC').exec(function(err,notif){
-                //                             Notifikasi.count({ id_user: req.session.User.id, status:"false" }).sort('updatedAt DESC').exec(function(err,countNotif){
-                //                                 res.view("user/genre/", {
-                //                                     notif:notif,
-                //                                     status: 'OK',
-                //                                     title: 'Genre',
-                //                                     gen:gen,
-                //                                     genre:genre,
-                //                                     countNotif:countNotif
-                                                    
-                //                                 })
-                //                             })
-                                            
-                //                         })
-                //                       }
-                //                     else{
-                //                         res.view("user/genre/", {
-
-                //                             status: 'OK',
-                //                             title: 'Genre',
-                //                             gen:gen,
-                //                             genre:genre,
-                                            
-                //                         })
-                //                     }
-                                    
-                //                 })
-                                
-                //             }
-                //     }
-                // })
-            
+                
         
     },
     //mobile
     tampilGenreMobile:function(req,res){
         var page_number = req.param('page_number')
         var item_count = req.param('item_count')
-        Genre.findOne({id:req.param('id')})
+        Anime.find({like:{genre:'%' + req.param('nama_genre') + '%' }})
+            .skip((item_count * page_number) - item_count)
+            .limit(item_count)
+        .exec(function(err,genre){
+            if(err) return res.serverError(err)
+            res.json(genre)
             
-            .populateAll().exec(function(err,gen){
-            if(err){
-                return res.serverError(err);
-            }
-            else{
-                gen.animeStrings =[]
-                async.each(gen.genres, function (genres, callback) {
-                    Anime.findOne({ id: genres.id_anime }).exec(function (err, anime) {
-                        if (err) {
-                            callback(err)
-                        } else {
-                            gen.animeStrings.push({
-                                id: anime.id,
-                                nama_anime: anime.nama_anime,
-                                photo_url: anime.photo_url, 
-                                deskripsi : anime.deskripsi
-                            })
-                            callback()
-                        }
-                    })
-                }, function (err) { 
-                    
-                    if (err)
-                        return res.serverError(err);
-                    else {
-                        if (err)
-                                return res.serverError(err);
-                            else {
-                                
-                                res.json(paginate(gen.animeStrings,item_count,page_number))
-                                
-                            }
-                    }
-                })
-            }
         })
     },
     

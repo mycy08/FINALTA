@@ -29,7 +29,7 @@ module.exports.policies = {
  '*' :"flash",
   
   admin:{
-    
+    '/admin' : 'authAdmin',
     dataAnime : ['flash','authAdmin'],
     tambahAnime : ['flash','authAdmin'],
     addAnime:['flash','authAdmin'],
