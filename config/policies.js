@@ -40,33 +40,33 @@ module.exports.policies = {
     tambah:'authenticated',
     // '*' : 'authenticated'
   },
-  anggotaClustering:{
-    '*' : 'authAdmin'
-  },
-  groupRating:{
-    '*' : 'authAdmin'
-  },
-  itemRating:{
-    '*' : 'authAdmin'
-  },
-  kmeans:{
-    '*' : 'authAdmin'
-  },
-  kombinasiLinear:{
-    '*' : 'authAdmin'
-  },
-  mae:{
-    '*' : 'authAdmin'
-  },
-  prediksi:{
-    '*' : 'authAdmin'
-  },
-  prioritas:{
-    '*' : 'authAdmin'
-  },
-  probabilitas:{
-    '*' : 'authAdmin'
-  },
+  // anggotaClustering:{
+  //   '*' : 'authAdmin'
+  // },
+  // groupRating:{
+  //   '*' : 'authAdmin'
+  // },
+  // itemRating:{
+  //   '*' : 'authAdmin'
+  // },
+  // // kmeans:{
+  // //   '*' : 'authAdmin'
+  // // },
+  // kombinasiLinear:{
+  //   '*' : 'authAdmin'
+  // },
+  // mae:{
+  //   '*' : 'authAdmin'
+  // },
+  // prediksi:{
+  //   '*' : 'authAdmin'
+  // },
+  // prioritas:{
+  //   '*' : 'authAdmin'
+  // },
+  // probabilitas:{
+  //   '*' : 'authAdmin'
+  // },
   
   anime:{
     search:'flash',

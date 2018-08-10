@@ -9,7 +9,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
   <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css"> 
-  <link rel="stylesheet" href="/styles/custome.css" type="text/css">  
+  <link rel="stylesheet" href="/styles/custome.css" type="text/css">
+  <link rel="stylesheet" href="/styles/algo.css" type="text/css">  
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 
 <body style="background-color: azure">
@@ -60,41 +61,118 @@
             </li>
         </ul>
         <a class="btn navbar-btn btn-primary ml-2 text-white" href="/admin/destroy/">
-          <i class="fa d-inline fa-lg fa-user-circle-o"></i>&nbsp;<%= req.session.Admin.nama%></a>
+          <i class="fa d-inline fa-lg fa-user-circle-o"></i>&nbsp; <%= req.session.Admin.nama %></a>
       </div>
     </div>
   </nav>
-  <div class="table-responsive">
-        <table>
-                <tr>
-                        <th></th>
-                    <% 
-                         
-                        for(var i=0;i<count;i++){%>
-                                <th>Anime<%= i+1 %></th> 
-                        <%}
-                    %>
+  <div class="py-3  w-100">
+      <div class="container">
+        <div class="row">
+          <div class="h-100 col-md-4" style="background-color: white">
+            <div class="row">
+              <div id="mulai"></div>
+              
+            </div>
+            <div class="row">
+                <a href="/kmeans/kmeans" class="ref" ><div id="kmeans"  ></div></a>
+                <a href="/itemRating/itemRating" class="ref"><div id="itemRating"  ></div></a>
+              </div>
+              <div class="row">
+                  <a href="/probabilitas/probabilitas" class="ref"><div id="prob"></div></a>
+                  <div id="line" class="ref" ></div>
+                </div>
+                <div class="row">
+                    <a href="/groupRating/groupRating" class="ref"><div id="groupRating"  ></div></a>
+                    <a href="/kombinasiLinear/kombinasiLinear" class="ref"><div id="line1" class="borMer" ></div></a>
+                  </div>
+                  <div class="row">
+                      <a href="/prediksi/prediksi" class="ref1"><div id="prediksi"></div></a>
+                      
+                    </div>
+                    <div class="row">
+                        <a href="/prioritas/prioritas" class="ref1"><div id="prioritas"></div></a>
+                        
+                      </div>
                     
-                </tr>
-                <%
-                    
-                    var i=0
-                    var k = 1
-                    while(i<simi.length){%>
-                    <tr>
-                        <th>Anime<%= k %></th>
-                        <% for(var j=0;j<count;j++){%>
-                              <td><%= simi[i] %></td>
-                              <%  i++    
-                        }%>
-                    </tr>
-                    <%k++
-                    }
-                %>
-                
-                
-            </table>
-</div>
+          </div>
+          <div class="col-md-8">
+              <div class="py-5">
+                  <div class="container">
+                      <div class="row">
+                          <div class="col-md-9" style="margin-left: 125px">
+                            <form class="" enctype="multipart/form-data" method="POST" action="/kombinasiLinear/kombinasiLinear">
+                              <label>Pilih Jumlah Cluster</label>
+                                <select name="cluss" id="" class="form-control">
+                                    <%
+                                      for(var i=2;i<=9;i++){%>
+                                        <option value="<%= i %>">Jumlah Cluster <%= i %></option>
+                                      <%}
+                                    %>
+                                
+                                  </select>
+                                  <label>Pilih Koefisien</label>
+                                  <select name="koefisien" id="" class="form-control">
+                                    <%
+                                      for(var i=1;i<=10;i++){%>
+                                        <option value="<%= i/10 %>">  <%= i/10 %></option>
+                                      <%}
+                                    %>
+                                
+                                  </select>
+                                
+                            
+                            <button type="submit" class="btn btn-primary" style="margin-top: 10px">Submit</button>
+                            </form>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
+              <div class="table-responsive">
+                    <table>
+                            <%
+                            if(clus==0){%>
+                            <p style="text-align: center;">Pilih Jumlah Cluster terlebih dahulu !!</p>
+                          <%}
+                          else{%>
+                            <tr>
+                                <th></th>
+                            <% 
+                                 
+                                for(var i=0;i<count;i++){%>
+                                        <th>Anime<%= i+1 %></th> 
+                                <%}
+                            %>
+                            
+                        </tr>
+                        <%
+                            if(clus==2){
+                              var i=0
+                              var k = 1
+                              while(i<simi.length){%>
+                              <tr>
+                                <th>Anime<%= k %></th>
+                                <% for(var j=0;j<count;j++){%>
+                                      <td><%= simi[i] %></td>
+                                      <%  i++    
+                                }%>
+                            </tr>
+                            <%k++
+                            }
+            
+                            }
+                          }
+                            
+                        %>
+                          
+                           
+                            
+                            
+                            
+                        </table>
+            </div>
+          </div>
+  </div>
+  
      
       
           
@@ -109,7 +187,7 @@
     
   </div>
   
-  <div class="text-white bg-primary py-2">
+  <div class="text-white bg-primary py-2" style="margin-top:107px;">
     
     <div class="container">
       <div class="row">

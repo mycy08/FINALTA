@@ -1,0 +1,91 @@
+#mulai {
+    left: 0px;
+    width: 379px;
+    height: 80px;
+    background: url('../images/logo/algo.jpg') 0 0;
+}
+
+#kmeans {
+    left: 0px;
+    width: 189.98px;
+    height: 205px;
+    background: url(../images/logo/algo.jpg) 9px -94px;
+    background-size: 300px 830px;
+    background-repeat: no-repeat;
+
+}
+
+#itemRating {
+    left: 0px;
+    width: 189.98px;
+    height: 205px;
+    background: url('../images/logo/algo.jpg') -190px -80px;
+    background-repeat: no-repeat;
+}
+#prob {
+    left: 0px;
+    width: 189.98px;
+    height: 80px;
+    background: url(../images/logo/algo.jpg) 0px -250px;
+    background-repeat: no-repeat;
+}
+#line {
+    left: 0px;
+    width: 189.98px;
+    height: 80px;
+    background: url(../images/logo/line.jpg) -47px -50px;
+    background-repeat: no-repeat;
+}
+#line1 {
+    left: 0px;
+    width: 189.98px;
+    height: 120px;
+    background: url(../images/logo/algo.jpg) -190px -330px;
+    background-repeat: no-repeat;
+}
+
+#groupRating {
+    left: 0px;
+    width: 189.98px;
+    height: 120px;
+    background: url(../images/logo/algo.jpg) 0px -330px;
+    background-repeat: no-repeat;
+}
+#prediksi {
+    left: 0px;
+    width: 379px;
+    height: 91px;
+    background: url(../images/logo/algo.jpg) 0px -450px;
+    background-repeat: no-repeat;
+}
+
+#prioritas {
+    left: 0px;
+    width: 379px;
+    height: 150px;
+    background: url(../images/logo/algo.jpg) 0px -540px;
+    background-repeat: no-repeat;
+}
+
+.borMer{
+    border: solid 3px red;
+}
+
+a.ref{
+    width: 185.98px;
+}
+a.ref1{
+    width: 376px;
+}
+
+a.ref:hover{
+    width: 185.98px;
+    border: solid 3px red;
+}
+a.ref1:hover{
+    width: 376px;
+    border: solid 3px red;
+}
+.colDiv{
+    width: 189.98px;
+}

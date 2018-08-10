@@ -3,151 +3,682 @@
 <html>
 
 <head>
-    <title><%=typeof title == 'undefined' ? 'New Sails App' : title%></title>
+  <title>
+    <%=typeof title == 'undefined' ? 'New Sails App' : title%>
+  </title>
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
-  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css"> 
-  <link rel="stylesheet" href="/styles/custome.css" type="text/css">  
+  <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css">
+  <link rel="stylesheet" href="/styles/custome.css" type="text/css">
+  <link rel="stylesheet" href="/styles/algo.css" type="text/css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 
-<body style="background-color: azure">
-  <nav class="navbar navbar-expand-md bg-primary navbar-dark">
-    <div class="container">
-      <a class="navbar-brand" href="/admin">Admin Page</a>
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="/kmeans/kmeans">
-              <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;K-Means</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/anggotaClustering/anggota">
-              <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;Anggota</a>
-          </li>
-          <li class="nav-item">
+  <body style="background-color: azure">
+    <nav class="navbar navbar-expand-md bg-primary navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="/admin">Admin Page</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/kmeans/kmeans">
+                <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;K-Means</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/anggotaClustering/anggota">
+                <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;Anggota</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="/probabilitas/probabilitas">
                 <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;probabilitas</a>
             </li>
             <li class="nav-item">
-                    <a class="nav-link" href="/groupRating/groupRating">
-                      <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;G Rating</a>
+              <a class="nav-link" href="/groupRating/groupRating">
+                <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;G Rating</a>
             </li>
             <li class="nav-item">
-                    <a class="nav-link" href="/itemRating/itemRating">
-                      <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;I Rating</a>
+              <a class="nav-link" href="/itemRating/itemRating">
+                <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;I Rating</a>
             </li>
             <li class="nav-item">
-                    <a class="nav-link" href="/kombinasiLinear/kombinasiLinear">
-                      <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;K Linear</a>
+              <a class="nav-link" href="/kombinasiLinear/kombinasiLinear">
+                <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;K Linear</a>
             </li>
-            
+
             <li class="nav-item">
-                    <a class="nav-link" href="/prediksi/prediksi">
-                      <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;Prediksi</a>
-            </li>
-            <li class="nav-item">
-                    <a class="nav-link" href="/prioritas/prioritas">
-                      <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;Prioritas</a>
+              <a class="nav-link" href="/prediksi/prediksi">
+                <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;Prediksi</a>
             </li>
             <li class="nav-item">
-                    <a class="nav-link" href="/mae/mae">
-                      <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;Mae</a>
+              <a class="nav-link" href="/prioritas/prioritas">
+                <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;Prioritas</a>
             </li>
-        </ul>
-        <a class="btn navbar-btn btn-primary ml-2 text-white" href="/admin/destroy/">
-          <i class="fa d-inline fa-lg fa-user-circle-o"></i>&nbsp;<%= req.session.Admin.nama%></a>
+            <li class="nav-item">
+              <a class="nav-link" href="/mae/mae">
+                <i class="fa d-inline fa-lg fa-binoculars"></i>&nbsp;Mae</a>
+            </li>
+          </ul>
+          <a class="btn navbar-btn btn-primary ml-2 text-white" href="/admin/destroy/">
+            <i class="fa d-inline fa-lg fa-user-circle-o"></i>&nbsp;<%= req.session.Admin.nama %></a>
+        </div>
       </div>
-    </div>
-  </nav>
-  <div class="table-responsive">
-        <table class="table" id="myTable">
-                <tr>
-                    <th>No</th>
-                    <th>ID</th>
-                    <th>Nama Anime</th>
-                    <th>C1</th>
-                    <th>C2</th>
-                    <th>C3</th>
-                    <th>Anggota</th>
+    </nav>
+    <div class="py-3  w-100">
+      <div class="container">
+        <div class="row">
+          <div class="h-100 col-md-4" style="background-color: white">
+            <div class="row">
+              <div id="mulai"></div>
+              
+            </div>
+            <div class="row">
+                <a href="/kmeans/kmeans" class="ref" ><div id="kmeans" class="borMer" ></div></a>
+                <a href="/itemRating/itemRating" class="ref"><div id="itemRating" ></div></a>
+              </div>
+              <div class="row">
+                  <a href="/probabilitas/probabilitas" class="ref"><div id="prob"></div></a>
+                  <div id="line" class="ref" ></div>
+                </div>
+                <div class="row">
+                    <a href="/groupRating/groupRating" class="ref"><div id="groupRating" ></div></a>
+                    <a href="/kombinasiLinear/kombinasiLinear" class="ref"><div id="line1" ></div></a>
+                  </div>
+                  <div class="row">
+                      <a href="/prediksi/prediksi" class="ref1"><div id="prediksi"></div></a>
+                      
+                    </div>
+                    <div class="row">
+                        <a href="/prioritas/prioritas" class="ref1"><div id="prioritas"></div></a>
+                        
+                      </div>
                     
-            
+          </div>
+          <div class="col-md-8">
+            <div class="py-5">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-9" style="margin-left: 125px">
+                    <form class="" enctype="multipart/form-data" method="POST" action="/kmeans/kmeans">
+                      <label>Pilih Jumlah Cluster</label>
+                      <select name="cluss" id="" class="form-control">
+                        <%
+                                      for(var i=2;i<=9;i++){%>
+                          <option value="<%= i %>">Jumlah Cluster
+                            <%= i %>
+                          </option>
+                          <%}
+                                    %>
+
+                      </select>
+
+
+                      <button type="submit" class="btn btn-primary" style="margin-top: 10px">Submit</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table" id="myTable">
+                <tr>
+                  <th>No</th>
+                  <th>ID</th>
+                  <th>Nama Anime</th>
+                  <% for(var i=0;i<clus;i++){ %>
+                    <th>C
+                      <%=[i+1]%>
+                    </th>
+                    <%}%>
+                      <th>Anggota</th>
+
+
                 </tr>
                 <%
-                    for(var i=0;i<rekomendasi.length;i++){%>
-                        <tr>
-                            <td><%= i+1 %></td>
-                            <td><%= rekomendasi[i].id_anime %></td>
-                            <td><%= rekomendasi[i].nama_anime %></td>
-                            <td><%= c1[i].nilai %></td>
-                            <td><%= c2[i].nilai %></td>
-                            <td><%= c3[i].nilai %></td>
+                                    if(clus==0){%>
+                  <p style="text-align: center;">Pilih Jumlah Cluster terlebih dahulu !!</p>
+                  <%}
+                                      else{
+                                        for(var i=0;i<rekomendasi.length;i++){
+                                          if(clus==2){%>
+                    <tr>
+                      <td>
+                        <%= i+1 %>
+                      </td>
+                      <td>
+                        <%= rekomendasi[i].id_anime %>
+                      </td>
+                      <td>
+                        <%= rekomendasi[i].nama_anime %>
+                      </td>
+                      <td>
+                        <%= c1[i].nilai %>
+                      </td>
+                      <td>
+                        <%= c2[i].nilai %>
+                      </td>
+                      <%
+                                                    if(c1[i].nilai <= c2[i].nilai ){
+                                                      
+                                                      %>
+                        <td>C1</td>
+                        <%}
+                                                    else{%>
+                          <td>C2</td>
+                          <%}
+                                                   
+                                                %>
+
+
+                    </tr>
+                    <%}
+                                          else if(clus==3){%>
+                      <tr>
+                        <td>
+                          <%= i+1 %>
+                        </td>
+                        <td>
+                          <%= rekomendasi[i].id_anime %>
+                        </td>
+                        <td>
+                          <%= rekomendasi[i].nama_anime %>
+                        </td>
+                        <td>
+                          <%= c1[i].nilai %>
+                        </td>
+                        <td>
+                          <%= c2[i].nilai %>
+                        </td>
+                        <td>
+                          <%= c3[i].nilai %>
+                        </td>
+                        <%
+                                                    if(c1[i].nilai <= c2[i].nilai && c1[i].nilai <= c3[i].nilai){
+                                                      
+                                                      %>
+                          <td>C1</td>
+                          <%}
+                                                    else if(c2[i].nilai < c1[i].nilai && c2[i].nilai <= c3[i].nilai){
+                                                      %>
+                            <td>C2</td>
                             <%
-                                if(c1[i].nilai <= c2[i].nilai && c1[i].nilai <= c3[i].nilai){
-                                  
-                                  %>
-                                    <td>C1</td>
+                                                    }
+                                                    else{%>
+                              <td>C3</td>
+                              <%}
+                                                   
+                                                %>
+
+
+                      </tr>
+                      <%}
+                                          else if(clus==4){%>
+                        <tr>
+                          <td>
+                            <%= i+1 %>
+                          </td>
+                          <td>
+                            <%= rekomendasi[i].id_anime %>
+                          </td>
+                          <td>
+                            <%= rekomendasi[i].nama_anime %>
+                          </td>
+                          <td>
+                            <%= c1[i].nilai %>
+                          </td>
+                          <td>
+                            <%= c2[i].nilai %>
+                          </td>
+                          <td>
+                            <%= c3[i].nilai %>
+                          </td>
+                          <td>
+                            <%= c4[i].nilai %>
+                          </td>
+                          <%
+                                                    if(c1[i].nilai <= c2[i].nilai && c1[i].nilai <= c3[i].nilai && c1[i].nilai <= c4[i].nilai){
+                                                      
+                                                      %>
+                            <td>C1</td>
+                            <%}
+                                                    else if(c2[i].nilai < c1[i].nilai && c2[i].nilai < c3[i].nilai && c2[i].nilai <= c3[i].nilai){
+                                                      %>
+                              <td>C2</td>
+                              <%
+                                                    }
+                                                    else if(c3[i].nilai < c1[i].nilai && c3[i].nilai < c2[i].nilai && c3[i].nilai <= c4[i].nilai){
+                                                      %>
+                                <td>C3</td>
+                                <%
+                                                    }
+                                                    else{%>
+                                  <td>C4</td>
+                                  <%}
+                                                   
+                                                %>
+
+
+                        </tr>
+                        <%}
+                                          else if(clus==5){%>
+                          <tr>
+                            <td>
+                              <%= i+1 %>
+                            </td>
+                            <td>
+                              <%= rekomendasi[i].id_anime %>
+                            </td>
+                            <td>
+                              <%= rekomendasi[i].nama_anime %>
+                            </td>
+                            <td>
+                              <%= c1[i].nilai %>
+                            </td>
+                            <td>
+                              <%= c2[i].nilai %>
+                            </td>
+                            <td>
+                              <%= c3[i].nilai %>
+                            </td>
+                            <td>
+                              <%= c4[i].nilai %>
+                            </td>
+                            <td>
+                              <%= c5[i].nilai %>
+                            </td>
+
+                            <%
+                                                    if(c1[i].nilai <= c2[i].nilai && c1[i].nilai <= c3[i].nilai && c1[i].nilai <= c4[i].nilai && c1[i].nilai <= c5[i].nilai){
+                                                      
+                                                      %>
+                              <td>C1</td>
+                              <%}
+                                                    else if(c2[i].nilai < c1[i].nilai && c2[i].nilai < c3[i].nilai && c2[i].nilai <= c3[i].nilai && c2[i].nilai <= c5[i].nilai){
+                                                      %>
+                                <td>C2</td>
+                                <%
+                                                    }
+                                                    else if(c3[i].nilai < c1[i].nilai && c3[i].nilai < c2[i].nilai && c3[i].nilai <= c4[i].nilai && c3[i].nilai <= c5[i].nilai){
+                                                      %>
+                                  <td>C3</td>
+                                  <%
+                                                    }
+                                                    else if(c4[i].nilai < c1[i].nilai && c4[i].nilai < c2[i].nilai && c4[i].nilai < c3[i].nilai && c4[i].nilai <= c5[i].nilai){
+                                                      %>
+                                    <td>C4</td>
+                                    <%
+                                                    }
+                                                    else{%>
+                                      <td>C5</td>
+                                      <%}
+                                                   
+                                                %>
+
+
+                          </tr>
+                          <%}
+                                          else if(clus==6){%>
+                            <tr>
+                              <td>
+                                <%= i+1 %>
+                              </td>
+                              <td>
+                                <%= rekomendasi[i].id_anime %>
+                              </td>
+                              <td>
+                                <%= rekomendasi[i].nama_anime %>
+                              </td>
+                              <td>
+                                <%= c1[i].nilai %>
+                              </td>
+                              <td>
+                                <%= c2[i].nilai %>
+                              </td>
+                              <td>
+                                <%= c3[i].nilai %>
+                              </td>
+                              <td>
+                                <%= c4[i].nilai %>
+                              </td>
+                              <td>
+                                <%= c5[i].nilai %>
+                              </td>
+                              <td>
+                                <%= c6[i].nilai %>
+                              </td>
+
+                              <%
+                                                    if(c1[i].nilai <= c2[i].nilai && c1[i].nilai <= c3[i].nilai && c1[i].nilai <= c4[i].nilai && c1[i].nilai <= c5[i].nilai && c1[i].nilai <= c6[i].nilai){
+                                                      
+                                                      %>
+                                <td>C1</td>
                                 <%}
-                                else if(c2[i].nilai < c1[i].nilai && c2[i].nilai <= c3[i].nilai){%>
-                                    <td>C2</td>
-                                <%}
-                                else{%>
+                                                    else if(c2[i].nilai < c1[i].nilai && c2[i].nilai < c3[i].nilai && c2[i].nilai <= c3[i].nilai && c2[i].nilai <= c5[i].nilai && c2[i].nilai <= c6[i].nilai){
+                                                      %>
+                                  <td>C2</td>
+                                  <%
+                                                    }
+                                                    else if(c3[i].nilai < c1[i].nilai && c3[i].nilai < c2[i].nilai && c3[i].nilai < c4[i].nilai && c3[i].nilai <= c5[i].nilai && c3[i].nilai <= c6[i].nilai){
+                                                      %>
                                     <td>C3</td>
+                                    <%
+                                                    }
+                                                    else if(c4[i].nilai < c1[i].nilai && c4[i].nilai < c2[i].nilai && c4[i].nilai < c3[i].nilai && c4[i].nilai <= c5[i].nilai && c4[i].nilai <= c6[i].nilai){
+                                                      %>
+                                      <td>C4</td>
+                                      <%
+                                                    }
+                                                    else if(c5[i].nilai < c1[i].nilai && c5[i].nilai < c2[i].nilai && c5[i].nilai < c3[i].nilai && c5[i].nilai < c4[i].nilai && c5[i].nilai <= c6[i].nilai){
+                                                      %>
+                                        <td>C5</td>
+                                        <%
+                                                    }
+                                                    else{%>
+                                          <td>C6</td>
+                                          <%}
+                                                   
+                                                %>
+
+
+                            </tr>
+                            <%}
+                    
+                                          else if(clus==7){%>
+                              <tr>
+                                <td>
+                                  <%= i+1 %>
+                                </td>
+                                <td>
+                                  <%= rekomendasi[i].id_anime %>
+                                </td>
+                                <td>
+                                  <%= rekomendasi[i].nama_anime %>
+                                </td>
+                                <td>
+                                  <%= c1[i].nilai %>
+                                </td>
+                                <td>
+                                  <%= c2[i].nilai %>
+                                </td>
+                                <td>
+                                  <%= c3[i].nilai %>
+                                </td>
+                                <td>
+                                  <%= c4[i].nilai %>
+                                </td>
+                                <td>
+                                  <%= c5[i].nilai %>
+                                </td>
+                                <td>
+                                  <%= c6[i].nilai %>
+                                </td>
+                                <td>
+                                  <%= c7[i].nilai %>
+                                </td>
+
+                                <%
+                                                    if(c1[i].nilai <= c2[i].nilai && c1[i].nilai <= c3[i].nilai && c1[i].nilai <= c4[i].nilai && c1[i].nilai <= c5[i].nilai && c1[i].nilai <= c6[i].nilai && c1[i].nilai <= c7[i].nilai){
+                                                      
+                                                      %>
+                                  <td>C1</td>
+                                  <%}
+                                                    else if(c2[i].nilai < c1[i].nilai && c2[i].nilai < c3[i].nilai && c2[i].nilai <= c3[i].nilai && c2[i].nilai <= c5[i].nilai && c2[i].nilai <= c6[i].nilai && c1[i].nilai <= c7[i].nilai){
+                                                      %>
+                                    <td>C2</td>
+                                    <%
+                                                    }
+                                                    else if(c3[i].nilai < c1[i].nilai && c3[i].nilai < c2[i].nilai && c3[i].nilai <= c4[i].nilai && c3[i].nilai <= c5[i].nilai && c3[i].nilai <= c6[i].nilai && c1[i].nilai <= c7[i].nilai){
+                                                      %>
+                                      <td>C3</td>
+                                      <%
+                                                    }
+                                                    else if(c4[i].nilai < c1[i].nilai && c4[i].nilai < c2[i].nilai && c4[i].nilai < c3[i].nilai && c4[i].nilai <= c5[i].nilai && c4[i].nilai <= c6[i].nilai && c1[i].nilai <= c7[i].nilai){
+                                                      %>
+                                        <td>C4</td>
+                                        <%
+                                                    }
+                                                    else if(c5[i].nilai < c1[i].nilai && c5[i].nilai < c2[i].nilai && c5[i].nilai < c3[i].nilai && c5[i].nilai < c4[i].nilai && c5[i].nilai <= c6[i].nilai && c1[i].nilai <= c7[i].nilai){
+                                                      %>
+                                          <td>C5</td>
+                                          <%
+                                                    }
+                                                    else if(c6[i].nilai < c1[i].nilai && c6[i].nilai < c2[i].nilai && c6[i].nilai < c3[i].nilai && c6[i].nilai < c4[i].nilai && c6[i].nilai < c5[i].nilai && c6[i].nilai <= c7[i].nilai){
+                                                      %>
+                                            <td>C6</td>
+                                            <%
+                                                    }
+                                                    else{%>
+                                              <td>C7</td>
+                                              <%}
+                                                   
+                                                %>
+
+
+                              </tr>
+                              <%}
+                    
+                                          else if(clus==8){%>
+                                <tr>
+                                  <td>
+                                    <%= i+1 %>
+                                  </td>
+                                  <td>
+                                    <%= rekomendasi[i].id_anime %>
+                                  </td>
+                                  <td>
+                                    <%= rekomendasi[i].nama_anime %>
+                                  </td>
+                                  <td>
+                                    <%= c1[i].nilai %>
+                                  </td>
+                                  <td>
+                                    <%= c2[i].nilai %>
+                                  </td>
+                                  <td>
+                                    <%= c3[i].nilai %>
+                                  </td>
+                                  <td>
+                                    <%= c4[i].nilai %>
+                                  </td>
+                                  <td>
+                                    <%= c5[i].nilai %>
+                                  </td>
+                                  <td>
+                                    <%= c6[i].nilai %>
+                                  </td>
+                                  <td>
+                                    <%= c7[i].nilai %>
+                                  </td>
+                                  <td>
+                                    <%= c8[i].nilai %>
+                                  </td>
+                                  <%
+                                                    if(c1[i].nilai <= c2[i].nilai && c1[i].nilai <= c3[i].nilai && c1[i].nilai <= c4[i].nilai && c1[i].nilai <= c5[i].nilai && c1[i].nilai <= c6[i].nilai && c1[i].nilai <= c7[i].nilai && c1[i].nilai <= c8[i].nilai){
+                                                      
+                                                      %>
+                                    <td>C1</td>
+                                    <%}
+                                                    else if(c2[i].nilai < c1[i].nilai && c2[i].nilai < c3[i].nilai && c2[i].nilai <= c3[i].nilai && c2[i].nilai <= c5[i].nilai && c2[i].nilai <= c6[i].nilai && c1[i].nilai <= c7[i].nilai && c2[i].nilai <= c8[i].nilai){
+                                                      %>
+                                      <td>C2</td>
+                                      <%
+                                                    }
+                                                    else if(c3[i].nilai < c1[i].nilai && c3[i].nilai < c2[i].nilai && c3[i].nilai < c4[i].nilai && c3[i].nilai <= c5[i].nilai && c3[i].nilai <= c6[i].nilai && c1[i].nilai <= c7[i].nilai && c3[i].nilai <= c8[i].nilai){
+                                                      %>
+                                        <td>C3</td>
+                                        <%
+                                                    }
+                                                    else if(c4[i].nilai < c1[i].nilai && c4[i].nilai < c2[i].nilai && c4[i].nilai < c3[i].nilai && c4[i].nilai <= c5[i].nilai && c4[i].nilai <= c6[i].nilai && c1[i].nilai <= c7[i].nilai && c4[i].nilai <= c8[i].nilai){
+                                                      %>
+                                          <td>C4</td>
+                                          <%
+                                                    }
+                                                    else if(c5[i].nilai < c1[i].nilai && c5[i].nilai < c2[i].nilai && c5[i].nilai < c3[i].nilai && c5[i].nilai < c4[i].nilai && c5[i].nilai <= c6[i].nilai && c1[i].nilai <= c7[i].nilai && c5[i].nilai <= c8[i].nilai){
+                                                      %>
+                                            <td>C5</td>
+                                            <%
+                                                    }
+                                                    else if(c6[i].nilai < c1[i].nilai && c6[i].nilai < c2[i].nilai && c6[i].nilai < c3[i].nilai && c6[i].nilai < c4[i].nilai && c6[i].nilai < c5[i].nilai && c6[i].nilai <= c7[i].nilai && c6[i].nilai <= c8[i].nilai){
+                                                      %>
+                                              <td>C6</td>
+                                              <%
+                                                    }
+                                                    else if(c7[i].nilai < c1[i].nilai && c7[i].nilai < c2[i].nilai && c7[i].nilai < c3[i].nilai && c7[i].nilai < c4[i].nilai && c6[i].nilai < c5[i].nilai && c7[i].nilai < c6[i].nilai && c7[i].nilai <= c8[i].nilai){
+                                                      %>
+                                                <td>C7</td>
+                                                <%
+                                                    }
+                                                    else{%>
+                                                  <td>C8</td>
+                                                  <%}
+                                                   
+                                                %>
+
+
+                                </tr>
                                 <%}
-                            %>
-                            
-                            
-                        </tr> 
-                    <% }
-                %>
-                
-                
-            </table>
-</div>
-     
-      
-          
-        
-          
-        </div>
-      
-      
-      
-    </div>
-    </div>
-    
-  </div>
-  
-  <div class="text-white bg-primary py-2">
-    
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 mt-3 text-center">
-          <p>© Copyright 2018 TugasAkhir - Aplikasi Rekomendasi Anime dengan Metode ICHM</p>
+                                          else if(clus==9){%>
+                                  <tr>
+                                    <td>
+                                      <%= i+1 %>
+                                    </td>
+                                    <td>
+                                      <%= rekomendasi[i].id_anime %>
+                                    </td>
+                                    <td>
+                                      <%= rekomendasi[i].nama_anime %>
+                                    </td>
+                                    <td>
+                                      <%= c1[i].nilai %>
+                                    </td>
+                                    <td>
+                                      <%= c2[i].nilai %>
+                                    </td>
+                                    <td>
+                                      <%= c3[i].nilai %>
+                                    </td>
+                                    <td>
+                                      <%= c4[i].nilai %>
+                                    </td>
+                                    <td>
+                                      <%= c5[i].nilai %>
+                                    </td>
+                                    <td>
+                                      <%= c6[i].nilai %>
+                                    </td>
+                                    <td>
+                                      <%= c7[i].nilai %>
+                                    </td>
+                                    <td>
+                                      <%= c8[i].nilai %>
+                                    </td>
+                                    <td>
+                                      <%= c9[i].nilai %>
+                                    </td>
+                                    <%
+                                                    if(c1[i].nilai <= c2[i].nilai && c1[i].nilai <= c3[i].nilai && c1[i].nilai <= c4[i].nilai && c1[i].nilai <= c5[i].nilai && c1[i].nilai <= c6[i].nilai && c1[i].nilai <= c7[i].nilai && c1[i].nilai <= c8[i].nilai && c1[i].nilai <= c9[i].nilai){
+                                                      
+                                                      %>
+                                      <td>C1</td>
+                                      <%}
+                                                    else if(c2[i].nilai < c1[i].nilai && c2[i].nilai < c3[i].nilai && c2[i].nilai <= c3[i].nilai && c2[i].nilai <= c5[i].nilai && c2[i].nilai <= c6[i].nilai && c1[i].nilai <= c7[i].nilai && c2[i].nilai <= c8[i].nilai && c2[i].nilai <= c9[i].nilai){
+                                                      %>
+                                        <td>C2</td>
+                                        <%
+                                                    }
+                                                    else if(c3[i].nilai < c1[i].nilai && c3[i].nilai < c2[i].nilai && c3[i].nilai < c4[i].nilai && c3[i].nilai <= c5[i].nilai && c3[i].nilai <= c6[i].nilai && c1[i].nilai <= c7[i].nilai && c3[i].nilai <= c8[i].nilai && c3[i].nilai <= c9[i].nilai){
+                                                      %>
+                                          <td>C3</td>
+                                          <%
+                                                    }
+                                                    else if(c4[i].nilai < c1[i].nilai && c4[i].nilai < c2[i].nilai && c4[i].nilai < c3[i].nilai && c4[i].nilai <= c5[i].nilai && c4[i].nilai <= c6[i].nilai && c4[i].nilai <= c7[i].nilai && c4[i].nilai <= c8[i].nilai && c4[i].nilai <= c9[i].nilai){
+                                                      %>
+                                            <td>C4</td>
+                                            <%
+                                                    }
+                                                    else if(c5[i].nilai < c1[i].nilai && c5[i].nilai < c2[i].nilai && c5[i].nilai < c3[i].nilai && c5[i].nilai < c4[i].nilai && c5[i].nilai <= c6[i].nilai && c1[i].nilai <= c7[i].nilai && c5[i].nilai <= c8[i].nilai && c5[i].nilai <= c9[i].nilai){
+                                                      %>
+                                              <td>C5</td>
+                                              <%
+                                                    }
+                                                    else if(c6[i].nilai < c1[i].nilai && c6[i].nilai < c2[i].nilai && c6[i].nilai < c3[i].nilai && c6[i].nilai < c4[i].nilai && c6[i].nilai < c5[i].nilai && c6[i].nilai <= c7[i].nilai && c6[i].nilai <= c8[i].nilai && c6[i].nilai <= c9[i].nilai){
+                                                      %>
+                                                <td>C6</td>
+                                                <%
+                                                    }
+                                                    else if(c7[i].nilai < c1[i].nilai && c7[i].nilai < c2[i].nilai && c7[i].nilai < c3[i].nilai && c7[i].nilai < c4[i].nilai && c7[i].nilai < c5[i].nilai && c7[i].nilai < c6[i].nilai && c7[i].nilai <= c8[i].nilai && c7[i].nilai <= c9[i].nilai){
+                                                      %>
+                                                  <td>C7</td>
+                                                  <%
+                                                    }
+                                                    else if(c8[i].nilai < c1[i].nilai && c8[i].nilai < c2[i].nilai && c8[i].nilai < c3[i].nilai && c8[i].nilai < c4[i].nilai && c8[i].nilai < c5[i].nilai && c8[i].nilai < c6[i].nilai && c8[i].nilai < c7[i].nilai && c8[i].nilai <= c9[i].nilai){
+                                                      %>
+                                                    <td>C8</td>
+                                                    <%
+                                                    }
+                                                    else{%>
+                                                      <td>C9</td>
+                                                      <%}
+                                                   
+                                                %>
+
+
+                                  </tr>
+                                  <%}
+                                      }
+                                    
+                                      
+                                        
+                                         
+                                     }
+                                %>
+
+
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <script>
-        $(document).ready( function () {
-            $('#myTable').DataTable();
-        } );
+
+
+
+
+
+
+    
+
+    <div class="text-white bg-primary py-2" style="margin-top:85px;">
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mt-3 text-center">
+            <p>© Copyright 2018 TugasAkhir - Aplikasi Rekomendasi Anime dengan Metode ICHM</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $('#myTable').DataTable();
+      });
     </script>
-  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" ></script>
-  
-  <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  
-</body>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"></script>
+
+  </body>
 
 </html>
 
 
 <!-- end k-means -->
-

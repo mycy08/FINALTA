@@ -1,84 +1,4 @@
-/**
- * KombinasiLinearController
- *
- * @description :: Server-side actions for handling incoming requests.
- * @help        :: See https://sailsjs.com/docs/concepts/actions
- */
-
-module.exports = {
-  
-    kombinasiLinear:function(req,res){
-        if(req.param('cluss')==undefined){
-            res.view('admin/algoritma/linear',{
-                title:'Kombinasi Linear',
-                layout:false,
-                clus:0
-            })
-        }
-        Rekomendasi.native(function (err, collection) {
-            if (err) return res.serverError(err);
-    
-            collection.find({}, {
-                id_anime: true,
-                nama_anime: true,
-                action: true,
-                adventure: true,
-                comedy: true,
-                scifi: true,
-                drama: true,
-                space: true,
-                supernatural: true,
-                thriller: true,
-                mystery: true,
-                seinen: true,
-                school: true,
-                historical: true,
-                echi: true,
-                sliceoflife: true,
-                harem: true,
-                pyschological: true,
-                superpower: true,
-                fantasy: true,
-                mecha: true,
-                sports: true,
-                romance: true,
-                shounen: true,
-                horor: true,
-                martialarts: true,
-                magic: true,
-                photo_url: true
-            }).toArray(function (err, rekomendasi) {
-                if (err) return res.serverError(err);
-                var iterasi = 0
-                var cluster = []
-                var naction = 0
-                var nadventure = 0
-                var ncomedy = 0
-                var nscifi = 0
-                var ndrama = 0
-                var nspace = 0
-                var nsupernatural = 0
-                var nthriller = 0
-                var nmystery = 0
-                var nseinen = 0
-                var nschool = 0
-                var nhistorical = 0
-                var nechi = 0
-                var nsliceoflife = 0
-                var nharem = 0
-                var npyschological = 0
-                var nsuperpower = 0
-                var nfantasy = 0
-                var nmecha = 0
-                var nsports = 0
-                var nromance = 0
-                var nshounen = 0
-                var nhoror = 0
-                var nmartialarts = 0
-                var nmagic = 0
-    
-    
-                var c1 = []
+var c1 = []
                 var c2 = []
                 var c3 = []
                 var c4 = []
@@ -839,18 +759,91 @@ module.exports = {
                                                         j++
                                                     }
                                                 }
-                                                Anime.count().exec(function(err,count){
-                                                    if(err) return res.serverError(err)
-                                                    res.view("admin/algoritma/linear",{
-                                                        layout:false,
-                                                        clus:clus,
-                                                        koefisien:c,
-                                                        title:"Kombinasi Linear",
-                                                        count:count,
-                                                        simi:simi
-                                    
-                                                    })
-                                                })
+                                                var totalRata = []
+                                                                var bnyk = 0
+                                                                var hsl = 0
+                                                                var x = 199
+                                                               
+                                                                while (bnyk < simi.length ) {
+                                                                    hsl = hsl + simi[bnyk]
+                                                                    if (bnyk == x) {
+                                                                        totalRata.push(hsl)
+                                                                        hsl = 0
+                                                                        x = x + 200                                          
+                                                                    }
+                                                                    
+                                                                    bnyk++
+                                                                }
+                                                                var arrHasilSementara = []
+                                                               
+                
+                                                                for (var i = 0; i < user.length; i++) {
+                                                                    var hasilRateSementara = 0
+                
+                                                                    for (var j = 0; j < anime.length; j++) {
+                                                                        hasilRateSementara = hasilRateSementara + ((parseInt(scoreSem[j]) - parseInt(rata2[j])) * simi[i])
+                                                                    }
+                                                                    arrHasilSementara.push(hasilRateSementara)
+                                                                }
+                                                                var hasilRateAkhir = []
+                                                                
+                                                             
+                                                                for (var i = 0; i < anime.length; i++) {
+                                                                    var hasilAkhir = 0
+                                                                    for (var j = 0; j < user.length; j++) {
+                                                                        hasilAkhir = hasilAkhir + ((scoreSem[i] + arrHasilSementara[j]) / totalRata[i])
+                                                                        hasilRateAkhir.push(hasilAkhir)
+                                                                        hasilAkhir = 0
+                                                                    }
+                                                                }
+                                                                var rerataAkhir = []
+                                var banyak = 0
+                                var rerata = 0
+                                var jumlahUser = user.length - 1
+
+                                while (banyak < hasilRateAkhir.length) {
+                                    rerata = rerata + hasilRateAkhir[banyak]
+                                    if (banyak == jumlahUser) {
+                                        rerata = parseFloat(rerata) / user.length
+                                        rerataAkhir.push(rerata)
+                                        jumlahUser = jumlahUser + user.length
+                                    }
+                                    banyak++
+                                }
+                                var prioritas = []
+
+                                for (var i = 0; i < anime.length; i++) {
+
+                                    prioritas.push({
+                                        id_anime: anime[i]._id.toString(),
+                                        photo_url: anime[i].photo_url,
+                                        nama_anime: anime[i].nama_anime,
+                                        type: anime[i].type,
+                                        score: anime[i].score,
+                                        tahun: anime[i].tahun_terbit,
+                                        genre: anime[i].genre,
+                                        rata: rerataAkhir[i]
+                                    })
+                                }
+
+                                User.find().exec(function(err,user){
+                                    res.view("admin/algoritma/prioritas",{
+                                        layout:false,
+                                        title:"Prioritas",
+                                        koefisien : c,
+                                        clus : clus,
+                                        user:user,
+                                        prioritas:prioritas
+                    
+                                    })
+                                })
+
+
+
+                                                                
+                                                               
+                                                             
+                                                             
                                                 
                                                 
                 
@@ -863,7 +856,8 @@ module.exports = {
                 
                                 })
                 
-                
+                                
+
                             })
                 
                         })
@@ -1867,18 +1861,87 @@ module.exports = {
                                                                         j++
                                                                     }
                                                                 }
-                                                                Anime.count().exec(function(err,count){
-                                                                    if(err) return res.serverError(err)
-                                                                    res.view("admin/algoritma/linear",{
-                                                                        layout:false,
-                                                                        clus:clus,
-                                                                        koefisie:koefisien,
-                                                                        title:"Kombinasi Linear",
-                                                                        count:count,
-                                                                        simi:simi
-                                                    
-                                                                    })
-                                                                })
+                                                                var totalRata = []
+                                                                var bnyk = 0
+                                                                var hsl = 0
+                                                                var x = 199
+                                                               
+                                                                while (bnyk < simi.length ) {
+                                                                    hsl = hsl + simi[bnyk]
+                                                                    if (bnyk == x) {
+                                                                        totalRata.push(hsl)
+                                                                        hsl = 0
+                                                                        x = x + 200                                          
+                                                                    }
+                                                                    
+                                                                    bnyk++
+                                                                }
+                                                                var arrHasilSementara = []
+                                                               
+                
+                                                                for (var i = 0; i < user.length; i++) {
+                                                                    var hasilRateSementara = 0
+                
+                                                                    for (var j = 0; j < anime.length; j++) {
+                                                                        hasilRateSementara = hasilRateSementara + ((parseInt(scoreSem[j]) - parseInt(rata2[j])) * simi[i])
+                                                                    }
+                                                                    arrHasilSementara.push(hasilRateSementara)
+                                                                }
+                                                                var hasilRateAkhir = []
+                                                                
+                                                             
+                                                                for (var i = 0; i < anime.length; i++) {
+                                                                    var hasilAkhir = 0
+                                                                    for (var j = 0; j < user.length; j++) {
+                                                                        hasilAkhir = hasilAkhir + ((scoreSem[i] + arrHasilSementara[j]) / totalRata[i])
+                                                                        hasilRateAkhir.push(hasilAkhir)
+                                                                        hasilAkhir = 0
+                                                                    }
+                                                                }
+                                                                
+                                                               
+                                                             
+                                                                var rerataAkhir = []
+                                var banyak = 0
+                                var rerata = 0
+                                var jumlahUser = user.length - 1
+
+                                while (banyak < hasilRateAkhir.length) {
+                                    rerata = rerata + hasilRateAkhir[banyak]
+                                    if (banyak == jumlahUser) {
+                                        rerata = parseFloat(rerata) / user.length
+                                        rerataAkhir.push(rerata)
+                                        jumlahUser = jumlahUser + user.length
+                                    }
+                                    banyak++
+                                }
+                                var prioritas = []
+
+                                for (var i = 0; i < anime.length; i++) {
+
+                                    prioritas.push({
+                                        id_anime: anime[i]._id.toString(),
+                                        photo_url: anime[i].photo_url,
+                                        nama_anime: anime[i].nama_anime,
+                                        type: anime[i].type,
+                                        score: anime[i].score,
+                                        tahun: anime[i].tahun_terbit,
+                                        genre: anime[i].genre,
+                                        rata: rerataAkhir[i]
+                                    })
+                                }
+
+                                User.find().exec(function(err,user){
+                                    res.view("admin/algoritma/prioritas",{
+                                        layout:false,
+                                        title:"Prioritas",
+                                        koefisien : c,
+                                        clus : clus,
+                                        user:user,
+                                        prioritas:prioritas
+                    
+                                    })
+                                })
                                                                 
                                                                 
                                 
@@ -3192,18 +3255,87 @@ module.exports = {
                                                                         j++
                                                                     }
                                                                 }
-                                                                Anime.count().exec(function(err,count){
-                                                                    if(err) return res.serverError(err)
-                                                                    res.view("admin/algoritma/linear",{
-                                                                        layout:false,
-                                                                        clus:clus,
-                                                                        koefisien:c,
-                                                                        title:"Kombinasi Linear",
-                                                                        count:count,
-                                                                        simi:simi
-                                                    
-                                                                    })
-                                                                })
+                                                                var totalRata = []
+                                                                var bnyk = 0
+                                                                var hsl = 0
+                                                                var x = 199
+                                                               
+                                                                while (bnyk < simi.length ) {
+                                                                    hsl = hsl + simi[bnyk]
+                                                                    if (bnyk == x) {
+                                                                        totalRata.push(hsl)
+                                                                        hsl = 0
+                                                                        x = x + 200                                          
+                                                                    }
+                                                                    
+                                                                    bnyk++
+                                                                }
+                                                                var arrHasilSementara = []
+                                                               
+                
+                                                                for (var i = 0; i < user.length; i++) {
+                                                                    var hasilRateSementara = 0
+                
+                                                                    for (var j = 0; j < anime.length; j++) {
+                                                                        hasilRateSementara = hasilRateSementara + ((parseInt(scoreSem[j]) - parseInt(rata2[j])) * simi[i])
+                                                                    }
+                                                                    arrHasilSementara.push(hasilRateSementara)
+                                                                }
+                                                                var hasilRateAkhir = []
+                                                                
+                                                             
+                                                                for (var i = 0; i < anime.length; i++) {
+                                                                    var hasilAkhir = 0
+                                                                    for (var j = 0; j < user.length; j++) {
+                                                                        hasilAkhir = hasilAkhir + ((scoreSem[i] + arrHasilSementara[j]) / totalRata[i])
+                                                                        hasilRateAkhir.push(hasilAkhir)
+                                                                        hasilAkhir = 0
+                                                                    }
+                                                                }
+                                                                
+                                                               
+                                                             
+                                                                var rerataAkhir = []
+                                var banyak = 0
+                                var rerata = 0
+                                var jumlahUser = user.length - 1
+
+                                while (banyak < hasilRateAkhir.length) {
+                                    rerata = rerata + hasilRateAkhir[banyak]
+                                    if (banyak == jumlahUser) {
+                                        rerata = parseFloat(rerata) / user.length
+                                        rerataAkhir.push(rerata)
+                                        jumlahUser = jumlahUser + user.length
+                                    }
+                                    banyak++
+                                }
+                                var prioritas = []
+
+                                for (var i = 0; i < anime.length; i++) {
+
+                                    prioritas.push({
+                                        id_anime: anime[i]._id.toString(),
+                                        photo_url: anime[i].photo_url,
+                                        nama_anime: anime[i].nama_anime,
+                                        type: anime[i].type,
+                                        score: anime[i].score,
+                                        tahun: anime[i].tahun_terbit,
+                                        genre: anime[i].genre,
+                                        rata: rerataAkhir[i]
+                                    })
+                                }
+
+                                User.find().exec(function(err,user){
+                                    res.view("admin/algoritma/prioritas",{
+                                        layout:false,
+                                        title:"Prioritas",
+                                        koefisien : c,
+                                        clus : clus,
+                                        user:user,
+                                        prioritas:prioritas
+                    
+                                    })
+                                })
                                                                 
                                                                 
                                 
@@ -4813,18 +4945,87 @@ module.exports = {
                                                         j++
                                                     }
                                                 }
-                                                Anime.count().exec(function(err,count){
-                                                    if(err) return res.serverError(err)
-                                                    res.view("admin/algoritma/linear",{
-                                                        layout:false,
-                                                        clus:clus,
-                                                        koefisien:c,
-                                                        title:"Kombinasi Linear",
-                                                        count:count,
-                                                        simi:simi
-                                    
-                                                    })
-                                                })
+                                                var totalRata = []
+                                                                var bnyk = 0
+                                                                var hsl = 0
+                                                                var x = 199
+                                                               
+                                                                while (bnyk < simi.length ) {
+                                                                    hsl = hsl + simi[bnyk]
+                                                                    if (bnyk == x) {
+                                                                        totalRata.push(hsl)
+                                                                        hsl = 0
+                                                                        x = x + 200                                          
+                                                                    }
+                                                                    
+                                                                    bnyk++
+                                                                }
+                                                                var arrHasilSementara = []
+                                                               
+                
+                                                                for (var i = 0; i < user.length; i++) {
+                                                                    var hasilRateSementara = 0
+                
+                                                                    for (var j = 0; j < anime.length; j++) {
+                                                                        hasilRateSementara = hasilRateSementara + ((parseInt(scoreSem[j]) - parseInt(rata2[j])) * simi[i])
+                                                                    }
+                                                                    arrHasilSementara.push(hasilRateSementara)
+                                                                }
+                                                                var hasilRateAkhir = []
+                                                                
+                                                             
+                                                                for (var i = 0; i < anime.length; i++) {
+                                                                    var hasilAkhir = 0
+                                                                    for (var j = 0; j < user.length; j++) {
+                                                                        hasilAkhir = hasilAkhir + ((scoreSem[i] + arrHasilSementara[j]) / totalRata[i])
+                                                                        hasilRateAkhir.push(hasilAkhir)
+                                                                        hasilAkhir = 0
+                                                                    }
+                                                                }
+                                                                
+                                                               
+                                                             
+                                                                var rerataAkhir = []
+                                var banyak = 0
+                                var rerata = 0
+                                var jumlahUser = user.length - 1
+
+                                while (banyak < hasilRateAkhir.length) {
+                                    rerata = rerata + hasilRateAkhir[banyak]
+                                    if (banyak == jumlahUser) {
+                                        rerata = parseFloat(rerata) / user.length
+                                        rerataAkhir.push(rerata)
+                                        jumlahUser = jumlahUser + user.length
+                                    }
+                                    banyak++
+                                }
+                                var prioritas = []
+
+                                for (var i = 0; i < anime.length; i++) {
+
+                                    prioritas.push({
+                                        id_anime: anime[i]._id.toString(),
+                                        photo_url: anime[i].photo_url,
+                                        nama_anime: anime[i].nama_anime,
+                                        type: anime[i].type,
+                                        score: anime[i].score,
+                                        tahun: anime[i].tahun_terbit,
+                                        genre: anime[i].genre,
+                                        rata: rerataAkhir[i]
+                                    })
+                                }
+
+                                User.find().exec(function(err,user){
+                                    res.view("admin/algoritma/prioritas",{
+                                        layout:false,
+                                        title:"Prioritas",
+                                        koefisien : c,
+                                        clus : clus,
+                                        user:user,
+                                        prioritas:prioritas
+                    
+                                    })
+                                })
                                                 
                                                 
                 
@@ -6732,18 +6933,87 @@ module.exports = {
                                                         j++
                                                     }
                                                 }
-                                                Anime.count().exec(function(err,count){
-                                                    if(err) return res.serverError(err)
-                                                    res.view("admin/algoritma/linear",{
-                                                        layout:false,
-                                                        clus:clus,
-                                                        koefisien:c,
-                                                        title:"Kombinasi Linear",
-                                                        count:count,
-                                                        simi:simi
-                                    
-                                                    })
-                                                })
+                                                var totalRata = []
+                                                                var bnyk = 0
+                                                                var hsl = 0
+                                                                var x = 199
+                                                               
+                                                                while (bnyk < simi.length ) {
+                                                                    hsl = hsl + simi[bnyk]
+                                                                    if (bnyk == x) {
+                                                                        totalRata.push(hsl)
+                                                                        hsl = 0
+                                                                        x = x + 200                                          
+                                                                    }
+                                                                    
+                                                                    bnyk++
+                                                                }
+                                                                var arrHasilSementara = []
+                                                               
+                
+                                                                for (var i = 0; i < user.length; i++) {
+                                                                    var hasilRateSementara = 0
+                
+                                                                    for (var j = 0; j < anime.length; j++) {
+                                                                        hasilRateSementara = hasilRateSementara + ((parseInt(scoreSem[j]) - parseInt(rata2[j])) * simi[i])
+                                                                    }
+                                                                    arrHasilSementara.push(hasilRateSementara)
+                                                                }
+                                                                var hasilRateAkhir = []
+                                                                
+                                                             
+                                                                for (var i = 0; i < anime.length; i++) {
+                                                                    var hasilAkhir = 0
+                                                                    for (var j = 0; j < user.length; j++) {
+                                                                        hasilAkhir = hasilAkhir + ((scoreSem[i] + arrHasilSementara[j]) / totalRata[i])
+                                                                        hasilRateAkhir.push(hasilAkhir)
+                                                                        hasilAkhir = 0
+                                                                    }
+                                                                }
+                                                                
+                                                               
+                                                             
+                                                                var rerataAkhir = []
+                                                                var banyak = 0
+                                                                var rerata = 0
+                                                                var jumlahUser = user.length - 1
+                                
+                                                                while (banyak < hasilRateAkhir.length) {
+                                                                    rerata = rerata + hasilRateAkhir[banyak]
+                                                                    if (banyak == jumlahUser) {
+                                                                        rerata = parseFloat(rerata) / user.length
+                                                                        rerataAkhir.push(rerata)
+                                                                        jumlahUser = jumlahUser + user.length
+                                                                    }
+                                                                    banyak++
+                                                                }
+                                                                var prioritas = []
+                                
+                                                                for (var i = 0; i < anime.length; i++) {
+                                
+                                                                    prioritas.push({
+                                                                        id_anime: anime[i]._id.toString(),
+                                                                        photo_url: anime[i].photo_url,
+                                                                        nama_anime: anime[i].nama_anime,
+                                                                        type: anime[i].type,
+                                                                        score: anime[i].score,
+                                                                        tahun: anime[i].tahun_terbit,
+                                                                        genre: anime[i].genre,
+                                                                        rata: rerataAkhir[i]
+                                                                    })
+                                                                }
+                                
+                                                                User.find().exec(function(err,user){
+                                                                    res.view("admin/algoritma/prioritas",{
+                                                                        layout:false,
+                                                                        title:"Prioritas",
+                                                                        koefisien : c,
+                                                                        clus : clus,
+                                                                        user:user,
+                                                                        prioritas:prioritas
+                                                    
+                                                                    })
+                                                                })
                                                 
                                                 
                 
@@ -8950,18 +9220,87 @@ module.exports = {
                                                         j++
                                                     }
                                                 }
-                                                Anime.count().exec(function(err,count){
-                                                    if(err) return res.serverError(err)
-                                                    res.view("admin/algoritma/linear",{
-                                                        layout:false,
-                                                        clus:clus,
-                                                        koefisien:c,
-                                                        title:"Kombinasi Linear",
-                                                        count:count,
-                                                        simi:simi
-                                    
-                                                    })
-                                                })
+                                                var totalRata = []
+                                                                var bnyk = 0
+                                                                var hsl = 0
+                                                                var x = 199
+                                                               
+                                                                while (bnyk < simi.length ) {
+                                                                    hsl = hsl + simi[bnyk]
+                                                                    if (bnyk == x) {
+                                                                        totalRata.push(hsl)
+                                                                        hsl = 0
+                                                                        x = x + 200                                          
+                                                                    }
+                                                                    
+                                                                    bnyk++
+                                                                }
+                                                                var arrHasilSementara = []
+                                                               
+                
+                                                                for (var i = 0; i < user.length; i++) {
+                                                                    var hasilRateSementara = 0
+                
+                                                                    for (var j = 0; j < anime.length; j++) {
+                                                                        hasilRateSementara = hasilRateSementara + ((parseInt(scoreSem[j]) - parseInt(rata2[j])) * simi[i])
+                                                                    }
+                                                                    arrHasilSementara.push(hasilRateSementara)
+                                                                }
+                                                                var hasilRateAkhir = []
+                                                                
+                                                             
+                                                                for (var i = 0; i < anime.length; i++) {
+                                                                    var hasilAkhir = 0
+                                                                    for (var j = 0; j < user.length; j++) {
+                                                                        hasilAkhir = hasilAkhir + ((scoreSem[i] + arrHasilSementara[j]) / totalRata[i])
+                                                                        hasilRateAkhir.push(hasilAkhir)
+                                                                        hasilAkhir = 0
+                                                                    }
+                                                                }
+                                                                
+                                                               
+                                                             
+                                                                var rerataAkhir = []
+                                var banyak = 0
+                                var rerata = 0
+                                var jumlahUser = user.length - 1
+
+                                while (banyak < hasilRateAkhir.length) {
+                                    rerata = rerata + hasilRateAkhir[banyak]
+                                    if (banyak == jumlahUser) {
+                                        rerata = parseFloat(rerata) / user.length
+                                        rerataAkhir.push(rerata)
+                                        jumlahUser = jumlahUser + user.length
+                                    }
+                                    banyak++
+                                }
+                                var prioritas = []
+
+                                for (var i = 0; i < anime.length; i++) {
+
+                                    prioritas.push({
+                                        id_anime: anime[i]._id.toString(),
+                                        photo_url: anime[i].photo_url,
+                                        nama_anime: anime[i].nama_anime,
+                                        type: anime[i].type,
+                                        score: anime[i].score,
+                                        tahun: anime[i].tahun_terbit,
+                                        genre: anime[i].genre,
+                                        rata: rerataAkhir[i]
+                                    })
+                                }
+
+                                User.find().exec(function(err,user){
+                                    res.view("admin/algoritma/prioritas",{
+                                        layout:false,
+                                        title:"Prioritas",
+                                        koefisien : c,
+                                        clus : clus,
+                                        user:user,
+                                        prioritas:prioritas
+                    
+                                    })
+                                })
                                                 
                                                 
                 
@@ -11460,18 +11799,87 @@ module.exports = {
                                                         j++
                                                     }
                                                 }
-                                                Anime.count().exec(function(err,count){
-                                                    if(err) return res.serverError(err)
-                                                    res.view("admin/algoritma/linear",{
-                                                        layout:false,
-                                                        clus:clus,
-                                                        koefisien:c,
-                                                        title:"Kombinasi Linear",
-                                                        count:count,
-                                                        simi:simi
-                                    
-                                                    })
-                                                })
+                                                var totalRata = []
+                                                                var bnyk = 0
+                                                                var hsl = 0
+                                                                var x = 199
+                                                               
+                                                                while (bnyk < simi.length ) {
+                                                                    hsl = hsl + simi[bnyk]
+                                                                    if (bnyk == x) {
+                                                                        totalRata.push(hsl)
+                                                                        hsl = 0
+                                                                        x = x + 200                                          
+                                                                    }
+                                                                    
+                                                                    bnyk++
+                                                                }
+                                                                var arrHasilSementara = []
+                                                               
+                
+                                                                for (var i = 0; i < user.length; i++) {
+                                                                    var hasilRateSementara = 0
+                
+                                                                    for (var j = 0; j < anime.length; j++) {
+                                                                        hasilRateSementara = hasilRateSementara + ((parseInt(scoreSem[j]) - parseInt(rata2[j])) * simi[i])
+                                                                    }
+                                                                    arrHasilSementara.push(hasilRateSementara)
+                                                                }
+                                                                var hasilRateAkhir = []
+                                                                
+                                                             
+                                                                for (var i = 0; i < anime.length; i++) {
+                                                                    var hasilAkhir = 0
+                                                                    for (var j = 0; j < user.length; j++) {
+                                                                        hasilAkhir = hasilAkhir + ((scoreSem[i] + arrHasilSementara[j]) / totalRata[i])
+                                                                        hasilRateAkhir.push(hasilAkhir)
+                                                                        hasilAkhir = 0
+                                                                    }
+                                                                }
+                                                                
+                                                               
+                                                             
+                                                                var rerataAkhir = []
+                                                                var banyak = 0
+                                                                var rerata = 0
+                                                                var jumlahUser = user.length - 1
+                                
+                                                                while (banyak < hasilRateAkhir.length) {
+                                                                    rerata = rerata + hasilRateAkhir[banyak]
+                                                                    if (banyak == jumlahUser) {
+                                                                        rerata = parseFloat(rerata) / user.length
+                                                                        rerataAkhir.push(rerata)
+                                                                        jumlahUser = jumlahUser + user.length
+                                                                    }
+                                                                    banyak++
+                                                                }
+                                                                var prioritas = []
+                                
+                                                                for (var i = 0; i < anime.length; i++) {
+                                
+                                                                    prioritas.push({
+                                                                        id_anime: anime[i]._id.toString(),
+                                                                        photo_url: anime[i].photo_url,
+                                                                        nama_anime: anime[i].nama_anime,
+                                                                        type: anime[i].type,
+                                                                        score: anime[i].score,
+                                                                        tahun: anime[i].tahun_terbit,
+                                                                        genre: anime[i].genre,
+                                                                        rata: rerataAkhir[i]
+                                                                    })
+                                                                }
+                                
+                                                                User.find().exec(function(err,user){
+                                                                    res.view("admin/algoritma/prioritas",{
+                                                                        layout:false,
+                                                                        title:"Prioritas",
+                                                                        koefisien : c,
+                                                                        clus : clus,
+                                                                        user:user,
+                                                                        prioritas:prioritas
+                                                    
+                                                                    })
+                                                                })
                                                 
                                                 
                 
@@ -14262,18 +14670,86 @@ module.exports = {
                                                         j++
                                                     }
                                                 }
-                                                Anime.count().exec(function(err,count){
-                                                    if(err) return res.serverError(err)
-                                                    res.view("admin/algoritma/linear",{
-                                                        layout:false,
-                                                        clus:clus,
-                                                        koefisien:c,
-                                                        title:"Kombinasi Linear",
-                                                        count:count,
-                                                        simi:simi
-                                    
-                                                    })
-                                                })
+                                                var totalRata = []
+                                                                var bnyk = 0
+                                                                var hsl = 0
+                                                                var x = 199
+                                                               
+                                                                while (bnyk < simi.length ) {
+                                                                    hsl = hsl + simi[bnyk]
+                                                                    if (bnyk == x) {
+                                                                        totalRata.push(hsl)
+                                                                        hsl = 0
+                                                                        x = x + 200                                          
+                                                                    }
+                                                                    
+                                                                    bnyk++
+                                                                }
+                                                                var arrHasilSementara = []
+                                                               
+                
+                                                                for (var i = 0; i < user.length; i++) {
+                                                                    var hasilRateSementara = 0
+                
+                                                                    for (var j = 0; j < anime.length; j++) {
+                                                                        hasilRateSementara = hasilRateSementara + ((parseInt(scoreSem[j]) - parseInt(rata2[j])) * simi[i])
+                                                                    }
+                                                                    arrHasilSementara.push(hasilRateSementara)
+                                                                }
+                                                                var hasilRateAkhir = []
+                                                                
+                                                             
+                                                                for (var i = 0; i < anime.length; i++) {
+                                                                    var hasilAkhir = 0
+                                                                    for (var j = 0; j < user.length; j++) {
+                                                                        hasilAkhir = hasilAkhir + ((scoreSem[i] + arrHasilSementara[j]) / totalRata[i])
+                                                                        hasilRateAkhir.push(hasilAkhir)
+                                                                        hasilAkhir = 0
+                                                                    }
+                                                                }
+                                                                
+                                                               
+                                                                var rerataAkhir = []
+                                                                var banyak = 0
+                                                                var rerata = 0
+                                                                var jumlahUser = user.length - 1
+                                
+                                                                while (banyak < hasilRateAkhir.length) {
+                                                                    rerata = rerata + hasilRateAkhir[banyak]
+                                                                    if (banyak == jumlahUser) {
+                                                                        rerata = parseFloat(rerata) / user.length
+                                                                        rerataAkhir.push(rerata)
+                                                                        jumlahUser = jumlahUser + user.length
+                                                                    }
+                                                                    banyak++
+                                                                }
+                                                                var prioritas = []
+                                
+                                                                for (var i = 0; i < anime.length; i++) {
+                                
+                                                                    prioritas.push({
+                                                                        id_anime: anime[i]._id.toString(),
+                                                                        photo_url: anime[i].photo_url,
+                                                                        nama_anime: anime[i].nama_anime,
+                                                                        type: anime[i].type,
+                                                                        score: anime[i].score,
+                                                                        tahun: anime[i].tahun_terbit,
+                                                                        genre: anime[i].genre,
+                                                                        rata: rerataAkhir[i]
+                                                                    })
+                                                                }
+                                
+                                                                User.find().exec(function(err,user){
+                                                                    res.view("admin/algoritma/prioritas",{
+                                                                        layout:false,
+                                                                        title:"Prioritas",
+                                                                        koefisien : c,
+                                                                        clus : clus,
+                                                                        user:user,
+                                                                        prioritas:prioritas
+                                                    
+                                                                    })
+                                                                })
                                                 
                                                 
                 
@@ -14291,19 +14767,4 @@ module.exports = {
                 
                         })
                     })
-                } 
-                
-                  
-               
-                
-                
-    
-    
-    
-    
-    
-            })
-        })
-    }
-};
-
+                }

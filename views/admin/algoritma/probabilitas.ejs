@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
   <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css"> 
   <link rel="stylesheet" href="/styles/custome.css" type="text/css">  
+  <link rel="stylesheet" href="/styles/algo.css" type="text/css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 
 <body style="background-color: azure">
@@ -60,36 +61,316 @@
             </li>
         </ul>
         <a class="btn navbar-btn btn-primary ml-2 text-white" href="/admin/destroy/">
-          <i class="fa d-inline fa-lg fa-user-circle-o"></i>&nbsp;<%= req.session.Admin.nama%></a>
+          <i class="fa d-inline fa-lg fa-user-circle-o"></i>&nbsp;<%= req.session.Admin.nama %></a>
       </div>
     </div>
   </nav>
-  <div class="table-responsive">
-        <table class="table">
-                <tr>
-                    <th>No</th>
-                    <th>Probabilitas Cluster 1</th>
-                    <th>Probabilitas Cluster 2</th>
-                    <th>Probabilitas Cluster 3</th>
-                </tr>
-                <%
-                    for(var i=0;i<prob1.length;i++){%>
-                        <tr>
-                            <td><%= i+1%></td>
-                            <td><%= prob1[i]%></td>
-                            <td><%= prob2[i]%></td>
-                            <td><%= prob3[i]%></td>
-                        </tr>
-                    <%}
-                %>
-                <tr>
-                    <th>Rata-Rata</th>
-                    <th><%= ratac1 %></th>
-                    <th><%= ratac2 %></th>
-                    <th><%= ratac3 %></th>
-                </tr>
-            </table>
-</div>
+  <div class="py-3  w-100">
+        <div class="container">
+          <div class="row">
+            <div class="h-100 col-md-4" style="background-color: white">
+              <div class="row">
+                <div id="mulai"></div>
+                
+              </div>
+              <div class="row">
+                  <a href="/kmeans/kmeans" class="ref" ><div id="kmeans"  ></div></a>
+                  <a href="/itemRating/itemRating" class="ref"><div id="itemRating"  ></div></a>
+                </div>
+                <div class="row">
+                    <a href="/probabilitas/probabilitas" class="ref"><div id="prob" class="borMer"></div></a>
+                    <div id="line" class="ref" ></div>
+                  </div>
+                  <div class="row">
+                      <a href="/groupRating/groupRating" class="ref"><div id="groupRating"  ></div></a>
+                      <a href="/kombinasiLinear/kombinasiLinear" class="ref"><div id="line1"  ></div></a>
+                    </div>
+                    <div class="row">
+                        <a href="/prediksi/prediksi" class="ref1"><div id="prediksi" ></div></a>
+                        
+                      </div>
+                      <div class="row">
+                          <a href="/prioritas/prioritas" class="ref1"><div id="prioritas" ></div></a>
+                          
+                        </div>
+                      
+            </div>
+            <div class="col-md-8">
+                    <div class="py-5">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-9" style="margin-left: 125px">
+                                      <form class="" enctype="multipart/form-data" method="POST" action="/probabilitas/probabilitas">
+                                        <label>Pilih Jumlah Cluster</label>
+                                          <select name="cluss" id="" class="form-control">
+                                              <%
+                                                for(var i=2;i<=9;i++){%>
+                                                  <option value="<%= i %>">Jumlah Cluster <%= i %></option>
+                                                <%}
+                                              %>
+                                          
+                                            </select>
+                                          
+                                      
+                                      <button type="submit" class="btn btn-primary" style="margin-top: 10px">Submit</button>
+                                      </form>
+                                    </div>
+                                  </div>
+                              </div>
+                            </div>
+                      <div class="table-responsive">
+                            <table class="table">
+                                    <tr>
+                                        <th>No</th>
+                                        <% for(var i=0;i<clus;i++){ %>
+                                            <th>Probabilitas Cluster <%=[i+1]%></th>
+                                            <%}%>
+                                    </tr>
+                                    <%
+                                    if(clus==0){%>
+                                        <p style="text-align: center;">Pilih Jumlah Cluster terlebih dahulu !!</p>
+                                      <%}
+                                      if(clus==2){
+                                        for(var i=0;i<prob1.length;i++){%>
+                                          
+                                            <tr>
+                                                <td><%= i+1%></td>
+                                                <td><%= prob1[i]%></td>
+                                                <td><%= prob2[i]%></td>
+                                                
+                                            </tr>
+                                        
+                                    
+                                        
+                                          <%}
+                                          %>
+                                          <tr>
+                                              <th>Rata-Rata</th>
+                                              <th><%= ratac1 %></th>
+                                              <th><%= ratac2 %></th>
+                                              
+                                          </tr>
+                                      <%}%>
+                                      <%
+                                      if(clus==3){
+                                        for(var i=0;i<prob1.length;i++){%>
+                                          
+                                            <tr>
+                                                <td><%= i+1%></td>
+                                                <td><%= prob1[i]%></td>
+                                                <td><%= prob2[i]%></td>
+                                                <td><%= prob3[i]%></td>
+                                                
+                                            </tr>
+                                        
+                                    
+                                        
+                                          <%}
+                                          %>
+                                          <tr>
+                                              <th>Rata-Rata</th>
+                                              <th><%= ratac1 %></th>
+                                              <th><%= ratac2 %></th>
+                                              <th><%= ratac3 %></th>
+                                              
+                                          </tr>
+                                      <%}%>
+                                      <%
+                                      if(clus==4){
+                                        for(var i=0;i<prob1.length;i++){%>
+                                          
+                                            <tr>
+                                                <td><%= i+1%></td>
+                                                <td><%= prob1[i]%></td>
+                                                <td><%= prob2[i]%></td>
+                                                <td><%= prob3[i]%></td>
+                                                <td><%= prob4[i]%></td>
+                                                
+                                            </tr>
+                                        
+                                    
+                                        
+                                          <%}
+                                          %>
+                                          <tr>
+                                              <th>Rata-Rata</th>
+                                              <th><%= ratac1 %></th>
+                                              <th><%= ratac2 %></th>
+                                              <th><%= ratac3 %></th>
+                                              <th><%= ratac4 %></th>
+                                              
+                                          </tr>
+                                      <%}%>
+                                      <%
+                                      if(clus==5){
+                                        for(var i=0;i<prob1.length;i++){%>
+                                          
+                                            <tr>
+                                                <td><%= i+1%></td>
+                                                <td><%= prob1[i]%></td>
+                                                <td><%= prob2[i]%></td>
+                                                <td><%= prob3[i]%></td>
+                                                <td><%= prob4[i]%></td>
+                                                <td><%= prob5[i]%></td>
+                                                
+                                            </tr>
+                                        
+                                    
+                                        
+                                          <%}
+                                          %>
+                                          <tr>
+                                              <th>Rata-Rata</th>
+                                              <th><%= ratac1 %></th>
+                                              <th><%= ratac2 %></th>
+                                              <th><%= ratac3 %></th>
+                                              <th><%= ratac4 %></th>
+                                              <th><%= ratac5 %></th>
+                                              
+                                          </tr>
+                                      <%}%>
+                                      <%
+                                      if(clus==6){
+                                        for(var i=0;i<prob1.length;i++){%>
+                                          
+                                            <tr>
+                                                <td><%= i+1%></td>
+                                                <td><%= prob1[i]%></td>
+                                                <td><%= prob2[i]%></td>
+                                                <td><%= prob3[i]%></td>
+                                                <td><%= prob4[i]%></td>
+                                                <td><%= prob5[i]%></td>
+                                                <td><%= prob6[i]%></td>
+                                                
+                                            </tr>
+                                        
+                                    
+                                        
+                                          <%}
+                                          %>
+                                          <tr>
+                                              <th>Rata-Rata</th>
+                                              <th><%= ratac1 %></th>
+                                              <th><%= ratac2 %></th>
+                                              <th><%= ratac3 %></th>
+                                              <th><%= ratac4 %></th>
+                                              <th><%= ratac5 %></th>
+                                              <th><%= ratac6 %></th>
+                                              
+                                          </tr>
+                                      <%}%>
+                                      <%
+                                      if(clus==7){
+                                        for(var i=0;i<prob1.length;i++){%>
+                                          
+                                            <tr>
+                                                <td><%= i+1%></td>
+                                                <td><%= prob1[i]%></td>
+                                                <td><%= prob2[i]%></td>
+                                                <td><%= prob3[i]%></td>
+                                                <td><%= prob4[i]%></td>
+                                                <td><%= prob5[i]%></td>
+                                                <td><%= prob6[i]%></td>
+                                                <td><%= prob7[i]%></td>
+                                                
+                                            </tr>
+                                        
+                                    
+                                        
+                                          <%}
+                                          %>
+                                          <tr>
+                                              <th>Rata-Rata</th>
+                                              <th><%= ratac1 %></th>
+                                              <th><%= ratac2 %></th>
+                                              <th><%= ratac3 %></th>
+                                              <th><%= ratac4 %></th>
+                                              <th><%= ratac5 %></th>
+                                              <th><%= ratac6 %></th>
+                                              <th><%= ratac7 %></th>
+                                              
+                                          </tr>
+                                      <%}%>
+                                      <%
+                                      if(clus==8){
+                                        for(var i=0;i<prob1.length;i++){%>
+                                          
+                                            <tr>
+                                                <td><%= i+1%></td>
+                                                <td><%= prob1[i]%></td>
+                                                <td><%= prob2[i]%></td>
+                                                <td><%= prob3[i]%></td>
+                                                <td><%= prob4[i]%></td>
+                                                <td><%= prob5[i]%></td>
+                                                <td><%= prob6[i]%></td>
+                                                <td><%= prob7[i]%></td>
+                                                <td><%= prob8[i]%></td>
+                                                
+                                            </tr>
+                                        
+                                    
+                                        
+                                          <%}
+                                          %>
+                                          <tr>
+                                              <th>Rata-Rata</th>
+                                              <th><%= ratac1 %></th>
+                                              <th><%= ratac2 %></th>
+                                              <th><%= ratac3 %></th>
+                                              <th><%= ratac4 %></th>
+                                              <th><%= ratac5 %></th>
+                                              <th><%= ratac6 %></th>
+                                              <th><%= ratac7 %></th>
+                                              <th><%= ratac8 %></th>
+                                              
+                                          </tr>
+                                      <%}%>
+                                      <%
+                                      if(clus==9){
+                                        for(var i=0;i<prob1.length;i++){%>
+                                          
+                                            <tr>
+                                                <td><%= i+1%></td>
+                                                <td><%= prob1[i]%></td>
+                                                <td><%= prob2[i]%></td>
+                                                <td><%= prob3[i]%></td>
+                                                <td><%= prob4[i]%></td>
+                                                <td><%= prob5[i]%></td>
+                                                <td><%= prob6[i]%></td>
+                                                <td><%= prob7[i]%></td>
+                                                <td><%= prob8[i]%></td>
+                                                <td><%= prob9[i]%></td>
+                                                
+                                            </tr>
+                                        
+                                    
+                                        
+                                          <%}
+                                          %>
+                                          <tr>
+                                              <th>Rata-Rata</th>
+                                              <th><%= ratac1 %></th>
+                                              <th><%= ratac2 %></th>
+                                              <th><%= ratac3 %></th>
+                                              <th><%= ratac4 %></th>
+                                              <th><%= ratac5 %></th>
+                                              <th><%= ratac6 %></th>
+                                              <th><%= ratac7 %></th>
+                                              <th><%= ratac8 %></th>
+                                              <th><%= ratac9 %></th>
+                                              
+                                          </tr>
+                                      <%}%>
+                                      
+                    
+                                      
+                                      
+                                            
+                                </table>
+                    </div>
+            </div>
+    </div>
+  
      
       
           

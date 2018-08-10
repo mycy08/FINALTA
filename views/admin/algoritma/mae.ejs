@@ -60,7 +60,7 @@
             </li>
         </ul>
         <a class="btn navbar-btn btn-primary ml-2 text-white" href="/admin/destroy/">
-          <i class="fa d-inline fa-lg fa-user-circle-o"></i>&nbsp;<%= req.session.Admin.nama%></a>
+          <i class="fa d-inline fa-lg fa-user-circle-o"></i>&nbsp;</a>
       </div>
     </div>
   </nav>
@@ -68,17 +68,26 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9" style="margin-left: 125px">
+                    
                     <form class="" enctype="multipart/form-data" method="POST" action="/mae/mae">
-                        
-                            <label>Pilih Koefisien</label>
-                            <select name="koefisien" id="" class="form-control">
-                                    <option value="0">-- Pilih Koefisien --</option>
-                                    <option value="0.25">0.25</option>
-                                    <option value="0.5">0.5</option>
-                                    <option value="0.75">0.75</option>   
-                                    <option value="1">1</option>
-                                    
-                                </select>
+                          <label>Pilih Jumlah Cluster</label>
+                            <select name="cluss" id="" class="form-control">
+                                <%
+                                  for(var i=2;i<=9;i++){%>
+                                    <option value="<%= i %>">Jumlah Cluster <%= i %></option>
+                                  <%}
+                                %>
+                            
+                              </select>
+                              <label>Pilih Koefisien</label>
+                              <select name="koefisien" id="" class="form-control">
+                                <%
+                                  for(var i=1;i<=10;i++){%>
+                                    <option value="<%= i/10 %>">  <%= i/10 %></option>
+                                  <%}
+                                %>
+                            
+                              </select>
                             
                         
                         <button type="submit" class="btn btn-primary" style="margin-top: 10px">Submit</button>
@@ -86,17 +95,26 @@
                     <div class="card" style="margin-top: 10px;">
                             <div class="card-header"> Informasi </div>
                             <div class="card-body">
-                              <p class="">
-                                    <%
-                                    if(MAE!="undenfined "){%>
-                                        <p>Koefisien = <%= koefisien %></p>
-                                    <p>MAE = <%= MAE %></p>  
-                                    <%}
-                                    else{%>
-                                        <p>Pilih koefisien terlebih dahulu</p>
-                                    <%}   
-                                %>
-                              </p>
+                              <%
+                                if(clus==0){%>
+                                  <p>Pilih jumlah cluster terlebih dahulu</p>
+                                <%}
+                                else{%>
+                                  <p class="">
+                                      <%
+                                      if(MAE!="undenfined "){%>
+                                          <p>Jumlah Cluster = <%= clus %></p>
+                                          <p>Koefisien = <%= koefisien %></p>
+                                      <p>MAE = <%= MAE %></p>  
+                                      <%}
+                                      else{%>
+                                          <p>Pilih koefisien terlebih dahulu</p>
+                                      <%}   
+                                  %>
+                                </p>
+                                <%}
+                              %>
+                              
                               
                             </div>
                           </div>

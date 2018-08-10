@@ -60,7 +60,7 @@
             </li>
         </ul>
         <a class="btn navbar-btn btn-primary ml-2 text-white" href="/admin/destroy/">
-          <i class="fa d-inline fa-lg fa-user-circle-o"></i>&nbsp;<%= req.session.Admin.nama%></a>
+          <i class="fa d-inline fa-lg fa-user-circle-o"></i>&nbsp;</a>
       </div>
     </div>
   </nav>
@@ -72,10 +72,12 @@
                         
                             <label>Pilih Anggota</label>
                             <select class="form-control" name="cluster" id="">
+
                                 <option value="0">-- Pilih Anggota --</option>
-                                <option value="1">Anggota 1</option>
-                                <option value="2">Anggota 2</option>
-                                <option value="3">Anggota 3</option>
+                                <% for(var i=1;i<=9;i++) {%>
+                                <option value="<%= i %>">Anggota <%= i %></option>
+                                <%}%>
+                                
                             </select>
                             
                         
