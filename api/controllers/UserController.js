@@ -7,6 +7,7 @@
 var bcrypt = require('bcrypt')
 var fs =require('fs')
 var Isemail = require('isemail')
+var url = require('url');
 module.exports = {
   
   userProfile: function (req, res, next) {
@@ -360,16 +361,71 @@ module.exports = {
                       
                       }
                     else{
-                      var daftarSuccess = [
-                        'Email sudah berhasil didaftar. Silahkan Login'
-                      ]
-                      req.session.flash = {
-                        err: daftarSuccess
-                      // If error redirect back to sign-up page
-                      }
-                      mailer.sendWelcomeMail(user)
-                      res.redirect('/login');
-                      return;
+                      User.findOneByEmail(req.param('email'), function foundUser(err, user) {
+                        if (err) return next(err);
+                  
+                  
+                        if (!user) {
+                          var noAccountError = [
+                            "Email Belum Terdaftar"
+                          ]
+                          req.session.flash = {
+                            err: noAccountError
+                          }
+                          res.redirect('/login');
+                          return;
+                        }
+                        
+                        if (user.status=="true") {
+                          bcrypt.compare(req.param('password'), user.password, function (err, valid) {
+                            if (err) return next(err);
+                  
+                  
+                            if (!valid) {
+                              var usernamePasswordMismatchError = [
+                                "Email atau Password Salah"
+                              ]
+                              req.session.flash = {
+                                err: usernamePasswordMismatchError
+                              }
+                              res.redirect('/login');
+                              return;
+                            }
+                  
+                  
+                            req.session.authenticated = true;
+                            req.session.User = user;
+                            res.redirect('/anime-terbaru/1');
+                  
+                          });
+                        }
+                        else if(user.status=="Banned"){
+                          var noAccountError = [
+                            "Akun Anda sudah di Banned !!"
+                          ]
+                          req.session.flash = {
+                            err: noAccountError
+                          }
+                          res.redirect('/login');
+                          return;
+                        }
+                        else {
+                          var kodeSalah = [
+                            "Kode yang Anda masukan salah, Cek email Anda untuk melihat Kode !"
+                          ]
+                          req.session.flash = {
+                            err: kodeSalah
+                          }
+                          res.view("user/akun-aktivasi", {
+                            layout: false,
+                            status: 'OK',
+                            title: 'Aktivasi Akun',
+                            user: user
+                          })
+                        }
+                  
+                  
+                      });
                     }
                   })
               }

@@ -78,6 +78,10 @@ module.exports.routes = {
   controller:"session",
   action:"create"
 } ,
+'POST /aktivasi/':{
+  controller:"session",
+  action:"create"
+} ,
 'GET /akun-aktivasi/:id/:kode_verifikasi':{
   controller:"session",
   action:"akunAktif"
