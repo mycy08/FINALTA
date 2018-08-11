@@ -6,6 +6,7 @@
  */
 var bcrypt = require('bcrypt')
 var fs =require('fs')
+var Isemail = require('isemail')
 module.exports = {
   
   userProfile: function (req, res, next) {
@@ -305,76 +306,91 @@ module.exports = {
   
   
   create:function(req,res,next){
-    User.findOneByEmail(req.param('email'),function(err,user){
-      if(user){
-        var emailAlready = [
-          'Email sudah terdaftar. gunakan email lain untuk mendaftar'
-				]
-				req.session.flash = {
-					err: emailAlready
-        }
-        res.redirect('/register');
-        return
-      }
-      else{
+    
+    if(Isemail.validate(req.param('email'))){
+      User.findOneByEmail(req.param('email'),function(err,user){
         
-        if(req.param('no_hp').length>12|| req.param('no_hp').length<11){
-          var failedNohp = [
-            'Nomor Hp yang Anda masukan salah'
+        if(user){
+          var emailAlready = [
+            'Email sudah terdaftar. gunakan email lain untuk mendaftar'
           ]
           req.session.flash = {
-            err: failedNohp
+            err: emailAlready
           }
           res.redirect('/register');
           return
         }
         else{
-          User.findOne({no_hp:req.param('no_hp')}).exec(function(err,user){
-            if(user){
-              var nohpready = [
-                'Nomor Hp sudah terdaftar. gunakan Nomor Hp lain untuk mendaftar'
-              ]
-              req.session.flash = {
-                err: nohpready
-              }
-              res.redirect('/register');
-              return
+          
+          if(req.param('no_hp').length>12|| req.param('no_hp').length<11){
+            var failedNohp = [
+              'Nomor Hp yang Anda masukan salah'
+            ]
+            req.session.flash = {
+              err: failedNohp
             }
-            else{
-              var kode = Math.floor(Math.random()*90000) + 10000;
-              var userObj={
-                email:req.param('email'),
-                password:req.param('password'),
-                nama:req.param('nama'),
-                no_hp:req.param('no_hp'),
-                kode_verifikasi:kode,
-                status:"false"
+            res.redirect('/register');
+            return
+          }
+          else{
+            User.findOne({no_hp:req.param('no_hp')}).exec(function(err,user){
+              if(user){
+                var nohpready = [
+                  'Nomor Hp sudah terdaftar. gunakan Nomor Hp lain untuk mendaftar'
+                ]
+                req.session.flash = {
+                  err: nohpready
+                }
+                res.redirect('/register');
+                return
               }
-              User.create(userObj).exec(function(err,user){ 
-                  if (err) {
-                    console.log(err);
-                    
+              else{
+                var kode = Math.floor(Math.random()*90000) + 10000;
+                var userObj={
+                  email:req.param('email'),
+                  password:req.param('password'),
+                  nama:req.param('nama'),
+                  no_hp:req.param('no_hp'),
+                  kode_verifikasi:kode,
+                  status:"false"
+                }
+                User.create(userObj).exec(function(err,user){ 
+                    if (err) {
+                      console.log(err);
+                      
+                      }
+                    else{
+                      var daftarSuccess = [
+                        'Email sudah berhasil didaftar. Silahkan Login'
+                      ]
+                      req.session.flash = {
+                        err: daftarSuccess
+                      // If error redirect back to sign-up page
+                      }
+                      mailer.sendWelcomeMail(user)
+                      res.redirect('/login');
+                      return;
                     }
-                  else{
-                    var daftarSuccess = [
-                      'Email sudah berhasil didaftar. Silahkan Login'
-                    ]
-                    req.session.flash = {
-                      err: daftarSuccess
-                    // If error redirect back to sign-up page
-                    }
-                    mailer.sendWelcomeMail(user)
-                    res.redirect('/login');
-                    return;
-                  }
-                })
-            }
-          })
+                  })
+              }
+            })
+            
+          }
           
         }
-        
+      })
+    }
+    else{
+      var emailSal = [
+        'Format email yang anda masukan salah'
+      ]
+      req.session.flash = {
+        err: emailSal
       }
-    })
+      res.redirect('/register');
+      return
+    }
+    
   },
 
   //mobile

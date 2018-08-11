@@ -18,7 +18,7 @@ module.exports={
     sendKataSandi : function(objUser) {
     
         sails.hooks.email.send(
-        "welcomeEmail", 
+        "lupaPassword", 
         {
         Name: objUser.nama,
         senderName:objUser.kode_verifikasi,
@@ -26,7 +26,7 @@ module.exports={
         },
         {
         to: objUser.email,
-        subject: "Aktifkan akun Sirine Anda !"
+        subject: "Reset Password Sirine !"
         },
         function(err) {console.log(err || "Mail Sent!");}
         )

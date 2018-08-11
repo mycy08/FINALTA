@@ -212,6 +212,12 @@ module.exports = {
 				return;
 			}
 			else {
+				var kodeSalah = [
+					"Kode yang Anda masukan salah, Cek email Anda untuk melihat Kode !"
+				]
+				req.session.flash = {
+					err: kodeSalah
+				}
 				res.view("user/akun-aktivasi", {
 					layout: false,
 					status: 'OK',

@@ -12,7 +12,6 @@ module.exports = {
     
     email:{
       type:'string',
-      email: true,
       required:true,
       unique:true
     },
@@ -77,6 +76,7 @@ module.exports = {
     
     
   },
+  
    beforeCreate: function(user, cb) {
       bcrypt.genSalt(10, function(err, salt) {
           bcrypt.hash(user.password, salt, function(err, hash) {
