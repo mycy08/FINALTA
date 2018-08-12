@@ -5,65 +5,213 @@
     background: url('../images/logo/algo.jpg') 0 0;
 }
 
+#mulai:hover{
+    left: 0px;
+    width: 379px;
+    height: 80px;
+    background: url('../images/logo/algom.jpg') 0 0;
+}
 #kmeans {
     left: 0px;
     width: 189.98px;
-    height: 205px;
-    background: url(../images/logo/algo.jpg) 9px -94px;
-    background-size: 300px 830px;
+    height: 420px;
+    background: url(../images/logo/algo.jpg) -4px -69px;
+    background-size: 400px 1516px;
     background-repeat: no-repeat;
-
 }
+
+#kmeans:hover{
+        left: 0px;
+        width: 189.98px;
+        height: 420px;
+        background: url(../images/logo/algom.jpg) -4px -69px;
+        background-size: 400px 1516px;
+        background-repeat: no-repeat;
+}
+
+
 
 #itemRating {
     left: 0px;
     width: 189.98px;
-    height: 205px;
-    background: url('../images/logo/algo.jpg') -190px -80px;
+    height: 420px;
+    background: url(../images/logo/algo.jpg) -185px -60px;
+    background-repeat: no-repeat;
+}
+
+#itemRating:hover{
+    left: 0px;
+    width: 189.98px;
+    height: 420px;
+    background: url(../images/logo/algom.jpg) -185px -60px;
     background-repeat: no-repeat;
 }
 #prob {
     left: 0px;
     width: 189.98px;
-    height: 80px;
-    background: url(../images/logo/algo.jpg) 0px -250px;
+    height: 155px;
+    background: url(../images/logo/algo.jpg) 0px -415px;
+    background-repeat: no-repeat;
+}
+
+#prob:hover{
+    left: 0px;
+    width: 189.98px;
+    height: 155px;
+    background: url(../images/logo/algom.jpg) 0px -415px;
     background-repeat: no-repeat;
 }
 #line {
     left: 0px;
     width: 189.98px;
-    height: 80px;
-    background: url(../images/logo/line.jpg) -47px -50px;
+    height: 155px;
+    background: url(../images/logo/algo.jpg) -185px -500px;
     background-repeat: no-repeat;
 }
 #line1 {
     left: 0px;
     width: 189.98px;
-    height: 120px;
-    background: url(../images/logo/algo.jpg) -190px -330px;
+    height: 160px;
+    background: url(../images/logo/algo.jpg) -185px -500px;
     background-repeat: no-repeat;
 }
 
 #groupRating {
     left: 0px;
     width: 189.98px;
-    height: 120px;
-    background: url(../images/logo/algo.jpg) 0px -330px;
+    height: 160px;
+    background: url(../images/logo/algo.jpg) 0px -570px;
+    background-repeat: no-repeat;
+}
+#groupRating:hover{
+    left: 0px;
+    width: 189.98px;
+    height: 160px;
+    background: url(../images/logo/algom.jpg) 0px -570px;
+    background-repeat: no-repeat;
+}
+#kombinasi {
+    left: 0px;
+    width: 379px;
+    height: 176px;
+    background: url(../images/logo/algo.jpg) 0px -724px;
+    background-repeat: no-repeat;
+}
+
+#kombinasi:hover{
+    left: 0px;
+    width: 379px;
+    height: 176px;
+    background: url(../images/logo/algom.jpg) 0px -724px;
     background-repeat: no-repeat;
 }
 #prediksi {
     left: 0px;
     width: 379px;
-    height: 91px;
-    background: url(../images/logo/algo.jpg) 0px -450px;
+    height: 162px;
+    background: url(../images/logo/algo.jpg) 0px -899px;
+    background-repeat: no-repeat;
+}
+
+#prediksi:hover{
+    left: 0px;
+    width: 379px;
+    height: 162px;
+    background: url(../images/logo/algom.jpg) 0px -899px;
     background-repeat: no-repeat;
 }
 
 #prioritas {
     left: 0px;
     width: 379px;
-    height: 150px;
-    background: url(../images/logo/algo.jpg) 0px -540px;
+    height: 220px;
+    background: url(../images/logo/algo.jpg) 0px -1060px;
+    background-repeat: no-repeat;
+}
+
+#prioritas:hover{
+    left: 0px;
+    width: 379px;
+    height: 220px;
+    background: url(../images/logo/algom.jpg) 0px -1060px;
+    background-repeat: no-repeat;
+}
+
+#mulaim {
+    left: 0px;
+    width: 379px;
+    height: 80px;
+    background: url('../images/logo/algom.jpg') 0 0;
+}
+#kmeansm {
+    left: 0px;
+    width: 189.98px;
+    height: 420px;
+    background: url(../images/logo/algom.jpg) -4px -69px;
+    background-size: 400px 1516px;
+    background-repeat: no-repeat;
+}
+
+
+
+#itemRatingm {
+    left: 0px;
+    width: 189.98px;
+    height: 420px;
+    background: url(../images/logo/algom.jpg) -185px -60px;
+    background-repeat: no-repeat;
+}
+#probm {
+    left: 0px;
+    width: 189.98px;
+    height: 155px;
+    background: url(../images/logo/algom.jpg) 0px -415px;
+    background-repeat: no-repeat;
+}
+#line {
+    left: 0px;
+    width: 189.98px;
+    height: 155px;
+    background: url(../images/logo/algom.jpg) -185px -500px;
+    background-repeat: no-repeat;
+}
+#line1 {
+    left: 0px;
+    width: 189.98px;
+    height: 160px;
+    background: url(../images/logo/algom.jpg) -185px -500px;
+    background-repeat: no-repeat;
+}
+
+#groupRatingm {
+    left: 0px;
+    width: 189.98px;
+    height: 160px;
+    background: url(../images/logo/algom.jpg) 0px -570px;
+    background-repeat: no-repeat;
+}
+#kombinasim {
+    left: 0px;
+    width: 379px;
+    height: 176px;
+    background: url(../images/logo/algom.jpg) 0px -724px;
+    background-repeat: no-repeat;
+}
+#prediksim {
+    left: 0px;
+    width: 379px;
+    height: 162px;
+    background: url(../images/logo/algom.jpg) 0px -899px;
+    background-repeat: no-repeat;
+}
+
+
+
+#prioritasm {
+    left: 0px;
+    width: 379px;
+    height: 220px;
+    background: url(../images/logo/algom.jpg) 0px -1060px;
     background-repeat: no-repeat;
 }
 
@@ -78,14 +226,4 @@ a.ref1{
     width: 376px;
 }
 
-a.ref:hover{
-    width: 185.98px;
-    border: solid 3px red;
-}
-a.ref1:hover{
-    width: 376px;
-    border: solid 3px red;
-}
-.colDiv{
-    width: 189.98px;
-}
+
