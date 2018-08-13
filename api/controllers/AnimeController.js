@@ -67,12 +67,14 @@ module.exports = {
     },
     search: function (req, res, next) {
         var perPage = 12
-        if (!req.params.page) {
+        
+        if (!req.param('page')) {
             var page = 1
         }
         else {
-            var page = req.params.page
+            var page = req.param('page')
         }
+        
 
         Anime.find({ like: { nama_anime: '%' + req.param('search') + '%' } })
             .skip((perPage * page) - perPage)

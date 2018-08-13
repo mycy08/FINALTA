@@ -26,7 +26,7 @@
                         <div class="cardfilter border" style="background-color:white;">
                             <h4 class="text-black text-center">Filter</h4>
                         </div>
-                        <form id="ratingsForm" method="POST" action="/rekomendasi/filterRekomendasi/">
+                        <form id="ratingsForm" method="get" action="/rekomendasi/filterRekomendasi">
                             <div class="col-md-12 border" style="background-color:white;">
                                     <h6 class="text-black mt-2">Rating</h6>
                                     <div class="stars" style="margin-bottom: 20px;">
@@ -113,7 +113,7 @@
                                   <% if (current == 1) { %>
                                       <li class="disabled page-item"><a class="page-link">First</a></li>
                                   <% } else { %>
-                                      <li class="page-item"><a class="page-link" href="/rekomendasi/filter-rekomendasi/1">First</a></li>
+                                      <li class="page-item"><a class="page-link" href="/rekomendasi/filterRekomendasi/1">First</a></li>
                                   <% } %>
                                   <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
                                   <% if (i !== 1) { %>
@@ -122,8 +122,15 @@
                                   <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
                                       <% if (i == current) { %>
                                           <li class="active page-item"><a class="page-link"><%= i %></a></li>
-                                      <% } else { %>
-                                          <li class="page-item"><a class="page-link" href="/rekomendasi/filter-rekomendasi/<%= i %>"><%= i %></a></li>
+                                      <% } else { 
+                                            if(req.param('genre')!=undefined){%>
+                                                <li class="page-item"><a class="page-link" href="/rekomendasi/filterRekomendasi?star=<%= req.param('star')%>&tahun_awal=<%= req.param('tahun_awal')%>&tahun_akhir=<%= req.param('tahun_akhir')%>&genre=<%= req.param('genre') %>&page=<%= i %>"><%= i %></a></li>
+                                            <%}
+                                            else{%>
+                                                <li class="page-item"><a class="page-link" href="/rekomendasi/filterRekomendasi?star=<%= req.param('star')%>&tahun_awal=<%= req.param('tahun_awal')%>&tahun_akhir=<%= req.param('tahun_akhir')%>&page=<%= i %>"><%= i %></a></li>
+                                            <%}  
+                                        %>
+                                          
                                       <% } %>
                                       <% if (i == Number(current) + 4 && i < pages) { %>
                                           <li class="disabled page-link"><a>...</a></li>
@@ -131,8 +138,15 @@
                                   <% } %>
                                   <% if (current == pages) { %>
                                       <li class="disabled page-item"><a class="page-link">Last</a></li>
-                                  <% } else { %>
-                                      <li class="page-item"><a class="page-link" href="/rekomendasi/filter-rekomendasi/<%= pages %>">Last</a></li>
+                                  <% } else { 
+                                    if(req.param('genre')!=undefined){%>
+                                        <li class="page-item"><a class="page-link" href="/rekomendasi/filterRekomendasi?star=<%= req.param('star')%>&tahun_awal=<%= req.param('tahun_awal')%>&tahun_akhir=<%= req.param('tahun_akhir')%>&genre=<%= req.param('genre') %>&page=<%= pages %>">Last</a></li>
+                                        <%}
+                                        else{%>
+                                            <li class="page-item"><a class="page-link" href="/rekomendasi/filterRekomendasi?star=<%= req.param('star')%>&tahun_awal=<%= req.param('tahun_awal')%>&tahun_akhir=<%= req.param('tahun_akhir')%>&page=<%= pages %>">Last</a></li>
+                                        <%}
+                                    %>
+                                      
                                   <% } %>
                               </ul>
                           <% } %>

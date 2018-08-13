@@ -74,8 +74,14 @@ module.exports = {
             scoreAkhir=3
         }
 
-        var page = req.param('page')
-        var perPage=12
+        var perPage = 12
+        
+        if (!req.param('page')) {
+            var page = 1
+        }
+        else {
+            var page = req.param('page')
+        }
         Temp.find({})
                 .sort("rata desc")
                 .skip((perPage * page) - perPage)
@@ -96,6 +102,7 @@ module.exports = {
                 .where({like:{genre:'%' + genres + '%' }})
                 
         .exec(function(err,count){
+            
             Genre.find().exec(function (err, genre) {
                 if (req.session.User) {
                     Notifikasi.find({ id_user: req.session.User.id }).sort('updatedAt DESC').exec(function(err,notif){

@@ -70,7 +70,7 @@ module.exports.routes = {
     controller: 'anime',
     action: "animeTerbaru",
   },
-  'POST /search/':{
+  'GET /search':{
     controller:"anime",
     action:"search"
  } ,

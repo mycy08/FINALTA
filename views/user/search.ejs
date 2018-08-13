@@ -86,7 +86,7 @@
                   <% if (current == 1) { %>
                       <li class="disabled page-item"><a class="page-link">First</a></li>
                   <% } else { %>
-                      <li class="page-item"><a class="page-link" href="/daftar-anime/1">First</a></li>
+                      <li class="page-item"><a class="page-link" href="/search?search=<%= req.param('search')%>&page=1">First</a></li>
                   <% } %>
                   <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
                   <% if (i !== 1) { %>
@@ -96,7 +96,7 @@
                       <% if (i == current) { %>
                           <li class="active page-item"><a class="page-link"><%= i %></a></li>
                       <% } else { %>
-                          <li class="page-item"><a class="page-link" href="/daftar-anime/<%= i %>"><%= i %></a></li>
+                          <li class="page-item"><a class="page-link" href="/search?search=<%= req.param('search')%>&page=<%= i %>"><%= i %></a></li>
                       <% } %>
                       <% if (i == Number(current) + 4 && i < pages) { %>
                           <li class="disabled page-link"><a>...</a></li>
@@ -105,7 +105,7 @@
                   <% if (current == pages) { %>
                       <li class="disabled page-item"><a class="page-link">Last</a></li>
                   <% } else { %>
-                      <li class="page-item"><a class="page-link" href="/daftar-anime/<%= pages %>">Last</a></li>
+                      <li class="page-item"><a class="page-link" href="/search?search=<%= req.param('search')%>&page=<%= pages %>">Last</a></li>
                   <% } %>
               </ul>
           <% } %>
