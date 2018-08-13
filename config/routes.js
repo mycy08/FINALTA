@@ -131,11 +131,11 @@ module.exports.routes = {
   controller:"admin",
   action:"dash"
 },
-'POST /hasil-search/':{
+'get /hasil-search':{
   controller:"admin",
   action:"search"
 } ,
-'POST /hasil-search-user/':{
+'get /hasil-search-user':{
   controller:"admin",
   action:"searchUser"
 } ,

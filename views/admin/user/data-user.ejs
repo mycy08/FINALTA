@@ -52,7 +52,7 @@
             <% } %>
           <div class="row">
             <div class="col-md-12">
-              <form class="form-inline" method="POST" action="/hasil-search-user/">
+              <form class="form-inline" method="get" action="/hasil-search-user">
                 <div class="input-group">
                   <input type="text" name="search" class="form-control" placeholder="Cari User">
                   <div class="input-group-append">
@@ -73,7 +73,7 @@
                 _.each(user,function(user){%>
                     <div class="col-md-3" style="margin-top: 10px;">
                             <div class="card">
-                              <img class="card-img-top" src="/images/user/<%= user.photo_url %>" alt="Card image cap">
+                              <img class="card-img-top" src="/images/user/<%= user.photo_url %>" style="height: 316.25px;" alt="Card image cap">
                               <div class="card-body">
                                 <h5 class="card-title"><%= user.nama %></h5>
                                 <p class="card-text" style="font-size: 14px;"><%= user.email %></p>

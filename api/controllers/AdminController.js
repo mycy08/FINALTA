@@ -40,15 +40,19 @@ module.exports = {
     },
     searchUser: function (req, res, next) {
         var perPage = 12
-        if (!req.params.page) {
+        if (!req.param('page')) {
             var page = 1
         }
         else {
-            var page = req.params.page
+            var page = req.param('page')
         }
-        console.log(req.param('search'))
-        User.find({ like: { nama: '%' + req.param('search') + '%' },
-                     like: { email: '%' + req.param('search') + '%' }
+        
+        User.find({
+            or : [
+                { like: { nama: '%' + req.param('search') + '%'} },
+                { like: { email: '%' + req.param('search') + '%' }},
+                { like: { no_hp: '%' + req.param('search') + '%' }}
+              ]
         })
             .skip((perPage * page) - perPage)
             .limit(perPage)
@@ -57,12 +61,15 @@ module.exports = {
                     return res.serverError(err);
                 }
                 else {
-                    console.log(search)
+                    
 
 
-                User.count({ like: { nama: '%' + req.param('search') + '%' },
-                            like: { email: '%' + req.param('search') + '%' }
-                            
+                User.count({
+                    or : [
+                        { like: { nama: '%' + req.param('search') + '%'} },
+                        { like: { email: '%' + req.param('search') + '%' }},
+                        { like: { no_hp: '%' + req.param('search') + '%' }}
+                      ]
                 }).exec(function (err, count) {
                         res.view("admin/user/searchUser/", {
                             layout: false,
@@ -209,12 +216,12 @@ module.exports = {
             })
     },
     search: function (req, res, next) {
-        var perPage = 12
-        if (!req.params.page) {
+        var perPage = 19
+        if (!req.param('page')) {
             var page = 1
         }
         else {
-            var page = req.params.page
+            var page = req.param('page')
         }
 
         Anime.find({ like: { nama_anime: '%' + req.param('search') + '%' } })
