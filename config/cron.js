@@ -25,8 +25,21 @@ module.exports.cron = {
                             if (!err && res.statusCode == 200) {
                                 var metadata = []
                                 var $ = cheerio.load(body);
+                                $('.infovanr').each(function (index) {
+                
+                                    var url = $(this).attr('href')
+                                    var episode = $(this).find('.infoept2r', '.centerv').text()
+                                    metadata.push({
+                                        id_anime: anime._id.toString(),
+                                        nama_anime:anime.nama_anime,
+                                        url: "http://animeheaven.eu/"+url,
+                                        episode: episode
+                                    })
+                                   
+                
+                                })
                                 $('.infovan').each(function (index) {
-    
+                
                                     var url = $(this).attr('href')
                                     var episode = $(this).find('.infoept2', '.centerv').text()
                                     metadata.push({
@@ -36,10 +49,12 @@ module.exports.cron = {
                                         episode: episode
                                     })
                                    
-    
+                
                                 })
-    
+                
                             }
+                            
+                
                             
                             async.map(metadata, (function(object, callback) {
                                 Episode_anime.findOne({id_anime:object.id_anime,episode:object.episode}).exec(function(err,found){
@@ -55,7 +70,7 @@ module.exports.cron = {
                                             url_versi_indo:""
                                         }
                                         Episode_anime.create(ObjEps).exec(function(err,created){
-                                            if(err) return res.serverError(err)
+                                            if(err) return console.log(err)
                                             
                                             
                                                 Anime_favorit.find({id_anime:created.id_anime}).exec(function(err,anfav){
@@ -85,9 +100,9 @@ module.exports.cron = {
                                 
                                 
                               }), function(error, createdOrFoundObjects) {
-                                console.log(createdOrFoundObjects)
                                 
-                                //   console.log(error, createdOrFoundObjects)
+                                
+                                
                               });
                             
                              
@@ -112,6 +127,7 @@ module.exports.cron = {
                                 
     
                             }
+                            
                             
                             Episode_anime.find({id_anime:anime._id.toString()}).exec(function(err,episode){
                                 if(err) return res.serverError(err)
@@ -157,6 +173,7 @@ module.exports.cron = {
                                                                     }
                                                                     Notifikasi.create(ObjNotifikasi).exec(callback)
                                                                 }),function(notifikasi){
+                                                                    
                                                                 })
                                                         })
                                                     })
@@ -169,6 +186,7 @@ module.exports.cron = {
                             })
               
                          })
+                         
                          
                     })
                     

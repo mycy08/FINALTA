@@ -8,7 +8,7 @@ var nestedPop = require('nested-pop')
 var Promise = require('bluebird');
 var moment = require('moment');
 function paginate(array, perPage, page) {
-    --page; // because pages logically start with 1, but technically with 0
+    --page; 
     return array.slice(page * perPage, (page + 1) * perPage);
 }
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
 
         Episode_anime
             .find({})
-            .sort({ createdAt: 'DESC', episode: 'DESC' })
+            .sort({ updatedAt: 'DESC', episode: 'DESC' })
             .skip((perPage * page) - perPage)
             .limit(perPage)
             .populateAll()
@@ -360,7 +360,7 @@ module.exports = {
                                     var anggotac1New = []
                                     var anggotac2New = []
                                     var anggotac3New = []
-                                    for (var i = 0; i < 3; i++) {
+                                    for (var i = 0; i < 2; i++) {
                                         var rand = Math.floor(Math.random() * 200);
                                         cluster.push(rekomendasi[rand])
 
@@ -487,70 +487,10 @@ module.exports = {
                                         })
 
                                     }
-                                    for (var j = 0; j < rekomendasi.length; j++) {
-                                        nilai = Math.sqrt((
-                                            (parseInt(rekomendasi[j].action - cluster[2].action) ^ 2)
-                                            + (parseInt(rekomendasi[j].adventure - cluster[2].adventure) ^ 2)
-                                            + (parseInt(rekomendasi[j].comedy - cluster[2].comedy) ^ 2)
-                                            + (parseInt(rekomendasi[j].scifi - cluster[2].scifi) ^ 2)
-                                            + (parseInt(rekomendasi[j].drama - cluster[2].drama) ^ 2)
-                                            + (parseInt(rekomendasi[j].space - cluster[2].space) ^ 2)
-                                            + (parseInt(rekomendasi[j].supernatural - cluster[2].supernatural) ^ 2)
-                                            + (parseInt(rekomendasi[j].thriller - cluster[2].thriller) ^ 2)
-                                            + (parseInt(rekomendasi[j].mystery - cluster[2].mystery) ^ 2)
-                                            + (parseInt(rekomendasi[j].seinen - cluster[2].seinen) ^ 2)
-                                            + (parseInt(rekomendasi[j].school - cluster[2].school) ^ 2)
-                                            + (parseInt(rekomendasi[j].historical - cluster[2].historical) ^ 2)
-                                            + (parseInt(rekomendasi[j].echi - cluster[2].echi) ^ 2)
-                                            + (parseInt(rekomendasi[j].sliceoflife - cluster[2].sliceoflife) ^ 2)
-                                            + (parseInt(rekomendasi[j].harem - cluster[2].harem) ^ 2)
-                                            + (parseInt(rekomendasi[j].pyschological - cluster[2].pyschological) ^ 2)
-                                            + (parseInt(rekomendasi[j].superpower - cluster[2].superpower) ^ 2)
-                                            + (parseInt(rekomendasi[j].fantasy - cluster[2].fantasy) ^ 2)
-                                            + (parseInt(rekomendasi[j].mecha - cluster[2].mecha) ^ 2)
-                                            + (parseInt(rekomendasi[j].sports - cluster[2].sports) ^ 2)
-                                            + (parseInt(rekomendasi[j].romance - cluster[2].romance) ^ 2)
-                                            + (parseInt(rekomendasi[j].shounen - cluster[2].shounen) ^ 2)
-                                            + (parseInt(rekomendasi[j].horor - cluster[2].horor) ^ 2)
-                                            + (parseInt(rekomendasi[j].martialarts - cluster[2].martialarts) ^ 2)
-                                            + (parseInt(rekomendasi[j].magic - cluster[2].magic) ^ 2)
-                                        ))
-                                        c3.push({
-                                            id_anime: rekomendasi[j].id_anime,
-                                            nama_anime: rekomendasi[j].nama_anime,
-                                            photo_url: rekomendasi[j].photo_url,
-                                            action: rekomendasi[j].action,
-                                            adventure: rekomendasi[j].adventure,
-                                            comedy: rekomendasi[j].comedy,
-                                            scifi: rekomendasi[j].scifi,
-                                            drama: rekomendasi[j].drama,
-                                            space: rekomendasi[j].space,
-                                            supernatural: rekomendasi[j].supernatural,
-                                            thriller: rekomendasi[j].thriller,
-                                            mystery: rekomendasi[j].mystery,
-                                            seinen: rekomendasi[j].seinen,
-                                            school: rekomendasi[j].school,
-                                            historical: rekomendasi[j].historical,
-                                            echi: rekomendasi[j].echi,
-                                            sliceoflife: rekomendasi[j].sliceoflife,
-                                            harem: rekomendasi[j].harem,
-                                            pyschological: rekomendasi[j].pyschological,
-                                            superpower: rekomendasi[j].superpower,
-                                            fantasy: rekomendasi[j].fantasy,
-                                            mecha: rekomendasi[j].mecha,
-                                            sports: rekomendasi[j].sports,
-                                            romance: rekomendasi[j].romance,
-                                            shounen: rekomendasi[j].shounen,
-                                            horor: rekomendasi[j].horor,
-                                            martialarts: rekomendasi[j].martialarts,
-                                            magic: rekomendasi[j].magic,
-                                            nilai: nilai
-                                        })
-
-                                    }
+                                    
                                     for (var i = 0; i < c1.length; i++) {
 
-                                        if (c1[i].nilai < c2[i].nilai && c1[i].nilai < c3[i].nilai) {
+                                        if (c1[i].nilai <= c2[i].nilai) {
                                             naction = parseInt(naction) + parseInt(c1[i].action)
                                             nadventure = parseInt(nadventure) + parseInt(c1[i].adventure)
                                             ncomedy = parseInt(ncomedy) + parseInt(c1[i].comedy)
@@ -614,7 +554,7 @@ module.exports = {
                                             }
                                             )
                                         }
-                                        else if (c2[i].nilai < c1[i].nilai && c2[i].nilai < c3[i].nilai) {
+                                        else {
                                             naction = parseInt(naction) + parseInt(c2[i].action)
                                             nadventure = parseInt(nadventure) + parseInt(c2[i].adventure)
                                             ncomedy = parseInt(ncomedy) + parseInt(c2[i].comedy)
@@ -674,67 +614,9 @@ module.exports = {
 
                                             })
                                         }
-                                        else {
-                                            naction = parseInt(naction) + parseInt(c3[i].action)
-                                            nadventure = parseInt(nadventure) + parseInt(c3[i].adventure)
-                                            ncomedy = parseInt(ncomedy) + parseInt(c3[i].comedy)
-                                            nscifi = parseInt(nscifi) + parseInt(c3[i].scifi)
-                                            ndrama = parseInt(ndrama) + parseInt(c3[i].drama)
-                                            nspace = parseInt(nspace) + parseInt(c3[i].space)
-                                            nsupernatural = parseInt(nsupernatural) + parseInt(c3[i].supernatural)
-                                            nthriller = parseInt(nthriller) + parseInt(c3[i].thriller)
-                                            nmystery = parseInt(nmystery) + parseInt(c3[i].mystery)
-                                            nseinen = parseInt(nseinen) + parseInt(c3[i].seinen)
-                                            nschool = parseInt(nschool) + parseInt(c3[i].school)
-                                            nhistorical = parseInt(nhistorical) + parseInt(c3[i].historical)
-                                            nechi = parseInt(nechi) + parseInt(c3[i].echi)
-                                            nsliceoflife = parseInt(nsliceoflife) + parseInt(c3[i].sliceoflife)
-                                            nharem = parseInt(nharem) + parseInt(c3[i].harem)
-                                            npyschological = parseInt(npyschological) + parseInt(c3[i].pyschological)
-                                            nsuperpower = parseInt(nsuperpower) + parseInt(c3[i].superpower)
-                                            nfantasy = parseInt(nfantasy) + parseInt(c3[i].fantasy)
-                                            nmecha = parseInt(nmecha) + parseInt(c3[i].mecha)
-                                            nsports = parseInt(nsports) + parseInt(c3[i].sports)
-                                            nromance = parseInt(nromance) + parseInt(c3[i].romance)
-                                            nshounen = parseInt(nshounen) + parseInt(c3[i].shounen)
-                                            nhoror = parseInt(nhoror) + parseInt(c3[i].horor)
-                                            nmartialarts = parseInt(nmartialarts) + parseInt(c3[i].martialarts)
-                                            nmagic = parseInt(nmagic) + parseInt(c3[i].magic)
-
-                                            anggotac3.push({
-                                                id_anime: c3[i].id_anime,
-                                                nama_anime: c3[i].nama_anime,
-                                                photo_url: c3[i].photo_url,
-                                                naction: naction,
-                                                nadventure: nadventure,
-                                                ncomedy: ncomedy,
-                                                nscifi: nscifi,
-                                                ndrama: ndrama,
-                                                nspace: nspace,
-                                                nsupernatural: nsupernatural,
-                                                nthriller: nthriller,
-                                                nmystery: nmystery,
-                                                nseinen: nseinen,
-                                                nschool: nschool,
-                                                nhistorical: nhistorical,
-                                                nechi: nechi,
-                                                nsliceoflife: nsliceoflife,
-                                                nharem: nharem,
-                                                npyschological: npyschological,
-                                                nsuperpower: nsuperpower,
-                                                nfantasy: nfantasy,
-                                                nmecha: nmecha,
-                                                nsports: nsports,
-                                                nromance: nromance,
-                                                nshounen: nshounen,
-                                                nhoror: nhoror,
-                                                nmartialarts: nmartialarts,
-                                                nmagic: nmagic,
-                                                nilai: c3[i].nilai
-                                            })
-                                        }
+                                        
                                     }
-                                    while (iterasi < 100 || (anggotac1.length == anggotac1New && anggotac2.length == anggotac2New && anggotac3.length == anggotac3New)) {
+                                    while (iterasi < 100 || (anggotac1.length == anggotac1New && anggotac2.length == anggotac2New)) {
                                         sentroid1.push({
                                             id_anime: cluster[0].id_anime,
                                             action: parseInt(naction) / anggotac1.length,
@@ -794,40 +676,11 @@ module.exports = {
 
 
                                         })
-                                        sentroid3.push({
-                                            id_anime: cluster[0].id_anime,
-                                            action: parseInt(naction) / anggotac3.length,
-                                            adventure: parseInt(nadventure) / anggotac3.length,
-                                            comedy: parseInt(ncomedy) / anggotac3.length,
-                                            scifi: parseInt(nscifi) / anggotac3.length,
-                                            drama: parseInt(ndrama) / anggotac3.length,
-                                            space: parseInt(nspace) / anggotac3.length,
-                                            supernatural: parseInt(nsupernatural) / anggotac3.length,
-                                            thriller: parseInt(nthriller) / anggotac3.length,
-                                            mystery: parseInt(nmystery) / anggotac3.length,
-                                            seinen: parseInt(nseinen) / anggotac3.length,
-                                            school: parseInt(nschool) / anggotac3.length,
-                                            historical: parseInt(nhistorical) / anggotac3.length,
-                                            echi: parseInt(nechi) / anggotac3.length,
-                                            sliceoflife: parseInt(nsliceoflife) / anggotac3.length,
-                                            harem: parseInt(nharem) / anggotac3.length,
-                                            pyschological: parseInt(npyschological) / anggotac3.length,
-                                            superpower: parseInt(nsuperpower) / anggotac3.length,
-                                            fantasy: parseInt(nfantasy) / anggotac3.length,
-                                            mecha: parseInt(nmecha) / anggotac3.length,
-                                            sports: parseInt(nsports) / anggotac3.length,
-                                            romance: parseInt(nromance) / anggotac3.length,
-                                            shounen: parseInt(nshounen) / anggotac3.length,
-                                            horor: parseInt(nhoror) / anggotac3.length,
-                                            martialarts: parseInt(nmartialarts) / anggotac3.length,
-                                            magic: parseInt(nmagic) / anggotac3.length,
-
-
-                                        })
+                                       
                                         sentroid.push(
                                             sentroid1,
                                             sentroid2,
-                                            sentroid3
+                                            
                                         )
 
                                         for (var j = 0; j < rekomendasi.length; j++) {
@@ -955,71 +808,10 @@ module.exports = {
                                             })
 
                                         }
-                                        for (var j = 0; j < rekomendasi.length; j++) {
-                                            nilai = Math.sqrt((
-                                                (parseInt(rekomendasi[j].action - sentroid[2].action) ^ 2)
-                                                + (parseInt(rekomendasi[j].adventure - sentroid[2].adventure) ^ 2)
-                                                + (parseInt(rekomendasi[j].comedy - sentroid[2].comedy) ^ 2)
-                                                + (parseInt(rekomendasi[j].scifi - sentroid[2].scifi) ^ 2)
-                                                + (parseInt(rekomendasi[j].drama - sentroid[2].drama) ^ 2)
-                                                + (parseInt(rekomendasi[j].space - sentroid[2].space) ^ 2)
-                                                + (parseInt(rekomendasi[j].supernatural - sentroid[2].supernatural) ^ 2)
-                                                + (parseInt(rekomendasi[j].thriller - sentroid[2].thriller) ^ 2)
-                                                + (parseInt(rekomendasi[j].mystery - sentroid[2].mystery) ^ 2)
-                                                + (parseInt(rekomendasi[j].seinen - sentroid[2].seinen) ^ 2)
-                                                + (parseInt(rekomendasi[j].school - sentroid[2].school) ^ 2)
-                                                + (parseInt(rekomendasi[j].historical - sentroid[2].historical) ^ 2)
-                                                + (parseInt(rekomendasi[j].echi - sentroid[2].echi) ^ 2)
-                                                + (parseInt(rekomendasi[j].sliceoflife - sentroid[2].sliceoflife) ^ 2)
-                                                + (parseInt(rekomendasi[j].harem - sentroid[2].harem) ^ 2)
-                                                + (parseInt(rekomendasi[j].pyschological - sentroid[2].pyschological) ^ 2)
-                                                + (parseInt(rekomendasi[j].superpower - sentroid[2].superpower) ^ 2)
-                                                + (parseInt(rekomendasi[j].fantasy - sentroid[2].fantasy) ^ 2)
-                                                + (parseInt(rekomendasi[j].mecha - sentroid[2].mecha) ^ 2)
-                                                + (parseInt(rekomendasi[j].sports - sentroid[2].sports) ^ 2)
-                                                + (parseInt(rekomendasi[j].romance - sentroid[2].romance) ^ 2)
-                                                + (parseInt(rekomendasi[j].shounen - sentroid[2].shounen) ^ 2)
-                                                + (parseInt(rekomendasi[j].horor - sentroid[2].horor) ^ 2)
-                                                + (parseInt(rekomendasi[j].martialarts - sentroid[2].martialarts) ^ 2)
-                                                + (parseInt(rekomendasi[j].magic - sentroid[2].magic) ^ 2)
-
-                                            ))
-                                            c3New.push({
-                                                id_anime: rekomendasi[j].id_anime,
-                                                nama_anime: rekomendasi[j].nama_anime,
-                                                photo_url: rekomendasi[j].photo_url,
-                                                action: rekomendasi[j].action,
-                                                adventure: rekomendasi[j].adventure,
-                                                comedy: rekomendasi[j].comedy,
-                                                scifi: rekomendasi[j].scifi,
-                                                drama: rekomendasi[j].drama,
-                                                space: rekomendasi[j].space,
-                                                supernatural: rekomendasi[j].supernatural,
-                                                thriller: rekomendasi[j].thriller,
-                                                mystery: rekomendasi[j].mystery,
-                                                seinen: rekomendasi[j].seinen,
-                                                school: rekomendasi[j].school,
-                                                historical: rekomendasi[j].historical,
-                                                echi: rekomendasi[j].echi,
-                                                sliceoflife: rekomendasi[j].sliceoflife,
-                                                harem: rekomendasi[j].harem,
-                                                pyschological: rekomendasi[j].pyschological,
-                                                superpower: rekomendasi[j].superpower,
-                                                fantasy: rekomendasi[j].fantasy,
-                                                mecha: rekomendasi[j].mecha,
-                                                sports: rekomendasi[j].sports,
-                                                romance: rekomendasi[j].romance,
-                                                shounen: rekomendasi[j].shounen,
-                                                horor: rekomendasi[j].horor,
-                                                martialarts: rekomendasi[j].martialarts,
-                                                magic: rekomendasi[j].magic,
-                                                nilai: nilai
-                                            })
-
-                                        }
+                                        
                                         for (var i = 0; i < c1.length; i++) {
 
-                                            if (c1New[i].nilai < c2New[i].nilai && c1New[i].nilai < c3New[i].nilai) {
+                                            if (c1New[i].nilai <= c2New[i].nilai) {
                                                 naction = parseInt(naction) + parseInt(c1New[i].action)
                                                 nadventure = parseInt(nadventure) + parseInt(c1New[i].adventure)
                                                 ncomedy = parseInt(ncomedy) + parseInt(c1New[i].comedy)
@@ -1083,7 +875,7 @@ module.exports = {
                                                 }
                                                 )
                                             }
-                                            else if (c2New[i].nilai < c1New[i].nilai && c2New[i].nilai < c3New[i].nilai) {
+                                            else  {
                                                 naction = parseInt(naction) + parseInt(c2New[i].action)
                                                 nadventure = parseInt(nadventure) + parseInt(c2New[i].adventure)
                                                 ncomedy = parseInt(ncomedy) + parseInt(c2New[i].comedy)
@@ -1143,65 +935,7 @@ module.exports = {
 
                                                 })
                                             }
-                                            else {
-                                                naction = parseInt(naction) + parseInt(c3New[i].action)
-                                                nadventure = parseInt(nadventure) + parseInt(c3New[i].adventure)
-                                                ncomedy = parseInt(ncomedy) + parseInt(c3New[i].comedy)
-                                                nscifi = parseInt(nscifi) + parseInt(c3New[i].scifi)
-                                                ndrama = parseInt(ndrama) + parseInt(c3New[i].drama)
-                                                nspace = parseInt(nspace) + parseInt(c3New[i].space)
-                                                nsupernatural = parseInt(nsupernatural) + parseInt(c3New[i].supernatural)
-                                                nthriller = parseInt(nthriller) + parseInt(c3New[i].thriller)
-                                                nmystery = parseInt(nmystery) + parseInt(c3New[i].mystery)
-                                                nseinen = parseInt(nseinen) + parseInt(c3New[i].seinen)
-                                                nschool = parseInt(nschool) + parseInt(c3New[i].school)
-                                                nhistorical = parseInt(nhistorical) + parseInt(c3New[i].historical)
-                                                nechi = parseInt(nechi) + parseInt(c3New[i].echi)
-                                                nsliceoflife = parseInt(nsliceoflife) + parseInt(c3New[i].sliceoflife)
-                                                nharem = parseInt(nharem) + parseInt(c3New[i].harem)
-                                                npyschological = parseInt(npyschological) + parseInt(c3New[i].pyschological)
-                                                nsuperpower = parseInt(nsuperpower) + parseInt(c3New[i].superpower)
-                                                nfantasy = parseInt(nfantasy) + parseInt(c3New[i].fantasy)
-                                                nmecha = parseInt(nmecha) + parseInt(c3New[i].mecha)
-                                                nsports = parseInt(nsports) + parseInt(c3New[i].sports)
-                                                nromance = parseInt(nromance) + parseInt(c3New[i].romance)
-                                                nshounen = parseInt(nshounen) + parseInt(c3New[i].shounen)
-                                                nhoror = parseInt(nhoror) + parseInt(c3New[i].horor)
-                                                nmartialarts = parseInt(nmartialarts) + parseInt(c3New[i].martialarts)
-                                                nmagic = parseInt(nmagic) + parseInt(c3New[i].magic)
-
-
-                                                anggotac3New.push({
-                                                    id_anime: c3New[i].id_anime,
-                                                    nama_anime: c3New[i].nama_anime,
-                                                    photo_url: c3New[i].photo_url,
-                                                    naction: naction,
-                                                    nadventure: nadventure,
-                                                    ncomedy: ncomedy,
-                                                    nscifi: nscifi,
-                                                    ndrama: ndrama,
-                                                    nspace: nspace,
-                                                    nsupernatural: nsupernatural,
-                                                    nthriller: nthriller,
-                                                    nmystery: nmystery,
-                                                    nseinen: nseinen,
-                                                    nschool: nschool,
-                                                    nhistorical: nhistorical,
-                                                    nechi: nechi,
-                                                    nsliceoflife: nsliceoflife,
-                                                    nharem: nharem,
-                                                    npyschological: npyschological,
-                                                    nsuperpower: nsuperpower,
-                                                    nfantasy: nfantasy,
-                                                    nmecha: nmecha,
-                                                    nsports: nsports,
-                                                    nromance: nromance,
-                                                    nshounen: nshounen,
-                                                    nhoror: nhoror,
-                                                    nmartialarts: nmartialarts,
-                                                    nmagic: nmagic
-                                                })
-                                            }
+                                            
                                         }
                                         iterasi++
                                     }
@@ -1255,28 +989,7 @@ module.exports = {
                                                 i++
                                             }
                                         }
-                                        if (anggotac3.length != 0) {
-                                            var i = 0
-                                            while (i < anggotac3.length) {
-                                                if (req.param('id') == anggotac3[i].id_anime) {
-                                                    ketemu = 1
-                                                    for (var j = 0; j < anggotac3.length; j++) {
-                                                        if (req.param('id') == anggotac3[j].id_anime) {
-                                                            continue
-                                                        }
-                                                        else {
-                                                            rekom.push({
-                                                                ani: anggotac3[j].id_anime,
-                                                                nama_anime: anggotac3[j].nama_anime,
-                                                                photo_url: anggotac3[j].photo_url,
-
-                                                            })
-                                                        }
-                                                    }
-                                                }
-                                                i++
-                                            }
-                                        }
+                                       
                                     }
 
 
@@ -1297,13 +1010,10 @@ module.exports = {
 
                                         c2Max.push(c2[i].nilai)
                                     }
-                                    for (var i = 0; i < c2.length; i++) {
-
-                                        c3Max.push(c3[i].nilai)
-                                    }
+                                   
                                     var max1 = Math.max.apply(Math, c1Max)
                                     var max2 = Math.max.apply(Math, c2Max)
-                                    var max3 = Math.max.apply(Math, c3Max)
+                                    
 
                                     for (var i = 0; i < c1.length; i++) {
                                         prob1.push(
@@ -1316,11 +1026,7 @@ module.exports = {
                                             1 - (c2[i].nilai / max2)
                                         )
                                     }
-                                    for (var i = 0; i < c3.length; i++) {
-                                        prob3.push(
-                                            1 - (c3[i].nilai / max3)
-                                        )
-                                    }
+                                   
 
                                     for (var i = 0; i < c1.length; i++) {
                                         sum = parseFloat(sum) + parseFloat(prob1[i])
@@ -1328,12 +1034,10 @@ module.exports = {
                                     for (var i = 0; i < c2.length; i++) {
                                         sum1 = parseFloat(sum1) + parseFloat(prob2[i])
                                     }
-                                    for (var i = 0; i < c3.length; i++) {
-                                        sum2 = parseFloat(sum2) + parseFloat(prob3[i])
-                                    }
+                                    
                                     var rataC1 = parseFloat(sum) / c1.length
                                     var rataC2 = parseFloat(sum1) / c2.length
-                                    var rataC3 = parseFloat(sum2) / c2.length
+                                   
                                     var groupRating = []
 
                                     for (var i = 0; i < rekomendasi.length; i++) {
@@ -1345,15 +1049,13 @@ module.exports = {
                                             hSementaraUp = hSementaraUp +
                                                 ((parseInt(c1[j].nilai - parseInt(rataC1) * (parseInt(c1[i].nilai) - parseInt(rataC1))))
                                                     + ((parseInt(c2[j].nilai) - parseInt(rataC2)) * (parseInt(c2[i].nilai - parseInt(rataC2))))
-                                                    + ((parseInt(c3[j].nilai) - parseInt(rataC3)) * (parseInt(c3[i].nilai - parseInt(rataC3))))
+                                                    
                                                 )
                                             hSementaraDown = parseInt(hSementaraDown)
                                                 + Math.sqrt((Math.pow(parseInt(c1[j].nilai) - parseInt(rataC1), 2) +
-                                                    (Math.pow(parseInt(c2[j].nilai) - parseInt(rataC2), 2)) +
-                                                    (Math.pow(parseInt(c3[j].nilai) - parseInt(rataC3), 2))
+                                                    (Math.pow(parseInt(c2[j].nilai) - parseInt(rataC2), 2)) 
                                                 )) * Math.sqrt((Math.pow(parseInt(c1[i].nilai) - parseInt(rataC1), 2))
-                                                    + (Math.pow(parseInt(c2[i].nilai) - parseInt(rataC2), 2))
-                                                    + (Math.pow(parseInt(c3[i].nilai) - parseInt(rataC3), 2)))
+                                                    + (Math.pow(parseInt(c2[i].nilai) - parseInt(rataC2), 2)))
 
                                             groupRating.push(parseInt(hSementaraUp) / parseInt(hSementaraDown))
 
@@ -1365,7 +1067,7 @@ module.exports = {
                                         Rating.native(function (err, collection) {
 
                                             if (err) return res.serverError(err);
-                                            var scoreSem = [1, 3, 4, 6, 3, 1, 2, 9, 3, 1, 3, 2, 4, 6, 3, 5, 2, 9, 3, 9, 1, 3, 4, 6, 3, 10, 2, 7, 6, 3, 7, 3, 5, 7, 3, 10, 2, 9, 2, 5, 7, 4, 4, 8, 3, 1, 2, 9, 3, 8, 5, 6, 8, 1, 3, 7, 2, 7, 3, 10, 8, 9, 1, 6, 3, 1, 2, 8, 4, 10, 7, 3, 4, 6, 3, 3, 2, 6, 5, 10, 2, 3, 4, 9, 3, 1, 2, 9, 3, 1, 10, 6, 5, 7, 5, 2, 8, 9, 2, 2, 5, 7, 9, 8, 4, 5, 3, 7, 4, 10, 7, 5, 4, 6, 3, 7, 2, 7, 3, 7, 5, 8, 3, 1, 10, 5, 3, 7, 8, 9, 6, 4, 5, 7, 8, 10, 2, 9, 8, 9, 6, 3, 4, 7, 0, 8, 3, 7, 5, 4, 7, 4, 5, 9, 8, 5, 2, 9, 3, 3, 7, 3, 4, 7, 5, 1, 2, 9, 3, 9, 5, 5, 4, 3, 1, 2, 9, 3, 5, 5, 8, 4, 5, 7, 8, 10, 6, 8, 4, 10, 10, 9, 5, 4, 3, 2, 1, 1, 5, 4, 10, 5, 4, 7, 9, 6, 4, 8, 7, 6, 5, 4, 7, 8, 6, 4, 4, 3, 2, 1, 5, 3, 4, 5, 6, 7, 1, 2, 3, 9, 6, 4, 2, 1, 3, 5, 6, 3, 2, 1, 2, 3, 5, 7, 7, 8, 9, 5, 4, 2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 6, 5, 3, 2, 1, 3, 5, 5, 2, 3, 4, 6, 7, 8, 9, 6, 4, 2, 1, 3, 1, 2, 3, 4, 5, 2, 1]
+                                                                                                                                                                        var scoreSem = [1, 3, 4, 6, 3, 1, 2, 9, 3, 1, 3, 2, 4, 6, 3, 5, 2, 9, 3, 9, 1, 3, 4, 6, 3, 10, 2, 7, 6, 3, 7, 3, 5, 7, 3, 10, 2, 9, 2, 5, 7, 4, 4, 8, 3, 1, 2, 9, 3, 8, 5, 6, 8, 1, 3, 7, 2, 7, 3, 10, 8, 9, 1, 6, 3, 1, 2, 8, 4, 10, 7, 3, 4, 6, 3, 3, 2, 6, 5, 10, 2, 3, 4, 9, 3, 1, 2, 9, 3, 1, 10, 6, 5, 7, 5, 2, 8, 9, 2, 2, 5, 7, 9, 8, 4, 5, 3, 7, 4, 10, 7, 5, 4, 6, 3, 7, 2, 7, 3, 7, 5, 8, 3, 1, 10, 5, 3, 7, 8, 9, 6, 4, 5, 7, 8, 10, 2, 9, 8, 9, 6, 3, 4, 7, 0, 8, 3, 7, 5, 4, 7, 4, 5, 9, 8, 5, 2, 9, 3, 3, 7, 3, 4, 7, 5, 1, 2, 9, 3, 9, 5, 5, 4, 3, 1, 2, 9, 3, 5, 5, 8, 4, 5, 7, 8, 10, 6, 8, 4, 10, 10, 9, 5, 4, 3, 2, 1, 1, 5, 4, 10, 5, 4, 7, 9, 6, 4, 8, 7, 6, 5, 4, 7, 8, 6, 4, 4, 3, 2, 1, 5, 3, 4, 5, 6, 7, 1, 2, 3, 9, 6, 4, 2, 1, 3, 5, 6, 3, 2, 1, 2, 3, 5, 7, 7, 8, 9, 5, 4, 2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 6, 5, 3, 2, 1, 3, 5, 5, 2, 3, 4, 6, 7, 8, 9, 6, 4, 2, 1, 3, 1, 2, 3, 4, 5, 2, 1]
 
                                             collection.find({}, {
                                                 id_anime: true,
@@ -1424,7 +1126,7 @@ module.exports = {
                                                                 }
 
 
-                                                                var c = 0.5
+                                                                var c = 1
                                                                 var simi = []
 
 
@@ -1615,7 +1317,6 @@ module.exports = {
         Temp
             .find({})
             .sort('rata DESC')
-            //.where({ createdAt: { '>=': dateFrom, '<=': dateTo } })
             .skip((perPage * page) - perPage)
             .limit(perPage)
             .populateAll()
@@ -1900,70 +1601,10 @@ module.exports = {
                             })
 
                         }
-                        for (var j = 0; j < rekomendasi.length; j++) {
-                            nilai = Math.sqrt((
-                                (parseInt(rekomendasi[j].action - cluster[2].action) ^ 2)
-                                + (parseInt(rekomendasi[j].adventure - cluster[2].adventure) ^ 2)
-                                + (parseInt(rekomendasi[j].comedy - cluster[2].comedy) ^ 2)
-                                + (parseInt(rekomendasi[j].scifi - cluster[2].scifi) ^ 2)
-                                + (parseInt(rekomendasi[j].drama - cluster[2].drama) ^ 2)
-                                + (parseInt(rekomendasi[j].space - cluster[2].space) ^ 2)
-                                + (parseInt(rekomendasi[j].supernatural - cluster[2].supernatural) ^ 2)
-                                + (parseInt(rekomendasi[j].thriller - cluster[2].thriller) ^ 2)
-                                + (parseInt(rekomendasi[j].mystery - cluster[2].mystery) ^ 2)
-                                + (parseInt(rekomendasi[j].seinen - cluster[2].seinen) ^ 2)
-                                + (parseInt(rekomendasi[j].school - cluster[2].school) ^ 2)
-                                + (parseInt(rekomendasi[j].historical - cluster[2].historical) ^ 2)
-                                + (parseInt(rekomendasi[j].echi - cluster[2].echi) ^ 2)
-                                + (parseInt(rekomendasi[j].sliceoflife - cluster[2].sliceoflife) ^ 2)
-                                + (parseInt(rekomendasi[j].harem - cluster[2].harem) ^ 2)
-                                + (parseInt(rekomendasi[j].pyschological - cluster[2].pyschological) ^ 2)
-                                + (parseInt(rekomendasi[j].superpower - cluster[2].superpower) ^ 2)
-                                + (parseInt(rekomendasi[j].fantasy - cluster[2].fantasy) ^ 2)
-                                + (parseInt(rekomendasi[j].mecha - cluster[2].mecha) ^ 2)
-                                + (parseInt(rekomendasi[j].sports - cluster[2].sports) ^ 2)
-                                + (parseInt(rekomendasi[j].romance - cluster[2].romance) ^ 2)
-                                + (parseInt(rekomendasi[j].shounen - cluster[2].shounen) ^ 2)
-                                + (parseInt(rekomendasi[j].horor - cluster[2].horor) ^ 2)
-                                + (parseInt(rekomendasi[j].martialarts - cluster[2].martialarts) ^ 2)
-                                + (parseInt(rekomendasi[j].magic - cluster[2].magic) ^ 2)
-                            ))
-                            c3.push({
-                                id_anime: rekomendasi[j].id_anime,
-                                nama_anime: rekomendasi[j].nama_anime,
-                                photo_url: rekomendasi[j].photo_url,
-                                action: rekomendasi[j].action,
-                                adventure: rekomendasi[j].adventure,
-                                comedy: rekomendasi[j].comedy,
-                                scifi: rekomendasi[j].scifi,
-                                drama: rekomendasi[j].drama,
-                                space: rekomendasi[j].space,
-                                supernatural: rekomendasi[j].supernatural,
-                                thriller: rekomendasi[j].thriller,
-                                mystery: rekomendasi[j].mystery,
-                                seinen: rekomendasi[j].seinen,
-                                school: rekomendasi[j].school,
-                                historical: rekomendasi[j].historical,
-                                echi: rekomendasi[j].echi,
-                                sliceoflife: rekomendasi[j].sliceoflife,
-                                harem: rekomendasi[j].harem,
-                                pyschological: rekomendasi[j].pyschological,
-                                superpower: rekomendasi[j].superpower,
-                                fantasy: rekomendasi[j].fantasy,
-                                mecha: rekomendasi[j].mecha,
-                                sports: rekomendasi[j].sports,
-                                romance: rekomendasi[j].romance,
-                                shounen: rekomendasi[j].shounen,
-                                horor: rekomendasi[j].horor,
-                                martialarts: rekomendasi[j].martialarts,
-                                magic: rekomendasi[j].magic,
-                                nilai: nilai
-                            })
-
-                        }
+                        
                         for (var i = 0; i < c1.length; i++) {
 
-                            if (c1[i].nilai < c2[i].nilai && c1[i].nilai < c3[i].nilai) {
+                            if (c1[i].nilai < c2[i].nilai ) {
                                 naction = parseInt(naction) + parseInt(c1[i].action)
                                 nadventure = parseInt(nadventure) + parseInt(c1[i].adventure)
                                 ncomedy = parseInt(ncomedy) + parseInt(c1[i].comedy)
@@ -2027,7 +1668,7 @@ module.exports = {
                                 }
                                 )
                             }
-                            else if (c2[i].nilai < c1[i].nilai && c2[i].nilai < c3[i].nilai) {
+                            else  {
                                 naction = parseInt(naction) + parseInt(c2[i].action)
                                 nadventure = parseInt(nadventure) + parseInt(c2[i].adventure)
                                 ncomedy = parseInt(ncomedy) + parseInt(c2[i].comedy)
@@ -2087,67 +1728,9 @@ module.exports = {
 
                                 })
                             }
-                            else {
-                                naction = parseInt(naction) + parseInt(c3[i].action)
-                                nadventure = parseInt(nadventure) + parseInt(c3[i].adventure)
-                                ncomedy = parseInt(ncomedy) + parseInt(c3[i].comedy)
-                                nscifi = parseInt(nscifi) + parseInt(c3[i].scifi)
-                                ndrama = parseInt(ndrama) + parseInt(c3[i].drama)
-                                nspace = parseInt(nspace) + parseInt(c3[i].space)
-                                nsupernatural = parseInt(nsupernatural) + parseInt(c3[i].supernatural)
-                                nthriller = parseInt(nthriller) + parseInt(c3[i].thriller)
-                                nmystery = parseInt(nmystery) + parseInt(c3[i].mystery)
-                                nseinen = parseInt(nseinen) + parseInt(c3[i].seinen)
-                                nschool = parseInt(nschool) + parseInt(c3[i].school)
-                                nhistorical = parseInt(nhistorical) + parseInt(c3[i].historical)
-                                nechi = parseInt(nechi) + parseInt(c3[i].echi)
-                                nsliceoflife = parseInt(nsliceoflife) + parseInt(c3[i].sliceoflife)
-                                nharem = parseInt(nharem) + parseInt(c3[i].harem)
-                                npyschological = parseInt(npyschological) + parseInt(c3[i].pyschological)
-                                nsuperpower = parseInt(nsuperpower) + parseInt(c3[i].superpower)
-                                nfantasy = parseInt(nfantasy) + parseInt(c3[i].fantasy)
-                                nmecha = parseInt(nmecha) + parseInt(c3[i].mecha)
-                                nsports = parseInt(nsports) + parseInt(c3[i].sports)
-                                nromance = parseInt(nromance) + parseInt(c3[i].romance)
-                                nshounen = parseInt(nshounen) + parseInt(c3[i].shounen)
-                                nhoror = parseInt(nhoror) + parseInt(c3[i].horor)
-                                nmartialarts = parseInt(nmartialarts) + parseInt(c3[i].martialarts)
-                                nmagic = parseInt(nmagic) + parseInt(c3[i].magic)
-
-                                anggotac3.push({
-                                    id_anime: c3[i].id_anime,
-                                    nama_anime: c3[i].nama_anime,
-                                    photo_url: c3[i].photo_url,
-                                    naction: naction,
-                                    nadventure: nadventure,
-                                    ncomedy: ncomedy,
-                                    nscifi: nscifi,
-                                    ndrama: ndrama,
-                                    nspace: nspace,
-                                    nsupernatural: nsupernatural,
-                                    nthriller: nthriller,
-                                    nmystery: nmystery,
-                                    nseinen: nseinen,
-                                    nschool: nschool,
-                                    nhistorical: nhistorical,
-                                    nechi: nechi,
-                                    nsliceoflife: nsliceoflife,
-                                    nharem: nharem,
-                                    npyschological: npyschological,
-                                    nsuperpower: nsuperpower,
-                                    nfantasy: nfantasy,
-                                    nmecha: nmecha,
-                                    nsports: nsports,
-                                    nromance: nromance,
-                                    nshounen: nshounen,
-                                    nhoror: nhoror,
-                                    nmartialarts: nmartialarts,
-                                    nmagic: nmagic,
-                                    nilai: c3[i].nilai
-                                })
-                            }
+                            
                         }
-                        while (iterasi < 100 || (anggotac1.length == anggotac1New && anggotac2.length == anggotac2New && anggotac3.length == anggotac3New)) {
+                        while (iterasi < 100 || (anggotac1.length == anggotac1New && anggotac2.length == anggotac2New)) {
                             sentroid1.push({
                                 id_anime: cluster[0].id_anime,
                                 action: parseInt(naction) / anggotac1.length,
@@ -2207,40 +1790,11 @@ module.exports = {
 
 
                             })
-                            sentroid3.push({
-                                id_anime: cluster[0].id_anime,
-                                action: parseInt(naction) / anggotac3.length,
-                                adventure: parseInt(nadventure) / anggotac3.length,
-                                comedy: parseInt(ncomedy) / anggotac3.length,
-                                scifi: parseInt(nscifi) / anggotac3.length,
-                                drama: parseInt(ndrama) / anggotac3.length,
-                                space: parseInt(nspace) / anggotac3.length,
-                                supernatural: parseInt(nsupernatural) / anggotac3.length,
-                                thriller: parseInt(nthriller) / anggotac3.length,
-                                mystery: parseInt(nmystery) / anggotac3.length,
-                                seinen: parseInt(nseinen) / anggotac3.length,
-                                school: parseInt(nschool) / anggotac3.length,
-                                historical: parseInt(nhistorical) / anggotac3.length,
-                                echi: parseInt(nechi) / anggotac3.length,
-                                sliceoflife: parseInt(nsliceoflife) / anggotac3.length,
-                                harem: parseInt(nharem) / anggotac3.length,
-                                pyschological: parseInt(npyschological) / anggotac3.length,
-                                superpower: parseInt(nsuperpower) / anggotac3.length,
-                                fantasy: parseInt(nfantasy) / anggotac3.length,
-                                mecha: parseInt(nmecha) / anggotac3.length,
-                                sports: parseInt(nsports) / anggotac3.length,
-                                romance: parseInt(nromance) / anggotac3.length,
-                                shounen: parseInt(nshounen) / anggotac3.length,
-                                horor: parseInt(nhoror) / anggotac3.length,
-                                martialarts: parseInt(nmartialarts) / anggotac3.length,
-                                magic: parseInt(nmagic) / anggotac3.length,
-
-
-                            })
+                            
                             sentroid.push(
                                 sentroid1,
                                 sentroid2,
-                                sentroid3
+                                s
                             )
 
                             for (var j = 0; j < rekomendasi.length; j++) {
@@ -2368,71 +1922,10 @@ module.exports = {
                                 })
 
                             }
-                            for (var j = 0; j < rekomendasi.length; j++) {
-                                nilai = Math.sqrt((
-                                    (parseInt(rekomendasi[j].action - sentroid[2].action) ^ 2)
-                                    + (parseInt(rekomendasi[j].adventure - sentroid[2].adventure) ^ 2)
-                                    + (parseInt(rekomendasi[j].comedy - sentroid[2].comedy) ^ 2)
-                                    + (parseInt(rekomendasi[j].scifi - sentroid[2].scifi) ^ 2)
-                                    + (parseInt(rekomendasi[j].drama - sentroid[2].drama) ^ 2)
-                                    + (parseInt(rekomendasi[j].space - sentroid[2].space) ^ 2)
-                                    + (parseInt(rekomendasi[j].supernatural - sentroid[2].supernatural) ^ 2)
-                                    + (parseInt(rekomendasi[j].thriller - sentroid[2].thriller) ^ 2)
-                                    + (parseInt(rekomendasi[j].mystery - sentroid[2].mystery) ^ 2)
-                                    + (parseInt(rekomendasi[j].seinen - sentroid[2].seinen) ^ 2)
-                                    + (parseInt(rekomendasi[j].school - sentroid[2].school) ^ 2)
-                                    + (parseInt(rekomendasi[j].historical - sentroid[2].historical) ^ 2)
-                                    + (parseInt(rekomendasi[j].echi - sentroid[2].echi) ^ 2)
-                                    + (parseInt(rekomendasi[j].sliceoflife - sentroid[2].sliceoflife) ^ 2)
-                                    + (parseInt(rekomendasi[j].harem - sentroid[2].harem) ^ 2)
-                                    + (parseInt(rekomendasi[j].pyschological - sentroid[2].pyschological) ^ 2)
-                                    + (parseInt(rekomendasi[j].superpower - sentroid[2].superpower) ^ 2)
-                                    + (parseInt(rekomendasi[j].fantasy - sentroid[2].fantasy) ^ 2)
-                                    + (parseInt(rekomendasi[j].mecha - sentroid[2].mecha) ^ 2)
-                                    + (parseInt(rekomendasi[j].sports - sentroid[2].sports) ^ 2)
-                                    + (parseInt(rekomendasi[j].romance - sentroid[2].romance) ^ 2)
-                                    + (parseInt(rekomendasi[j].shounen - sentroid[2].shounen) ^ 2)
-                                    + (parseInt(rekomendasi[j].horor - sentroid[2].horor) ^ 2)
-                                    + (parseInt(rekomendasi[j].martialarts - sentroid[2].martialarts) ^ 2)
-                                    + (parseInt(rekomendasi[j].magic - sentroid[2].magic) ^ 2)
-
-                                ))
-                                c3New.push({
-                                    id_anime: rekomendasi[j].id_anime,
-                                    nama_anime: rekomendasi[j].nama_anime,
-                                    photo_url: rekomendasi[j].photo_url,
-                                    action: rekomendasi[j].action,
-                                    adventure: rekomendasi[j].adventure,
-                                    comedy: rekomendasi[j].comedy,
-                                    scifi: rekomendasi[j].scifi,
-                                    drama: rekomendasi[j].drama,
-                                    space: rekomendasi[j].space,
-                                    supernatural: rekomendasi[j].supernatural,
-                                    thriller: rekomendasi[j].thriller,
-                                    mystery: rekomendasi[j].mystery,
-                                    seinen: rekomendasi[j].seinen,
-                                    school: rekomendasi[j].school,
-                                    historical: rekomendasi[j].historical,
-                                    echi: rekomendasi[j].echi,
-                                    sliceoflife: rekomendasi[j].sliceoflife,
-                                    harem: rekomendasi[j].harem,
-                                    pyschological: rekomendasi[j].pyschological,
-                                    superpower: rekomendasi[j].superpower,
-                                    fantasy: rekomendasi[j].fantasy,
-                                    mecha: rekomendasi[j].mecha,
-                                    sports: rekomendasi[j].sports,
-                                    romance: rekomendasi[j].romance,
-                                    shounen: rekomendasi[j].shounen,
-                                    horor: rekomendasi[j].horor,
-                                    martialarts: rekomendasi[j].martialarts,
-                                    magic: rekomendasi[j].magic,
-                                    nilai: nilai
-                                })
-
-                            }
+                            
                             for (var i = 0; i < c1.length; i++) {
 
-                                if (c1New[i].nilai < c2New[i].nilai && c1New[i].nilai < c3New[i].nilai) {
+                                if (c1New[i].nilai < c2New[i].nilai ) {
                                     naction = parseInt(naction) + parseInt(c1New[i].action)
                                     nadventure = parseInt(nadventure) + parseInt(c1New[i].adventure)
                                     ncomedy = parseInt(ncomedy) + parseInt(c1New[i].comedy)
@@ -2496,7 +1989,7 @@ module.exports = {
                                     }
                                     )
                                 }
-                                else if (c2New[i].nilai < c1New[i].nilai && c2New[i].nilai < c3New[i].nilai) {
+                                else {
                                     naction = parseInt(naction) + parseInt(c2New[i].action)
                                     nadventure = parseInt(nadventure) + parseInt(c2New[i].adventure)
                                     ncomedy = parseInt(ncomedy) + parseInt(c2New[i].comedy)
@@ -2556,65 +2049,7 @@ module.exports = {
 
                                     })
                                 }
-                                else {
-                                    naction = parseInt(naction) + parseInt(c3New[i].action)
-                                    nadventure = parseInt(nadventure) + parseInt(c3New[i].adventure)
-                                    ncomedy = parseInt(ncomedy) + parseInt(c3New[i].comedy)
-                                    nscifi = parseInt(nscifi) + parseInt(c3New[i].scifi)
-                                    ndrama = parseInt(ndrama) + parseInt(c3New[i].drama)
-                                    nspace = parseInt(nspace) + parseInt(c3New[i].space)
-                                    nsupernatural = parseInt(nsupernatural) + parseInt(c3New[i].supernatural)
-                                    nthriller = parseInt(nthriller) + parseInt(c3New[i].thriller)
-                                    nmystery = parseInt(nmystery) + parseInt(c3New[i].mystery)
-                                    nseinen = parseInt(nseinen) + parseInt(c3New[i].seinen)
-                                    nschool = parseInt(nschool) + parseInt(c3New[i].school)
-                                    nhistorical = parseInt(nhistorical) + parseInt(c3New[i].historical)
-                                    nechi = parseInt(nechi) + parseInt(c3New[i].echi)
-                                    nsliceoflife = parseInt(nsliceoflife) + parseInt(c3New[i].sliceoflife)
-                                    nharem = parseInt(nharem) + parseInt(c3New[i].harem)
-                                    npyschological = parseInt(npyschological) + parseInt(c3New[i].pyschological)
-                                    nsuperpower = parseInt(nsuperpower) + parseInt(c3New[i].superpower)
-                                    nfantasy = parseInt(nfantasy) + parseInt(c3New[i].fantasy)
-                                    nmecha = parseInt(nmecha) + parseInt(c3New[i].mecha)
-                                    nsports = parseInt(nsports) + parseInt(c3New[i].sports)
-                                    nromance = parseInt(nromance) + parseInt(c3New[i].romance)
-                                    nshounen = parseInt(nshounen) + parseInt(c3New[i].shounen)
-                                    nhoror = parseInt(nhoror) + parseInt(c3New[i].horor)
-                                    nmartialarts = parseInt(nmartialarts) + parseInt(c3New[i].martialarts)
-                                    nmagic = parseInt(nmagic) + parseInt(c3New[i].magic)
-
-
-                                    anggotac3New.push({
-                                        id_anime: c3New[i].id_anime,
-                                        nama_anime: c3New[i].nama_anime,
-                                        photo_url: c3New[i].photo_url,
-                                        naction: naction,
-                                        nadventure: nadventure,
-                                        ncomedy: ncomedy,
-                                        nscifi: nscifi,
-                                        ndrama: ndrama,
-                                        nspace: nspace,
-                                        nsupernatural: nsupernatural,
-                                        nthriller: nthriller,
-                                        nmystery: nmystery,
-                                        nseinen: nseinen,
-                                        nschool: nschool,
-                                        nhistorical: nhistorical,
-                                        nechi: nechi,
-                                        nsliceoflife: nsliceoflife,
-                                        nharem: nharem,
-                                        npyschological: npyschological,
-                                        nsuperpower: nsuperpower,
-                                        nfantasy: nfantasy,
-                                        nmecha: nmecha,
-                                        nsports: nsports,
-                                        nromance: nromance,
-                                        nshounen: nshounen,
-                                        nhoror: nhoror,
-                                        nmartialarts: nmartialarts,
-                                        nmagic: nmagic
-                                    })
-                                }
+                                
                             }
                             iterasi++
                         }
@@ -2668,28 +2103,7 @@ module.exports = {
                                     i++
                                 }
                             }
-                            if (anggotac3.length != 0) {
-                                var i = 0
-                                while (i < anggotac3.length) {
-                                    if (req.param('id') == anggotac3[i].id_anime) {
-                                        ketemu = 1
-                                        for (var j = 0; j < anggotac3.length; j++) {
-                                            if (req.param('id') == anggotac3[j].id_anime) {
-                                                continue
-                                            }
-                                            else {
-                                                rekom.push({
-                                                    ani: anggotac3[j].id_anime,
-                                                    nama_anime: anggotac3[j].nama_anime,
-                                                    photo_url: anggotac3[j].photo_url,
-
-                                                })
-                                            }
-                                        }
-                                    }
-                                    i++
-                                }
-                            }
+                            
                         }
 
 
@@ -2710,13 +2124,10 @@ module.exports = {
 
                             c2Max.push(c2[i].nilai)
                         }
-                        for (var i = 0; i < c2.length; i++) {
-
-                            c3Max.push(c3[i].nilai)
-                        }
+                        
                         var max1 = Math.max.apply(Math, c1Max)
                         var max2 = Math.max.apply(Math, c2Max)
-                        var max3 = Math.max.apply(Math, c3Max)
+                        
 
                         for (var i = 0; i < c1.length; i++) {
                             prob1.push(
@@ -2728,11 +2139,7 @@ module.exports = {
                                 1 - (c2[i].nilai / max2)
                             )
                         }
-                        for (var i = 0; i < c3.length; i++) {
-                            prob3.push(
-                                1 - (c3[i].nilai / max3)
-                            )
-                        }
+                        
 
                         for (var i = 0; i < c1.length; i++) {
                             sum = parseFloat(sum) + parseFloat(prob1[i])
@@ -2740,12 +2147,10 @@ module.exports = {
                         for (var i = 0; i < c2.length; i++) {
                             sum1 = parseFloat(sum1) + parseFloat(prob2[i])
                         }
-                        for (var i = 0; i < c3.length; i++) {
-                            sum2 = parseFloat(sum2) + parseFloat(prob3[i])
-                        }
+                        
                         var rataC1 = parseFloat(sum) / c1.length
                         var rataC2 = parseFloat(sum1) / c2.length
-                        var rataC3 = parseFloat(sum2) / c2.length
+                        
                         var groupRating = []
 
                         for (var i = 0; i < rekomendasi.length; i++) {
@@ -2757,15 +2162,14 @@ module.exports = {
                                 hSementaraUp = hSementaraUp +
                                     ((parseInt(c1[j].nilai - parseInt(rataC1) * (parseInt(c1[i].nilai) - parseInt(rataC1))))
                                         + ((parseInt(c2[j].nilai) - parseInt(rataC2)) * (parseInt(c2[i].nilai - parseInt(rataC2))))
-                                        + ((parseInt(c3[j].nilai) - parseInt(rataC3)) * (parseInt(c3[i].nilai - parseInt(rataC3))))
+                                       
                                     )
                                 hSementaraDown = parseInt(hSementaraDown)
                                     + Math.sqrt((Math.pow(parseInt(c1[j].nilai) - parseInt(rataC1), 2) +
-                                        (Math.pow(parseInt(c2[j].nilai) - parseInt(rataC2), 2)) +
-                                        (Math.pow(parseInt(c3[j].nilai) - parseInt(rataC3), 2))
+                                        (Math.pow(parseInt(c2[j].nilai) - parseInt(rataC2), 2))
                                     )) * Math.sqrt((Math.pow(parseInt(c1[i].nilai) - parseInt(rataC1), 2))
-                                        + (Math.pow(parseInt(c2[i].nilai) - parseInt(rataC2), 2))
-                                        + (Math.pow(parseInt(c3[i].nilai) - parseInt(rataC3), 2)))
+                                        + (Math.pow(parseInt(c2[i].nilai) - parseInt(rataC2), 2)))
+                                        
 
                                 groupRating.push(parseInt(hSementaraUp) / parseInt(hSementaraDown))
 
@@ -2777,7 +2181,7 @@ module.exports = {
                             Rating.native(function (err, collection) {
 
                                 if (err) return res.serverError(err);
-                                var scoreSem = [1, 3, 4, 6, 3, 1, 2, 9, 3, 1, 3, 2, 4, 6, 3, 5, 2, 9, 3, 9, 1, 3, 4, 6, 3, 10, 2, 7, 6, 3, 7, 3, 5, 7, 3, 10, 2, 9, 2, 5, 7, 4, 4, 8, 3, 1, 2, 9, 3, 8, 5, 6, 8, 1, 3, 7, 2, 7, 3, 10, 8, 9, 1, 6, 3, 1, 2, 8, 4, 10, 7, 3, 4, 6, 3, 3, 2, 6, 5, 10, 2, 3, 4, 9, 3, 1, 2, 9, 3, 1, 10, 6, 5, 7, 5, 2, 8, 9, 2, 2, 5, 7, 9, 8, 4, 5, 3, 7, 4, 10, 7, 5, 4, 6, 3, 7, 2, 7, 3, 7, 5, 8, 3, 1, 10, 5, 3, 7, 8, 9, 6, 4, 5, 7, 8, 10, 2, 9, 8, 9, 6, 3, 4, 7, 0, 8, 3, 7, 5, 4, 7, 4, 5, 9, 8, 5, 2, 9, 3, 3, 7, 3, 4, 7, 5, 1, 2, 9, 3, 9, 5, 5, 4, 3, 1, 2, 9, 3, 5, 5, 8, 4, 5, 7, 8, 10, 6, 8, 4, 10, 10, 9, 5, 4, 3, 2, 1, 1, 5, 4, 10, 5, 4, 7, 9, 6, 4, 8, 7, 6, 5, 4, 7, 8, 6, 4, 4, 3, 2, 1, 5, 3, 4, 5, 6, 7, 1, 2, 3, 9, 6, 4, 2, 1, 3, 5, 6, 3, 2, 1, 2, 3, 5, 7]
+                                                                                                                                                                                                                        var scoreSem = [1, 3, 4, 6, 3, 1, 2, 9, 3, 1, 3, 2, 4, 6, 3, 5, 2, 9, 3, 9, 1, 3, 4, 6, 3, 10, 2, 7, 6, 3, 7, 3, 5, 7, 3, 10, 2, 9, 2, 5, 7, 4, 4, 8, 3, 1, 2, 9, 3, 8, 5, 6, 8, 1, 3, 7, 2, 7, 3, 10, 8, 9, 1, 6, 3, 1, 2, 8, 4, 10, 7, 3, 4, 6, 3, 3, 2, 6, 5, 10, 2, 3, 4, 9, 3, 1, 2, 9, 3, 1, 10, 6, 5, 7, 5, 2, 8, 9, 2, 2, 5, 7, 9, 8, 4, 5, 3, 7, 4, 10, 7, 5, 4, 6, 3, 7, 2, 7, 3, 7, 5, 8, 3, 1, 10, 5, 3, 7, 8, 9, 6, 4, 5, 7, 8, 10, 2, 9, 8, 9, 6, 3, 4, 7, 0, 8, 3, 7, 5, 4, 7, 4, 5, 9, 8, 5, 2, 9, 3, 3, 7, 3, 4, 7, 5, 1, 2, 9, 3, 9, 5, 5, 4, 3, 1, 2, 9, 3, 5, 5, 8, 4, 5, 7, 8, 10, 6, 8, 4, 10, 10, 9, 5, 4, 3, 2, 1, 1, 5, 4, 10, 5, 4, 7, 9, 6, 4, 8, 7, 6, 5, 4, 7, 8, 6, 4, 4, 3, 2, 1, 5, 3, 4, 5, 6, 7, 1, 2, 3, 9, 6, 4, 2, 1, 3, 5, 6, 3, 2, 1, 2, 3, 5, 7]
 
                                 collection.find({}, {
                                     id_anime: true,
@@ -3038,7 +2442,7 @@ module.exports = {
         Temp
             .find({})
             .sort('rata DESC')
-            //.where({ createdAt: { '>=': dateFrom, '<=': dateTo } })
+            
             .skip((item_count * page) - item_count)
             .limit(item_count)
             .populateAll()
